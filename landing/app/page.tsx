@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion, useInView, useScroll, useTransform } from "framer-motion";
+import { motion, useInView, useScroll, useTransform, Variants } from "framer-motion";
 import {
   Car,
   Shield,
@@ -28,11 +28,11 @@ const fadeUp = {
     y: 0,
     transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] },
   },
-};
+} as const;
 
 const stagger = {
   visible: { transition: { staggerChildren: 0.12 } },
-};
+} as const;
 
 function FadeIn({
   children,
@@ -214,7 +214,7 @@ function Hero() {
           <motion.h1
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.35, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ delay: 0.35, duration: 0.8, ease: "easeOut" }}
             style={{ fontFamily: "var(--font-manrope)" }}
             className="text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.05] tracking-tight text-[#e5e2e1]"
           >
@@ -297,7 +297,7 @@ function Hero() {
         <motion.div
           initial={{ opacity: 0, x: 40, rotate: 2 }}
           animate={{ opacity: 1, x: 0, rotate: 0 }}
-          transition={{ delay: 0.5, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ delay: 0.5, duration: 0.9, ease: "easeOut" }}
           className="relative hidden lg:block"
         >
           <div
