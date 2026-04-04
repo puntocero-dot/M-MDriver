@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Fondo de pantalla de lanzamiento — navy oscuro de M&M Driver -->
+    <color name="launch_background">#0A1628</color>
+    <!-- Color de acento dorado para notificaciones FCM -->
+    <color name="gold">#C5A55A</color>
+    <!-- Status bar oscura -->
+    <color name="navy_dark">#0A1628</color>
+</resources>

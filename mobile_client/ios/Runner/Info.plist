@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- ─── Identidad de la app ─────────────────────────────────────── -->
+	<key>CFBundleName</key>
+	<string>M&amp;M Driver</string>
+	<key>CFBundleDisplayName</key>
+	<string>M&amp;M Driver</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.mmdriver.driver</string>
+	<key>CFBundleVersion</key>
+	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<key>CFBundleShortVersionString</key>
+	<string>$(FLUTTER_BUILD_NAME)</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleExecutable</key>
+	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>es</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleSupportedPlatforms</key>
+	<array>
+		<string>iPhoneOS</string>
+	</array>
+
+	<!-- ─── Orientaciones ──────────────────────────────────────────── -->
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+	</array>
+	<key>UISupportedInterfaceOrientations~ipad</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+
+	<!-- ─── Apariencia ─────────────────────────────────────────────── -->
+	<key>UIStatusBarStyle</key>
+	<string>UIStatusBarStyleLightContent</string>
+	<key>UIUserInterfaceStyle</key>
+	<string>Dark</string>
+	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<false/>
+	<key>UILaunchStoryboardName</key>
+	<string>LaunchScreen</string>
+	<key>UIMainStoryboardFile</key>
+	<string>Main</string>
+
+	<!-- ─── Google Maps API Key ────────────────────────────────────── -->
+	<!-- REEMPLAZA AIzaYOUR_KEY con tu clave real de Google Cloud       -->
+	<!-- Habilita: Maps SDK for iOS, Places API, Directions API        -->
+	<key>GMSApiKey</key>
+	<string>$(GOOGLE_MAPS_API_KEY)</string>
+
+	<!-- ─── Permisos de ubicación ──────────────────────────────────── -->
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>M&amp;M Driver necesita tu ubicación para mostrarte el mapa y calcular rutas hacia tu destino.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>M&amp;M Driver necesita tu ubicación en segundo plano para que el conductor pueda actualizarse en tiempo real durante tu viaje.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>M&amp;M Driver (modo conductor) requiere ubicación en segundo plano para compartir tu posición con los clientes durante el servicio.</string>
+
+	<!-- ─── Permisos de cámara y fotos ─────────────────────────────── -->
+	<key>NSCameraUsageDescription</key>
+	<string>Tomar foto de perfil para tu cuenta M&amp;M Driver.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Seleccionar foto de perfil desde tu galería.</string>
+
+	<!-- ─── Permisos de contactos ─────────────────────────────────── -->
+	<key>NSContactsUsageDescription</key>
+	<string>Acceder a contactos para facilitar llamadas al conductor.</string>
+
+	<!-- ─── Permisos de microfono ─────────────────────────────────── -->
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Requerido para llamadas VoIP con el conductor.</string>
+
+	<!-- ─── Push Notifications ─────────────────────────────────────── -->
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>remote-notification</string>
+		<string>location</string>
+	</array>
+
+	<!-- ─── Seguridad de transporte ──────────────────────────────── -->
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<!-- En producción solo HTTPS — cambiar si API local en desarrollo -->
+		<key>NSAllowsArbitraryLoads</key>
+		<false/>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<!-- Permite HTTP solo en localhost durante desarrollo -->
+			<key>localhost</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+			</dict>
+			<key>10.0.2.2</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+			</dict>
+		</dict>
+	</dict>
+
+	<!-- ─── Deep Links / URL Schemes ──────────────────────────────── -->
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLName</key>
+			<string>com.mmdriver.driver</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>mmdriver</string>
+			</array>
+		</dict>
+	</dict>
+
+	<!-- Associated Domains para Universal Links -->
+	<!-- Requiere entitlements: applinks:app.mmdriver.com -->
+
+	<!-- ─── Configuración de Flutter ─────────────────────────────── -->
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
+	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<true/>
+</dict>
+</plist>

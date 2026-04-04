@@ -1,0 +1,126 @@
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+    // Google Services (Firebase)
+    id "com.google.gms.google-services"
+    // Flutter Gradle Plugin — debe ir al final
+    id "dev.flutter.flutter-gradle-plugin"
+}
+
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withReader("UTF-8") { reader ->
+        localProperties.load(reader)
+    }
+}
+
+def flutterVersionCode = localProperties.getProperty("flutter.versionCode") ?: "1"
+def flutterVersionName = localProperties.getProperty("flutter.versionName") ?: "1.0.0"
+
+// Carga el keystore desde local.properties (no commitear key.properties en git)
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file("key.properties")
+if (keystorePropertiesFile.exists()) {
+    keystorePropertiesFile.withReader("UTF-8") { reader ->
+        keystoreProperties.load(reader)
+    }
+}
+
+android {
+    namespace "com.mmdriver.driver"
+    compileSdk 35
+    ndkVersion flutter.ndkVersion
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+        // Soporte para Date/Time API de Java 8 en Android < API 26
+        coreLibraryDesugaringEnabled true
+    }
+
+    kotlinOptions {
+        jvmTarget = "17"
+    }
+
+    sourceSets {
+        main.java.srcDirs += "src/main/kotlin"
+    }
+
+    defaultConfig {
+        applicationId "com.mmdriver.driver"
+        // Google Maps SDK requiere minSdk 21+
+        minSdk 21
+        targetSdk 35
+        versionCode flutterVersionCode.toInteger()
+        versionName flutterVersionName
+
+        // Clave de Google Maps inyectada desde local.properties
+        // En local.properties agrega: GOOGLE_MAPS_API_KEY=AIza...
+        manifestPlaceholders["GOOGLE_MAPS_API_KEY"] =
+            localProperties.getProperty("GOOGLE_MAPS_API_KEY", "MISSING_API_KEY")
+
+        // Multidex para Firebase y dependencias grandes
+        multiDexEnabled true
+
+        // Identificador de la app para deep links
+        resValue "string", "app_scheme", "mmdriver"
+    }
+
+    signingConfigs {
+        release {
+            if (keystorePropertiesFile.exists()) {
+                keyAlias keystoreProperties["keyAlias"]
+                keyPassword keystoreProperties["keyPassword"]
+                storeFile file(keystoreProperties["storeFile"])
+                storePassword keystoreProperties["storePassword"]
+            }
+        }
+    }
+
+    buildTypes {
+        debug {
+            applicationIdSuffix ".debug"
+            versionNameSuffix "-debug"
+            // En debug también se inyecta la API key
+            manifestPlaceholders["GOOGLE_MAPS_API_KEY"] =
+                localProperties.getProperty("GOOGLE_MAPS_API_KEY", "MISSING_API_KEY")
+        }
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"),
+                          "proguard-rules.pro"
+        }
+    }
+
+    // Separar APKs por ABI para reducir tamaño (Google Maps tiene librerías nativas)
+    splits {
+        abi {
+            enable true
+            reset()
+            include "arm64-v8a", "armeabi-v7a", "x86_64"
+            universalApk false
+        }
+    }
+}
+
+flutter {
+    source "../.."
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+
+    // Desugaring (Date/Time Java 8 en Android antiguo)
+    coreLibraryDesugaring "com.android.tools.desugar_jdk_libs:2.1.4"
+
+    // Firebase BoM (Bill of Materials — versiones compatibles entre sí)
+    implementation platform("com.google.firebase:firebase-bom:33.1.1")
+    implementation "com.google.firebase:firebase-messaging-ktx"
+    implementation "com.google.firebase:firebase-analytics-ktx"
+
+    // Multidex
+    implementation "androidx.multidex:multidex:2.0.1"
+}

@@ -3,9 +3,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../data/models/trip_model.dart';
 import '../../providers/trip_provider.dart';
+
+// Estilo oscuro navy para el mapa de tracking
+const _trackingMapStyle = '''[
+  {"elementType":"geometry","stylers":[{"color":"#0a1628"}]},
+  {"elementType":"labels.text.fill","stylers":[{"color":"#c5a55a"}]},
+  {"elementType":"labels.text.stroke","stylers":[{"color":"#0a1628"}]},
+  {"featureType":"administrative","elementType":"geometry","stylers":[{"color":"#1c2d54"}]},
+  {"featureType":"poi","stylers":[{"visibility":"off"}]},
+  {"featureType":"road","elementType":"geometry","stylers":[{"color":"#132040"}]},
+  {"featureType":"road","elementType":"geometry.stroke","stylers":[{"color":"#1c2d54"}]},
+  {"featureType":"road.highway","elementType":"geometry","stylers":[{"color":"#1c2d54"}]},
+  {"featureType":"road.highway","elementType":"geometry.stroke","stylers":[{"color":"#c5a55a"}]},
+  {"featureType":"transit","stylers":[{"visibility":"off"}]},
+  {"featureType":"water","elementType":"geometry","stylers":[{"color":"#050d1a"}]}
+]''';
 
 class TripTrackingScreen extends ConsumerStatefulWidget {
   const TripTrackingScreen({super.key, required this.tripId});
@@ -18,6 +34,13 @@ class TripTrackingScreen extends ConsumerStatefulWidget {
 
 class _TripTrackingScreenState extends ConsumerState<TripTrackingScreen> {
   Timer? _pollingTimer;
+  GoogleMapController? _mapController;
+  LatLng? _driverPosition;
+  LatLng? _pickupPosition;
+  LatLng? _dropoffPosition;
+
+  // San Salvador centro — fallback mientras no hay coordenadas
+  static const _sanSalvador = LatLng(13.6929, -89.2182);
 
   @override
   void initState() {
@@ -34,7 +57,43 @@ class _TripTrackingScreenState extends ConsumerState<TripTrackingScreen> {
   @override
   void dispose() {
     _pollingTimer?.cancel();
+    _mapController?.dispose();
     super.dispose();
+  }
+
+  void _onMapCreated(GoogleMapController controller) {
+    _mapController = controller;
+    controller.setMapStyle(_trackingMapStyle);
+  }
+
+  Set<Marker> _buildMarkers() {
+    final markers = <Marker>{};
+    if (_pickupPosition != null) {
+      markers.add(Marker(
+        markerId: const MarkerId('pickup'),
+        position: _pickupPosition!,
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange),
+        infoWindow: const InfoWindow(title: 'Punto de recogida'),
+      ));
+    }
+    if (_dropoffPosition != null) {
+      markers.add(Marker(
+        markerId: const MarkerId('dropoff'),
+        position: _dropoffPosition!,
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueYellow),
+        infoWindow: const InfoWindow(title: 'Destino'),
+      ));
+    }
+    if (_driverPosition != null) {
+      markers.add(Marker(
+        markerId: const MarkerId('driver'),
+        position: _driverPosition!,
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueAzure),
+        infoWindow: const InfoWindow(title: 'Conductor'),
+        rotation: 0,
+      ));
+    }
+    return markers;
   }
 
   // ---------------------------------------------------------------------------
@@ -149,40 +208,20 @@ class _TripTrackingScreenState extends ConsumerState<TripTrackingScreen> {
       backgroundColor: AppColors.navyDark,
       body: Stack(
         children: [
-          // -------------------------------------------------------------------
-          // Map placeholder
-          // TODO: Replace with google_maps_flutter GoogleMap widget.
-          // Requires GOOGLE_MAPS_API_KEY in AndroidManifest.xml & Info.plist.
-          // -------------------------------------------------------------------
-          Container(
-            color: AppColors.navyMedium,
-            child: const Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(Icons.map_outlined, size: 80, color: AppColors.grey500),
-                  SizedBox(height: 16),
-                  Text(
-                    'Mapa en tiempo real',
-                    style: TextStyle(
-                      fontFamily: 'Inter',
-                      fontSize: 16,
-                      color: AppColors.grey500,
-                    ),
-                  ),
-                  SizedBox(height: 8),
-                  Text(
-                    'TODO: Google Maps — requiere GOOGLE_MAPS_API_KEY',
-                    style: TextStyle(
-                      fontFamily: 'Inter',
-                      fontSize: 11,
-                      color: AppColors.grey500,
-                      fontStyle: FontStyle.italic,
-                    ),
-                  ),
-                ],
-              ),
+          // ── Mapa en tiempo real ──────────────────────────────────────
+          GoogleMap(
+            onMapCreated: _onMapCreated,
+            initialCameraPosition: CameraPosition(
+              target: _pickupPosition ?? _sanSalvador,
+              zoom: 15,
             ),
+            markers: _buildMarkers(),
+            myLocationEnabled: true,
+            myLocationButtonEnabled: false,
+            zoomControlsEnabled: false,
+            compassEnabled: false,
+            mapToolbarEnabled: false,
+            trafficEnabled: false,
           ),
 
           // -------------------------------------------------------------------

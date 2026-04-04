@@ -1,0 +1,22 @@
+# local.properties — M&M Driver Android
+# IMPORTANTE: Copia este archivo como local.properties y agrega tus claves reales.
+# NUNCA commitees local.properties al repositorio git.
+
+# Flutter SDK path (se genera automáticamente por flutter)
+# sdk.dir=/Users/tu_usuario/Library/Android/sdk
+# flutter.sdk=/Users/tu_usuario/flutter
+
+# ─── Google Maps API Key ─────────────────────────────────────────────────────
+# 1. Ve a: https://console.cloud.google.com
+# 2. Crea un proyecto o usa el existente
+# 3. Habilita: Maps SDK for Android, Maps SDK for iOS, Places API, Directions API
+# 4. Crea una API Key
+# 5. Restricciones Android: agregar com.mmdriver.driver
+# 6. Restricciones iOS: agregar Bundle ID com.mmdriver.driver
+GOOGLE_MAPS_API_KEY=AIzaSy_TU_CLAVE_AQUI
+
+# ─── Firebase ────────────────────────────────────────────────────────────────
+# Descarga google-services.json desde Firebase Console y colócalo en:
+# android/app/google-services.json
+# Descarga GoogleService-Info.plist y colócalo en:
+# ios/Runner/GoogleService-Info.plist
