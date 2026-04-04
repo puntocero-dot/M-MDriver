@@ -13,6 +13,7 @@ import {
   LogOut,
   Menu,
   X,
+  Truck,
 } from "lucide-react";
 import { isAuthenticated, clearToken } from "@/lib/auth";
 
@@ -28,6 +29,7 @@ const NAV_ITEMS: NavItem[] = [
   { href: "/drivers", label: "Conductores", icon: UserCheck },
   { href: "/clients", label: "Clientes", icon: Users },
   { href: "/sos", label: "SOS Alertas", icon: AlertTriangle },
+  { href: "/fleet", label: "Flota en Vivo", icon: Truck },
   { href: "/settings", label: "Configuración", icon: Settings },
 ];
 

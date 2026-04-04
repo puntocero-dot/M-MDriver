@@ -10,6 +10,10 @@ import { GeospatialModule } from './geospatial/geospatial.module';
 import { PaymentsModule } from './payments/payments.module';
 import { SosModule } from './sos/sos.module';
 import { DriversModule } from './drivers/drivers.module';
+import { NotificationsModule } from './notifications/notifications.module';
+import { MedicalModule } from './medical/medical.module';
+import { VoipModule } from './voip/voip.module';
+import { TelemetryModule } from './telemetry/telemetry.module';
 import databaseConfig from './config/database.config';
 import jwtConfig from './config/jwt.config';
 
@@ -39,6 +43,10 @@ import jwtConfig from './config/jwt.config';
     PaymentsModule,
     SosModule,
     DriversModule,
+    NotificationsModule,
+    MedicalModule,
+    VoipModule,
+    TelemetryModule,
   ],
 })
 export class AppModule {}

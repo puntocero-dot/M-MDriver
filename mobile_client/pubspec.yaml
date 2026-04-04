@@ -44,6 +44,12 @@ dependencies:
   firebase_core: ^2.32.0
   firebase_messaging: ^14.9.4
 
+  # WebSocket / Socket.io
+  # socket_io_client is included as a first-class alternative to the manual
+  # Socket.io wire-protocol implementation in driver_tracking_service.dart.
+  # Uncomment to switch to the higher-level API.
+  socket_io_client: ^2.0.3+1
+
   # Utilities
   intl: ^0.19.0
   uuid: ^4.4.0

@@ -9,4 +9,9 @@ class RouteNames {
   static const String tripRequest = '/trip/request';
   static const String tripTracking = '/trip/:id/tracking';
   static const String profile = '/profile';
+  static const String medical = '/medical';
+  static const String sos = '/sos/:tripId';
+
+  /// Build a concrete SOS path from a [tripId].
+  static String sosPath(String tripId) => '/sos/$tripId';
 }

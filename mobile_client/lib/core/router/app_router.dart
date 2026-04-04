@@ -10,6 +10,9 @@ import '../../features/home/presentation/screens/driver_home_screen.dart';
 import '../../features/home/presentation/screens/supervisor_home_screen.dart';
 import '../../features/trips/presentation/screens/trip_request_screen.dart';
 import '../../features/trips/presentation/screens/trip_tracking_screen.dart';
+import '../../features/profile/presentation/screens/profile_screen.dart';
+import '../../features/medical/presentation/screens/medical_profile_screen.dart';
+import '../../features/sos/presentation/screens/sos_screen.dart';
 import 'route_names.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
@@ -72,6 +75,27 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (context, state) {
           final tripId = state.pathParameters['id'] ?? '';
           return TripTrackingScreen(tripId: tripId);
+        },
+      ),
+
+      // Profile
+      GoRoute(
+        path: RouteNames.profile,
+        builder: (context, state) => const ProfileScreen(),
+      ),
+
+      // Medical profile
+      GoRoute(
+        path: RouteNames.medical,
+        builder: (context, state) => const MedicalProfileScreen(),
+      ),
+
+      // SOS
+      GoRoute(
+        path: RouteNames.sos,
+        builder: (context, state) {
+          final tripId = state.pathParameters['tripId'] ?? '';
+          return SosScreen(tripId: tripId);
         },
       ),
     ],

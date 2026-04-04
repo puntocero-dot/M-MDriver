@@ -10,6 +10,7 @@ import { SosAlert, SosAlertStatus } from './entities/sos-alert.entity';
 import { TripStateMachineService } from '../trips/trip-state-machine.service';
 import { TripStatus } from '../common/enums/trip-status.enum';
 import { GeospatialGateway } from '../geospatial/geospatial.gateway';
+import { MedicalService } from '../medical/medical.service';
 
 @Injectable()
 export class SosService {
@@ -20,6 +21,7 @@ export class SosService {
     private readonly sosAlertsRepository: Repository<SosAlert>,
     private readonly tripStateMachine: TripStateMachineService,
     private readonly geospatialGateway: GeospatialGateway,
+    private readonly medicalService: MedicalService,
   ) {}
 
   /**
@@ -58,7 +60,11 @@ export class SosService {
       // Do not block SOS creation even if transition fails
     }
 
-    // Emit WebSocket event to supervisors room
+    // Fetch client's medical profile (may be null if not set up)
+    const medicalProfile = await this.medicalService.findForSOS(userId).catch(() => null);
+
+    // Emit WebSocket event to supervisors room — includes decrypted medical profile
+    // for immediate triage by supervisors without requiring a separate API call.
     this.geospatialGateway.emitSosAlert({
       alertId: saved.id,
       tripId,
@@ -67,6 +73,7 @@ export class SosService {
       lng,
       status: SosAlertStatus.ACTIVE,
       timestamp: new Date().toISOString(),
+      medicalProfile: medicalProfile ?? null,
     });
 
     this.logger.warn(
