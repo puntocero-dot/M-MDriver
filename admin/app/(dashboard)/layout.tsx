@@ -24,7 +24,7 @@ interface NavItem {
 }
 
 const NAV_ITEMS: NavItem[] = [
-  { href: "/", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { href: "/trips", label: "Viajes", icon: Car },
   { href: "/drivers", label: "Conductores", icon: UserCheck },
   { href: "/clients", label: "Clientes", icon: Users },
@@ -56,8 +56,7 @@ export default function DashboardLayout({
   }
 
   function isActive(href: string) {
-    if (href === "/") return pathname === "/";
-    return pathname.startsWith(href);
+    return pathname === href || pathname.startsWith(href + "/");
   }
 
   // Don't render anything until hydrated to avoid flash

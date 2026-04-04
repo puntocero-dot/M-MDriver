@@ -20,13 +20,13 @@ export default function LoginPage() {
     setIsLoading(true);
 
     try {
-      const { data } = await api.post<{ token: string; admin: unknown }>(
-        "/auth/login",
-        { email, password }
-      );
+      // Backend returns: { data: { accessToken, refreshToken, user }, statusCode }
+      const { data: res } = await api.post<{
+        data: { accessToken: string; refreshToken: string; user: { role: string } };
+      }>("/auth/login", { email, password });
 
-      saveToken(data.token);
-      router.push("/");
+      saveToken(res.data.accessToken);
+      router.push("/dashboard");
     } catch (err: unknown) {
       const axiosError = err as {
         response?: { data?: { message?: string }; status?: number };
