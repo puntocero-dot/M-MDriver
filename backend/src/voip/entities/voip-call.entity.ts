@@ -60,6 +60,6 @@ export class VoipCall {
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 
-  @Column({ name: 'ended_at', type: 'timestamp with time zone', nullable: true })
-  endedAt: Date | null;
+  @Column({ name: 'ended_at', type: 'timestamptz', nullable: true })
+  endedAt: Date;
 }

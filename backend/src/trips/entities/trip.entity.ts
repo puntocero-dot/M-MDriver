@@ -47,17 +47,17 @@ export class Trip {
   @Column({ name: 'dropoff_address' })
   dropoffAddress: string;
 
-  @Column({ name: 'scheduled_at', type: 'timestamp with time zone', nullable: true })
-  scheduledAt: Date | null;
+  @Column({ name: 'scheduled_at', type: 'timestamptz', nullable: true })
+  scheduledAt: Date;
 
-  @Column({ name: 'started_at', type: 'timestamp with time zone', nullable: true })
-  startedAt: Date | null;
+  @Column({ name: 'started_at', type: 'timestamptz', nullable: true })
+  startedAt: Date;
 
-  @Column({ name: 'completed_at', type: 'timestamp with time zone', nullable: true })
-  completedAt: Date | null;
+  @Column({ name: 'completed_at', type: 'timestamptz', nullable: true })
+  completedAt: Date;
 
-  @Column({ name: 'cancelled_at', type: 'timestamp with time zone', nullable: true })
-  cancelledAt: Date | null;
+  @Column({ name: 'cancelled_at', type: 'timestamptz', nullable: true })
+  cancelledAt: Date;
 
   @Column({ name: 'cancellation_reason', type: 'text', nullable: true })
   cancellationReason: string | null;

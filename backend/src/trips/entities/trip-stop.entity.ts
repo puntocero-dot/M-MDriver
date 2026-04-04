@@ -26,11 +26,11 @@ export class TripStop {
   @Column()
   address: string;
 
-  @Column({ name: 'arrived_at', type: 'timestamp with time zone', nullable: true })
-  arrivedAt: Date | null;
+  @Column({ name: 'arrived_at', type: 'timestamptz', nullable: true })
+  arrivedAt: Date;
 
-  @Column({ name: 'departed_at', type: 'timestamp with time zone', nullable: true })
-  departedAt: Date | null;
+  @Column({ name: 'departed_at', type: 'timestamptz', nullable: true })
+  departedAt: Date;
 
   @Column({ name: 'wait_time_seconds', default: 0 })
   waitTimeSeconds: number;

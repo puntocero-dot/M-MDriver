@@ -34,3 +34,19 @@ Thumbs.db
 *.env
 .env.*
 !*.env.example
+
+# IDE / AI agent config (may contain API keys)
+.mcp.json
+.agent/
+.claude/
+.codebuddy/
+.codex/
+.continue/
+.cursor/
+.gemini/
+.kiro/
+.opencode/
+.qoder/
+.roo/
+.trae/
+.windsurf/

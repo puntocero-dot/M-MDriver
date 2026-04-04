@@ -1,125 +1,118 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'app_colors.dart';
 
-/// M&M Driver text styles.
-/// PlayfairDisplay — brand/logo/headings.
-/// Inter — all UI body and label text.
+/// M&M Driver text styles — Stitch "Midnight Concierge" editorial voice.
+///
+/// Headlines → Manrope (via GoogleFonts)
+/// Body / Labels → Inter (via GoogleFonts)
+///
+/// Static getters return non-const TextStyles with Google Fonts applied.
+/// The Material theme (AppTheme.dark) also sets these via textTheme so most
+/// Text() widgets inherit the right font automatically without referencing
+/// these getters directly.
 class AppTextStyles {
   AppTextStyles._();
 
-  // ---------------------------------------------------------------------------
-  // Brand (PlayfairDisplay)
-  // ---------------------------------------------------------------------------
+  // ── Brand / Logo ──────────────────────────────────────────────────────────
 
-  /// Main logo / brand wordmark — "M&M Driver"
-  static const TextStyle brandTitle = TextStyle(
-    fontFamily: 'PlayfairDisplay',
-    fontWeight: FontWeight.w700,
-    fontSize: 32,
-    color: AppColors.gold,
-    letterSpacing: 1.5,
-    height: 1.2,
-  );
+  static TextStyle get brandTitle => GoogleFonts.manrope(
+        fontWeight: FontWeight.w800,
+        fontSize: 28,
+        color: AppColors.gold,
+        letterSpacing: 0.5,
+        height: 1.2,
+        shadows: const [
+          Shadow(color: Color(0x4DF2CA50), blurRadius: 20),
+        ],
+      );
 
-  /// Large display heading — screen titles, splash
-  static const TextStyle headlineLarge = TextStyle(
-    fontFamily: 'PlayfairDisplay',
-    fontWeight: FontWeight.w700,
-    fontSize: 28,
-    color: AppColors.white,
-    letterSpacing: 0.5,
-    height: 1.3,
-  );
+  // ── Display ───────────────────────────────────────────────────────────────
 
-  /// Medium heading — section titles
-  static const TextStyle headlineMedium = TextStyle(
-    fontFamily: 'PlayfairDisplay',
-    fontWeight: FontWeight.w700,
-    fontSize: 22,
-    color: AppColors.white,
-    letterSpacing: 0.3,
-    height: 1.3,
-  );
+  static TextStyle get displayLarge => GoogleFonts.manrope(
+        fontWeight: FontWeight.w800,
+        fontSize: 36,
+        color: AppColors.onSurface,
+        letterSpacing: -0.5,
+        height: 1.1,
+      );
 
-  // ---------------------------------------------------------------------------
-  // Titles (Inter)
-  // ---------------------------------------------------------------------------
+  // ── Headlines (Manrope) ───────────────────────────────────────────────────
 
-  /// Card or dialog title
-  static const TextStyle titleLarge = TextStyle(
-    fontFamily: 'Inter',
-    fontWeight: FontWeight.w600,
-    fontSize: 18,
-    color: AppColors.white,
-    letterSpacing: 0.15,
-    height: 1.4,
-  );
+  static TextStyle get headlineLarge => GoogleFonts.manrope(
+        fontWeight: FontWeight.w700,
+        fontSize: 28,
+        color: AppColors.onSurface,
+        letterSpacing: -0.3,
+        height: 1.25,
+      );
 
-  /// Sub-title, list header
-  static const TextStyle titleMedium = TextStyle(
-    fontFamily: 'Inter',
-    fontWeight: FontWeight.w500,
-    fontSize: 16,
-    color: AppColors.white,
-    letterSpacing: 0.1,
-    height: 1.4,
-  );
+  static TextStyle get headlineMedium => GoogleFonts.manrope(
+        fontWeight: FontWeight.w700,
+        fontSize: 22,
+        color: AppColors.onSurface,
+        letterSpacing: -0.2,
+        height: 1.3,
+      );
 
-  // ---------------------------------------------------------------------------
-  // Body (Inter)
-  // ---------------------------------------------------------------------------
+  // ── Titles (Inter) ────────────────────────────────────────────────────────
 
-  /// Primary body copy
-  static const TextStyle bodyLarge = TextStyle(
-    fontFamily: 'Inter',
-    fontWeight: FontWeight.w400,
-    fontSize: 16,
-    color: AppColors.grey100,
-    letterSpacing: 0.15,
-    height: 1.5,
-  );
+  static TextStyle get titleLarge => GoogleFonts.inter(
+        fontWeight: FontWeight.w600,
+        fontSize: 18,
+        color: AppColors.onSurface,
+        height: 1.4,
+      );
 
-  /// Secondary body copy
-  static const TextStyle bodyMedium = TextStyle(
-    fontFamily: 'Inter',
-    fontWeight: FontWeight.w400,
-    fontSize: 14,
-    color: AppColors.grey300,
-    letterSpacing: 0.25,
-    height: 1.5,
-  );
+  static TextStyle get titleMedium => GoogleFonts.inter(
+        fontWeight: FontWeight.w500,
+        fontSize: 16,
+        color: AppColors.onSurface,
+        letterSpacing: 0.1,
+        height: 1.4,
+      );
 
-  /// Fine print, captions
-  static const TextStyle bodySmall = TextStyle(
-    fontFamily: 'Inter',
-    fontWeight: FontWeight.w400,
-    fontSize: 12,
-    color: AppColors.grey500,
-    letterSpacing: 0.4,
-    height: 1.5,
-  );
+  // ── Body (Inter) ──────────────────────────────────────────────────────────
 
-  // ---------------------------------------------------------------------------
-  // Labels (Inter)
-  // ---------------------------------------------------------------------------
+  static TextStyle get bodyLarge => GoogleFonts.inter(
+        fontWeight: FontWeight.w400,
+        fontSize: 16,
+        color: AppColors.onSurface,
+        letterSpacing: 0.1,
+        height: 1.5,
+      );
 
-  /// Button label, prominent action text
-  static const TextStyle labelLarge = TextStyle(
-    fontFamily: 'Inter',
-    fontWeight: FontWeight.w700,
-    fontSize: 14,
-    color: AppColors.navyDark,
-    letterSpacing: 0.8,
-    height: 1.2,
-  );
+  static TextStyle get bodyMedium => GoogleFonts.inter(
+        fontWeight: FontWeight.w400,
+        fontSize: 14,
+        color: AppColors.secondary,
+        letterSpacing: 0.1,
+        height: 1.5,
+      );
 
-  /// Small tag or badge text
-  static const TextStyle labelSmall = TextStyle(
-    fontFamily: 'Inter',
-    fontWeight: FontWeight.w600,
-    fontSize: 11,
-    color: AppColors.grey300,
-    letterSpacing: 0.5,
-    height: 1.2,
-  );
+  static TextStyle get bodySmall => GoogleFonts.inter(
+        fontWeight: FontWeight.w400,
+        fontSize: 12,
+        color: AppColors.outline,
+        letterSpacing: 0.2,
+        height: 1.5,
+      );
+
+  // ── Labels (Inter) ────────────────────────────────────────────────────────
+
+  static TextStyle get labelLarge => GoogleFonts.inter(
+        fontWeight: FontWeight.w700,
+        fontSize: 14,
+        color: AppColors.onPrimary,
+        letterSpacing: 0.7,
+        height: 1.2,
+      );
+
+  static TextStyle get labelSmall => GoogleFonts.inter(
+        fontWeight: FontWeight.w600,
+        fontSize: 11,
+        color: AppColors.secondary,
+        letterSpacing: 0.4,
+        height: 1.2,
+      );
 }

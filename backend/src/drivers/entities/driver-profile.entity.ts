@@ -63,8 +63,8 @@ export class DriverProfile {
   })
   currentLongitude: number | null;
 
-  @Column({ name: 'last_location_update', type: 'timestamp with time zone', nullable: true })
-  lastLocationUpdate: Date | null;
+  @Column({ name: 'last_location_update', type: 'timestamptz', nullable: true })
+  lastLocationUpdate: Date;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

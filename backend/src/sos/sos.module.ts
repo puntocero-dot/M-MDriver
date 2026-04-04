@@ -6,6 +6,7 @@ import { SosAlert } from './entities/sos-alert.entity';
 import { TripsModule } from '../trips/trips.module';
 import { GeospatialModule } from '../geospatial/geospatial.module';
 import { MedicalModule } from '../medical/medical.module';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { MedicalModule } from '../medical/medical.module';
     TripsModule,
     GeospatialModule,
     MedicalModule,
+    AuthModule,
   ],
   controllers: [SosController],
   providers: [SosService],

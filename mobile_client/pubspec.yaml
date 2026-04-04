@@ -60,6 +60,9 @@ dependencies:
   # Icons
   cupertino_icons: ^1.0.8
 
+  # Fonts (Manrope headlines — Stitch design system)
+  google_fonts: ^6.2.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -78,18 +81,7 @@ flutter:
     - assets/icons/
     - assets/fonts/
 
-  fonts:
-    - family: PlayfairDisplay
-      fonts:
-        - asset: assets/fonts/PlayfairDisplay-Bold.ttf
-          weight: 700
-    - family: Inter
-      fonts:
-        - asset: assets/fonts/Inter-Regular.ttf
-          weight: 400
-        - asset: assets/fonts/Inter-Medium.ttf
-          weight: 500
-        - asset: assets/fonts/Inter-SemiBold.ttf
-          weight: 600
-        - asset: assets/fonts/Inter-Bold.ttf
-          weight: 700
+  # Fonts are loaded via google_fonts package at runtime.
+  # No local font files required — Manrope + Inter downloaded from Google CDN.
+  # To bundle offline: download Manrope & Inter from fonts.google.com,
+  # place in assets/fonts/ and re-enable declarations here.

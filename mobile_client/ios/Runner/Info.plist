@@ -56,7 +56,7 @@
 	<!-- REEMPLAZA AIzaYOUR_KEY con tu clave real de Google Cloud       -->
 	<!-- Habilita: Maps SDK for iOS, Places API, Directions API        -->
 	<key>GMSApiKey</key>
-	<string>$(GOOGLE_MAPS_API_KEY)</string>
+	<string>AIzaSyAfcZM_oemlIU0TQzUGHpExfCwXG4C11QY</string>
 
 	<!-- ─── Permisos de ubicación ──────────────────────────────────── -->
 	<key>NSLocationWhenInUseUsageDescription</key>

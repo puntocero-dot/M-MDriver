@@ -12,9 +12,19 @@ async function bootstrap(): Promise<void> {
   // Security
   app.use(helmet());
 
-  // CORS
+  // CORS — supports comma-separated list in FRONTEND_URL for multi-origin (Vercel + local)
+  const rawOrigins = process.env.FRONTEND_URL ?? 'http://localhost:3001,http://localhost:3002';
+  const allowedOrigins = rawOrigins.split(',').map((o) => o.trim());
+
   app.enableCors({
-    origin: process.env.FRONTEND_URL ?? 'http://localhost:3001',
+    origin: (origin, callback) => {
+      // Allow same-origin / server-to-server requests (no origin header)
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.includes(origin)) return callback(null, true);
+      // Allow any *.vercel.app preview URL
+      if (/\.vercel\.app$/.test(origin)) return callback(null, true);
+      callback(new Error(`CORS: origin ${origin} not allowed`));
+    },
     methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
     credentials: true,
   });

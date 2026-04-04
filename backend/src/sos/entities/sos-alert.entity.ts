@@ -57,8 +57,8 @@ export class SosAlert {
   @JoinColumn({ name: 'acknowledged_by' })
   acknowledgedByUser: User | null;
 
-  @Column({ name: 'resolved_at', type: 'timestamp with time zone', nullable: true })
-  resolvedAt: Date | null;
+  @Column({ name: 'resolved_at', type: 'timestamptz', nullable: true })
+  resolvedAt: Date;
 
   @Column({ type: 'text', nullable: true })
   notes: string | null;

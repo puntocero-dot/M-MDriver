@@ -13,7 +13,8 @@
 # 4. Crea una API Key
 # 5. Restricciones Android: agregar com.mmdriver.driver
 # 6. Restricciones iOS: agregar Bundle ID com.mmdriver.driver
-GOOGLE_MAPS_API_KEY=AIzaSy_TU_CLAVE_AQUI
+# Google Maps
+GOOGLE_MAPS_API_KEY=AIzaSyAfcZM_oemlIU0TQzUGHpExfCwXG4C11QY
 
 # ─── Firebase ────────────────────────────────────────────────────────────────
 # Descarga google-services.json desde Firebase Console y colócalo en:

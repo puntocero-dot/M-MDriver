@@ -35,6 +35,12 @@ class ApiEndpoints {
   static String userById(String id) => '/users/$id';
 
   // ---------------------------------------------------------------------------
+  // Drivers
+  // ---------------------------------------------------------------------------
+  static const String driverAvailability = '/drivers/availability';
+  static String driverById(String id) => '/drivers/$id';
+
+  // ---------------------------------------------------------------------------
   // WebSocket
   // ---------------------------------------------------------------------------
   static String tripSocket(String tripId) => '/ws/trips/$tripId';

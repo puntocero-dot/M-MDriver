@@ -14,6 +14,8 @@ import { NotificationsModule } from './notifications/notifications.module';
 import { MedicalModule } from './medical/medical.module';
 import { VoipModule } from './voip/voip.module';
 import { TelemetryModule } from './telemetry/telemetry.module';
+import { AdminModule } from './admin/admin.module';
+import { HealthController } from './health/health.controller';
 import databaseConfig from './config/database.config';
 import jwtConfig from './config/jwt.config';
 
@@ -47,6 +49,8 @@ import jwtConfig from './config/jwt.config';
     MedicalModule,
     VoipModule,
     TelemetryModule,
+    AdminModule,
   ],
+  controllers: [HealthController],
 })
 export class AppModule {}

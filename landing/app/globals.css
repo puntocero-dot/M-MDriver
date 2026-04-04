@@ -1,0 +1,81 @@
+@import "tailwindcss";
+
+/* ── Tailwind v4: explicit source paths so the oxide scanner finds all TSX ── */
+@source "../app/**/*.{ts,tsx}";
+@source "../components/**/*.{ts,tsx}";
+
+/* ── Stitch "Midnight Concierge" design tokens ───────────────────────────── */
+:root {
+  --surface:            #131313;
+  --surface-low:        #1c1b1b;
+  --surface-container:  #201f1f;
+  --surface-high:       #2a2a2a;
+  --surface-highest:    #353534;
+  --surface-bright:     #3a3939;
+
+  --gold:               #f2ca50;
+  --gold-dim:           #d4af37;
+  --gold-light:         #ffe088;
+
+  --on-surface:         #e5e2e1;
+  --on-surface-var:     #d0c5af;
+  --on-primary:         #3c2f00;
+
+  --secondary:          #c7c6c4;
+  --tertiary:           #bfcdff;
+
+  --outline:            #99907c;
+  --outline-var:        #4d4635;
+
+  --error:              #ffb4ab;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background-color: var(--surface);
+  color: var(--on-surface);
+  font-family: "Inter", system-ui, sans-serif;
+  min-height: 100dvh;
+}
+
+/* Scrollbar — hidden, Stitch spec */
+::-webkit-scrollbar { display: none; }
+* { scrollbar-width: none; }
+
+/* Gold glow text utility */
+.text-gold-glow {
+  color: var(--gold);
+  text-shadow: 0 0 20px rgba(242, 202, 80, 0.35);
+}
+
+/* Glassmorphism card utility */
+.glass {
+  background: rgba(53, 53, 52, 0.55);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 0.5px solid rgba(77, 70, 53, 0.35);
+}
+
+/* Gold gradient button */
+.btn-gold {
+  background: linear-gradient(135deg, #f2ca50 0%, #d4af37 100%);
+  color: #3c2f00;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transition: opacity 0.2s, transform 0.2s;
+}
+.btn-gold:hover {
+  opacity: 0.92;
+  transform: translateY(-1px);
+}

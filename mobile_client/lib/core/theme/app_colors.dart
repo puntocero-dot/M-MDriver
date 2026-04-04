@@ -1,33 +1,61 @@
 import 'package:flutter/material.dart';
 
-/// M&M Driver brand colors — Navy + Gold premium palette
+/// M&M Driver — "Midnight Concierge" Design System
+/// Token source: Stitch project #7647697055610317184
 class AppColors {
   AppColors._();
 
-  // Primary
-  static const Color navyDark = Color(0xFF0A1628);
-  static const Color navyMedium = Color(0xFF132040);
-  static const Color navyLight = Color(0xFF1C2D54);
+  // ── Surface / Background (tonal depth layers) ─────────────────────────────
+  static const Color surface                = Color(0xFF131313); // void canvas
+  static const Color surfaceContainerLowest = Color(0xFF0E0E0E);
+  static const Color surfaceContainerLow    = Color(0xFF1C1B1B);
+  static const Color surfaceContainer       = Color(0xFF201F1F);
+  static const Color surfaceContainerHigh   = Color(0xFF2A2A2A);
+  static const Color surfaceContainerHighest= Color(0xFF353534);
+  static const Color surfaceBright          = Color(0xFF3A3939);
 
-  // Accent
-  static const Color gold = Color(0xFFC5A55A);
-  static const Color goldLight = Color(0xFFD4BA7A);
-  static const Color goldDark = Color(0xFFAA8E44);
+  // ── Primary / Gold ───────────────────────────────────────────────────────
+  static const Color gold      = Color(0xFFF2CA50); // primary
+  static const Color goldDim   = Color(0xFFD4AF37); // primary_container (135° gradient end)
+  static const Color goldLight = Color(0xFFFFE088); // primary_fixed
+  static const Color goldDark  = Color(0xFFE9C349); // primary_fixed_dim
 
-  // Neutral
-  static const Color white = Color(0xFFFFFFFF);
-  static const Color grey100 = Color(0xFFF5F5F5);
-  static const Color grey300 = Color(0xFFBDBDBD);
-  static const Color grey500 = Color(0xFF757575);
-  static const Color grey800 = Color(0xFF2C2C2C);
-  static const Color black = Color(0xFF000000);
+  // ── Text ──────────────────────────────────────────────────────────────────
+  static const Color onSurface        = Color(0xFFE5E2E1); // warm cream — never pure white
+  static const Color onSurfaceVariant = Color(0xFFD0C5AF);
+  static const Color onPrimary        = Color(0xFF3C2F00); // dark brown for gold buttons
+  static const Color inverseSurface   = Color(0xFFE5E2E1);
 
-  // Semantic
-  static const Color success = Color(0xFF2E7D32);
-  static const Color error = Color(0xFFC62828);
+  // ── Secondary ─────────────────────────────────────────────────────────────
+  static const Color secondary          = Color(0xFFC7C6C4);
+  static const Color secondaryContainer = Color(0xFF464746);
+
+  // ── Tertiary / Accent blue ────────────────────────────────────────────────
+  static const Color tertiary          = Color(0xFFBFCDFF);
+  static const Color tertiaryContainer = Color(0xFF97B0FF);
+
+  // ── Outline ───────────────────────────────────────────────────────────────
+  static const Color outline        = Color(0xFF99907C);
+  static const Color outlineVariant = Color(0xFF4D4635);
+
+  // ── Semantic ──────────────────────────────────────────────────────────────
+  static const Color success = Color(0xFF4CAF50);
+  static const Color error   = Color(0xFFFFB4AB); // Stitch M3 error
   static const Color warning = Color(0xFFF9A825);
-  static const Color info = Color(0xFF1565C0);
+  static const Color info    = Color(0xFFBFCDFF); // tertiary
 
-  // SOS
+  // ── SOS ───────────────────────────────────────────────────────────────────
   static const Color sosRed = Color(0xFFD32F2F);
+
+  // ── Backwards-compatible aliases ─────────────────────────────────────────
+  // Other files still reference these names; aliases prevent a mass rename.
+  static const Color navyDark   = surface;                   // #131313
+  static const Color navyMedium = surfaceContainer;          // #201F1F
+  static const Color navyLight  = surfaceContainerHighest;   // #353534
+  static const Color white      = onSurface;                 // #E5E2E1
+  static const Color grey100    = onSurfaceVariant;          // #D0C5AF
+  static const Color grey300    = secondary;                 // #C7C6C4
+  static const Color grey500    = outline;                   // #99907C
+  static const Color grey800    = surfaceContainerHigh;      // #2A2A2A
+  static const Color black      = surfaceContainerLowest;    // #0E0E0E
 }

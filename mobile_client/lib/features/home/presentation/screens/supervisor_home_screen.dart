@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/providers/auth_provider.dart';
 import '../../../trips/data/models/trip_model.dart';
@@ -112,24 +113,23 @@ class SupervisorHomeScreen extends ConsumerWidget {
         backgroundColor: AppColors.navyDark,
         elevation: 0,
         title: RichText(
-          text: const TextSpan(
+          text: TextSpan(
             children: [
               TextSpan(
                 text: 'M&M',
-                style: TextStyle(
-                  fontFamily: 'PlayfairDisplay',
+                style: GoogleFonts.manrope(
                   fontSize: 22,
-                  fontWeight: FontWeight.w700,
+                  fontWeight: FontWeight.w800,
                   color: AppColors.gold,
+                  shadows: const [Shadow(color: Color(0x4DF2CA50), blurRadius: 16)],
                 ),
               ),
               TextSpan(
                 text: ' Supervisor',
-                style: TextStyle(
-                  fontFamily: 'Inter',
+                style: GoogleFonts.manrope(
                   fontSize: 22,
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.white,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.onSurface,
                 ),
               ),
             ],

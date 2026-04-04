@@ -31,8 +31,8 @@ export class RefreshToken {
   @Column({ name: 'expires_at' })
   expiresAt: Date;
 
-  @Column({ name: 'revoked_at', type: 'timestamp with time zone', nullable: true })
-  revokedAt: Date | null;
+  @Column({ name: 'revoked_at', type: 'timestamptz', nullable: true })
+  revokedAt: Date;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

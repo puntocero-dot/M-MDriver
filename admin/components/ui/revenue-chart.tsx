@@ -60,6 +60,12 @@ function CustomTooltip({ active, payload, label }: CustomTooltipProps) {
 }
 
 export function RevenueChart() {
+  const [mounted, setMounted] = (require("react") as typeof import("react")).useState(false);
+  
+  (require("react") as typeof import("react")).useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const total = MOCK_DATA.reduce((sum, d) => sum + d.revenue, 0);
   const avg = Math.round(total / MOCK_DATA.length);
 
@@ -95,44 +101,48 @@ export function RevenueChart() {
       </div>
 
       {/* Chart */}
-      <div className="h-48">
-        <ResponsiveContainer width="100%" height="100%">
-          <AreaChart data={MOCK_DATA} margin={{ top: 5, right: 5, left: -20, bottom: 0 }}>
-            <defs>
-              <linearGradient id="goldGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#C5A55A" stopOpacity={0.25} />
-                <stop offset="95%" stopColor="#C5A55A" stopOpacity={0} />
-              </linearGradient>
-            </defs>
-            <CartesianGrid
-              strokeDasharray="3 3"
-              stroke="rgba(255,255,255,0.04)"
-              vertical={false}
-            />
-            <XAxis
-              dataKey="day"
-              tick={{ fill: "#64748b", fontSize: 11 }}
-              axisLine={false}
-              tickLine={false}
-            />
-            <YAxis
-              tick={{ fill: "#64748b", fontSize: 11 }}
-              axisLine={false}
-              tickLine={false}
-              tickFormatter={(v: number) => `$${v >= 1000 ? `${(v / 1000).toFixed(1)}k` : v}`}
-            />
-            <Tooltip content={<CustomTooltip />} cursor={{ stroke: "rgba(197,165,90,0.2)", strokeWidth: 1 }} />
-            <Area
-              type="monotone"
-              dataKey="revenue"
-              stroke="#C5A55A"
-              strokeWidth={2}
-              fill="url(#goldGradient)"
-              dot={{ fill: "#C5A55A", r: 3, strokeWidth: 0 }}
-              activeDot={{ r: 5, fill: "#C5A55A", stroke: "#0A1628", strokeWidth: 2 }}
-            />
-          </AreaChart>
-        </ResponsiveContainer>
+      <div className="h-48 min-h-[192px] w-full">
+        {!mounted ? (
+          <div className="h-full w-full flex items-center justify-center bg-white/5 rounded-lg animate-pulse" />
+        ) : (
+          <ResponsiveContainer width="100%" height="100%" debounce={1}>
+            <AreaChart data={MOCK_DATA} margin={{ top: 5, right: 5, left: -20, bottom: 0 }}>
+              <defs>
+                <linearGradient id="goldGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#C5A55A" stopOpacity={0.25} />
+                  <stop offset="95%" stopColor="#C5A55A" stopOpacity={0} />
+                </linearGradient>
+              </defs>
+              <CartesianGrid
+                strokeDasharray="3 3"
+                stroke="rgba(255,255,255,0.04)"
+                vertical={false}
+              />
+              <XAxis
+                dataKey="day"
+                tick={{ fill: "#64748b", fontSize: 11 }}
+                axisLine={false}
+                tickLine={false}
+              />
+              <YAxis
+                tick={{ fill: "#64748b", fontSize: 11 }}
+                axisLine={false}
+                tickLine={false}
+                tickFormatter={(v: number) => `$${v >= 1000 ? `${(v / 1000).toFixed(1)}k` : v}`}
+              />
+              <Tooltip content={<CustomTooltip />} cursor={{ stroke: "rgba(197,165,90,0.2)", strokeWidth: 1 }} />
+              <Area
+                type="monotone"
+                dataKey="revenue"
+                stroke="#C5A55A"
+                strokeWidth={2}
+                fill="url(#goldGradient)"
+                dot={{ fill: "#C5A55A", r: 3, strokeWidth: 0 }}
+                activeDot={{ r: 5, fill: "#C5A55A", stroke: "#0A1628", strokeWidth: 2 }}
+              />
+            </AreaChart>
+          </ResponsiveContainer>
+        )}
       </div>
     </div>
   );
