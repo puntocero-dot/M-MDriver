@@ -1,0 +1,36 @@
+# Node / NestJS
+backend/node_modules/
+backend/dist/
+backend/.env
+backend/coverage/
+
+# Flutter
+mobile_client/.dart_tool/
+mobile_client/build/
+mobile_client/.flutter-plugins
+mobile_client/.flutter-plugins-dependencies
+mobile_client/.packages
+mobile_client/pubspec.lock
+mobile_client/**/*.g.dart
+mobile_client/**/*.freezed.dart
+
+# Next.js admin
+admin/.next/
+admin/node_modules/
+admin/.env.local
+admin/.env
+
+# OS
+.DS_Store
+Thumbs.db
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Secrets - NEVER commit these
+*.env
+.env.*
+!*.env.example
