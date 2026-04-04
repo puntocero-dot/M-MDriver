@@ -1,4 +1,4 @@
-import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as admin from 'firebase-admin';
@@ -20,7 +20,9 @@ export class NotificationsService {
       const privateKey = this.configService
         .get<string>('FIREBASE_PRIVATE_KEY')
         ?.replace(/\\n/g, '\n');
-      const clientEmail = this.configService.get<string>('FIREBASE_CLIENT_EMAIL');
+      const clientEmail = this.configService.get<string>(
+        'FIREBASE_CLIENT_EMAIL',
+      );
 
       const isRealKey =
         privateKey?.startsWith('-----BEGIN') ||
@@ -67,7 +69,11 @@ export class NotificationsService {
       return this.fcmTokenRepository.save(existing);
     }
 
-    const fcmToken = this.fcmTokenRepository.create({ userId, token, deviceType });
+    const fcmToken = this.fcmTokenRepository.create({
+      userId,
+      token,
+      deviceType,
+    });
     return this.fcmTokenRepository.save(fcmToken);
   }
 
@@ -108,7 +114,9 @@ export class NotificationsService {
       });
       this.logger.log(`Push sent to topic '${topic}': ${title}`);
     } catch (err) {
-      this.logger.error(`Failed to send push to topic '${topic}': ${(err as Error).message}`);
+      this.logger.error(
+        `Failed to send push to topic '${topic}': ${(err as Error).message}`,
+      );
     }
   }
 

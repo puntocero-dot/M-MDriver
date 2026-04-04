@@ -8,7 +8,7 @@ import {
   ConnectedSocket,
   WsException,
 } from '@nestjs/websockets';
-import { Logger, UseFilters } from '@nestjs/common';
+import { Logger } from '@nestjs/common';
 import { Server, Socket } from 'socket.io';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
@@ -24,7 +24,9 @@ interface AuthenticatedSocket extends Socket {
 }
 
 @WebSocketGateway({ namespace: 'tracking', cors: { origin: '*' } })
-export class GeospatialGateway implements OnGatewayConnection, OnGatewayDisconnect {
+export class GeospatialGateway
+  implements OnGatewayConnection, OnGatewayDisconnect
+{
   @WebSocketServer()
   server: Server;
 
@@ -42,7 +44,7 @@ export class GeospatialGateway implements OnGatewayConnection, OnGatewayDisconne
   /**
    * Validate JWT from handshake.auth.token on every connection.
    */
-  async handleConnection(client: Socket): Promise<void> {
+  handleConnection(client: Socket): void {
     try {
       const token = client.handshake.auth?.token as string | undefined;
 
@@ -105,13 +107,19 @@ export class GeospatialGateway implements OnGatewayConnection, OnGatewayDisconne
     const dto = plainToInstance(LocationUpdateDto, data);
     const errors = await validate(dto);
     if (errors.length > 0) {
-      throw new WsException(`Datos inválidos: ${errors.map((e) => e.toString()).join(', ')}`);
+      throw new WsException(
+        `Datos inválidos: ${errors.map((e) => e.toString()).join(', ')}`,
+      );
     }
 
     const driverId = user.sub;
 
     // Store latest position in Redis GEOADD
-    await this.geospatialService.storeDriverLocation(driverId, dto.lng, dto.lat);
+    await this.geospatialService.storeDriverLocation(
+      driverId,
+      dto.lng,
+      dto.lat,
+    );
 
     // Append to GPS trace buffer
     await this.geospatialService.saveGpsTrace({
@@ -156,9 +164,7 @@ export class GeospatialGateway implements OnGatewayConnection, OnGatewayDisconne
     const roomName = `trip:${payload.tripId}`;
     await client.join(roomName);
 
-    this.logger.log(
-      `User ${user.sub} joined room ${roomName}`,
-    );
+    this.logger.log(`User ${user.sub} joined room ${roomName}`);
 
     return { success: true, room: roomName };
   }
@@ -185,6 +191,8 @@ export class GeospatialGateway implements OnGatewayConnection, OnGatewayDisconne
    */
   emitSosAlert(alertData: Record<string, unknown>): void {
     this.server.to('supervisors').emit('sos:alert', alertData);
-    this.logger.warn(`SOS alert emitted for trip: ${alertData['tripId']}`);
+    this.logger.warn(
+      `SOS alert emitted for trip: ${String(alertData['tripId'])}`,
+    );
   }
 }

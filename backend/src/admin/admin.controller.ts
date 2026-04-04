@@ -9,10 +9,13 @@ import {
   ParseUUIDPipe,
   ParseIntPipe,
   DefaultValuePipe,
-  ParseBoolPipe,
-  Optional,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiBearerAuth,
+  ApiQuery,
+} from '@nestjs/swagger';
 import { AdminService } from './admin.service';
 import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
 import { RolesGuard } from '../common/guards/roles.guard';
@@ -58,7 +61,12 @@ export class AdminController {
     @Query('status') status?: TripStatus,
     @Query('search') search?: string,
   ) {
-    return this.adminService.getTrips(page, Math.min(limit, 50), status, search);
+    return this.adminService.getTrips(
+      page,
+      Math.min(limit, 50),
+      status,
+      search,
+    );
   }
 
   // ─── DRIVERS ──────────────────────────────────────────────────────────────────
@@ -78,7 +86,12 @@ export class AdminController {
   ) {
     const availableBool =
       available === 'true' ? true : available === 'false' ? false : undefined;
-    return this.adminService.getDrivers(page, Math.min(limit, 50), availableBool, search);
+    return this.adminService.getDrivers(
+      page,
+      Math.min(limit, 50),
+      availableBool,
+      search,
+    );
   }
 
   // ─── CLIENTS ──────────────────────────────────────────────────────────────────

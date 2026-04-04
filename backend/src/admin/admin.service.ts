@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, Between, In, Like, ILike } from 'typeorm';
+import { Repository, Between, In, ILike } from 'typeorm';
 import { Trip } from '../trips/entities/trip.entity';
 import { DriverProfile } from '../drivers/entities/driver-profile.entity';
 import { SosAlert, SosAlertStatus } from '../sos/entities/sos-alert.entity';
@@ -58,7 +58,10 @@ export class AdminService {
       },
     });
 
-    const revenue = completedToday.reduce((sum, trip) => sum + (trip.quotedPrice || 0), 0);
+    const revenue = completedToday.reduce(
+      (sum, trip) => sum + (trip.quotedPrice || 0),
+      0,
+    );
 
     return {
       activeTrips,
@@ -114,12 +117,7 @@ export class AdminService {
 
   // ─── TRIPS ────────────────────────────────────────────────────────────────────
 
-  async getTrips(
-    page = 1,
-    limit = 10,
-    status?: TripStatus,
-    search?: string,
-  ) {
+  async getTrips(page = 1, limit = 10, status?: TripStatus, search?: string) {
     const where: any[] = [];
 
     if (search) {
@@ -262,7 +260,10 @@ export class AdminService {
         : [];
 
     const tripCountMap: Record<string, number> = {};
-    for (const row of tripCounts) {
+    for (const row of tripCounts as Array<{
+      clientId: string;
+      count: string;
+    }>) {
       tripCountMap[row.clientId] = parseInt(row.count, 10);
     }
 

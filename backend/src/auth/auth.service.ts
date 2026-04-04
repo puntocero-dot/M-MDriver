@@ -1,8 +1,4 @@
-import {
-  Injectable,
-  UnauthorizedException,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -120,12 +116,14 @@ export class AuthService {
 
     const accessToken = this.jwtService.sign(payload, {
       // Cast required: @nestjs/jwt uses ms StringValue type, env vars are strings
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      expiresIn: (this.configService.get<string>('JWT_ACCESS_EXPIRATION') ?? '15m') as any,
+
+      // Cast required: @nestjs/jwt uses ms StringValue branded type
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      expiresIn: (this.configService.get<string>('JWT_ACCESS_EXPIRATION') ??
+        '15m') as any,
     });
 
     const refreshTokenRaw = uuidv4();
-    const refreshExpiration = this.configService.get<string>('JWT_REFRESH_EXPIRATION') ?? '7d';
     const expiresAt = new Date();
     expiresAt.setDate(expiresAt.getDate() + 7);
 

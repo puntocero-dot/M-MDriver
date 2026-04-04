@@ -12,7 +12,6 @@ import { ConfigService } from '@nestjs/config';
 import { VoipCall, VoipCallStatus } from './entities/voip-call.entity';
 import { Trip } from '../trips/entities/trip.entity';
 import { User } from '../users/entities/user.entity';
-import { Role } from '../common/enums/role.enum';
 import { JwtPayload } from '../common/interfaces/jwt-payload.interface';
 
 /**
@@ -41,7 +40,10 @@ export class VoipService {
   ) {
     const authId = this.configService.get<string>('PLIVO_AUTH_ID', '');
     const authToken = this.configService.get<string>('PLIVO_AUTH_TOKEN', '');
-    this.maskedNumber = this.configService.get<string>('PLIVO_PHONE_NUMBER', '');
+    this.maskedNumber = this.configService.get<string>(
+      'PLIVO_PHONE_NUMBER',
+      '',
+    );
 
     this.plivoClient = new plivo.Client(authId, authToken);
   }
@@ -68,18 +70,26 @@ export class VoipService {
     const isClient = requestingUser.sub === trip.clientId;
     const isDriver = requestingUser.sub === trip.driverId;
     if (!isClient && !isDriver) {
-      throw new ForbiddenException('Solo el cliente o conductor del viaje puede iniciar la llamada');
+      throw new ForbiddenException(
+        'Solo el cliente o conductor del viaje puede iniciar la llamada',
+      );
     }
 
     if (!trip.client || !trip.driver) {
-      throw new BadRequestException('El viaje debe tener cliente y conductor asignado para iniciar una llamada');
+      throw new BadRequestException(
+        'El viaje debe tener cliente y conductor asignado para iniciar una llamada',
+      );
     }
 
     const callerUserId = requestingUser.sub;
     const receiverUserId = isClient ? (trip.driverId as string) : trip.clientId;
 
-    const callerUser = await this.usersRepository.findOne({ where: { id: callerUserId } });
-    const receiverUser = await this.usersRepository.findOne({ where: { id: receiverUserId } });
+    const callerUser = await this.usersRepository.findOne({
+      where: { id: callerUserId },
+    });
+    const receiverUser = await this.usersRepository.findOne({
+      where: { id: receiverUserId },
+    });
 
     if (!callerUser || !receiverUser) {
       throw new NotFoundException('Usuario no encontrado');
@@ -115,7 +125,8 @@ export class VoipService {
         },
       );
 
-      savedCall.plivoCallUuid = (response as unknown as { requestUuid: string }).requestUuid ?? null;
+      savedCall.plivoCallUuid =
+        (response as unknown as { requestUuid: string }).requestUuid ?? null;
       savedCall.status = VoipCallStatus.INITIATED;
       await this.voipCallRepository.save(savedCall);
 
@@ -125,8 +136,12 @@ export class VoipService {
     } catch (err) {
       savedCall.status = VoipCallStatus.FAILED;
       await this.voipCallRepository.save(savedCall);
-      this.logger.error(`Plivo call failed for trip ${tripId}: ${(err as Error).message}`);
-      throw new BadRequestException(`No se pudo iniciar la llamada: ${(err as Error).message}`);
+      this.logger.error(
+        `Plivo call failed for trip ${tripId}: ${(err as Error).message}`,
+      );
+      throw new BadRequestException(
+        `No se pudo iniciar la llamada: ${(err as Error).message}`,
+      );
     }
 
     return savedCall;
@@ -144,7 +159,9 @@ export class VoipService {
       const callInfo = await this.plivoClient.calls.get(callUuid);
       return callInfo as unknown as Record<string, unknown>;
     } catch (err) {
-      throw new NotFoundException(`Llamada ${callUuid} no encontrada en Plivo: ${(err as Error).message}`);
+      throw new NotFoundException(
+        `Llamada ${callUuid} no encontrada en Plivo: ${(err as Error).message}`,
+      );
     }
   }
 

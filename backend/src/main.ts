@@ -13,16 +13,29 @@ async function bootstrap(): Promise<void> {
   app.use(helmet());
 
   // CORS — supports comma-separated list in FRONTEND_URL for multi-origin (Vercel + local)
-  const rawOrigins = process.env.FRONTEND_URL ?? 'http://localhost:3001,http://localhost:3002';
+  const rawOrigins =
+    process.env.FRONTEND_URL ?? 'http://localhost:3001,http://localhost:3002';
   const allowedOrigins = rawOrigins.split(',').map((o) => o.trim());
 
   app.enableCors({
-    origin: (origin, callback) => {
+    origin: (
+      origin: string | undefined,
+      callback: (err: Error | null, allow?: boolean) => void,
+    ) => {
       // Allow same-origin / server-to-server requests (no origin header)
-      if (!origin) return callback(null, true);
-      if (allowedOrigins.includes(origin)) return callback(null, true);
+      if (!origin) {
+        callback(null, true);
+        return;
+      }
+      if (allowedOrigins.includes(origin)) {
+        callback(null, true);
+        return;
+      }
       // Allow any *.vercel.app preview URL
-      if (/\.vercel\.app$/.test(origin)) return callback(null, true);
+      if (/\.vercel\.app$/.test(origin)) {
+        callback(null, true);
+        return;
+      }
       callback(new Error(`CORS: origin ${origin} not allowed`));
     },
     methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
@@ -54,7 +67,9 @@ async function bootstrap(): Promise<void> {
   // Swagger docs
   const config = new DocumentBuilder()
     .setTitle('M&M Driver API')
-    .setDescription('Backend API para M&M Driver — Su conductor personal, en su propio vehículo')
+    .setDescription(
+      'Backend API para M&M Driver — Su conductor personal, en su propio vehículo',
+    )
     .setVersion('1.0')
     .addBearerAuth()
     .addTag('Autenticación')
@@ -76,4 +91,4 @@ async function bootstrap(): Promise<void> {
   console.log(`Swagger docs: http://localhost:${port}/api/docs`);
 }
 
-bootstrap();
+void bootstrap();

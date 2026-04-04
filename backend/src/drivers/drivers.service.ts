@@ -31,21 +31,26 @@ export class DriversService {
   /**
    * Toggle a driver's availability status.
    */
-  async updateAvailability(driverId: string, isAvailable: boolean): Promise<DriverProfile> {
+  async updateAvailability(
+    driverId: string,
+    isAvailable: boolean,
+  ): Promise<DriverProfile> {
     const profile = await this.findByUserId(driverId);
     profile.isAvailable = isAvailable;
 
     const updated = await this.driverProfilesRepository.save(profile);
-    this.logger.log(
-      `Driver ${driverId} availability set to ${isAvailable}`,
-    );
+    this.logger.log(`Driver ${driverId} availability set to ${isAvailable}`);
     return updated;
   }
 
   /**
    * Update the driver's current GPS coordinates and timestamp.
    */
-  async updateLocation(driverId: string, lat: number, lng: number): Promise<DriverProfile> {
+  async updateLocation(
+    driverId: string,
+    lat: number,
+    lng: number,
+  ): Promise<DriverProfile> {
     const profile = await this.findByUserId(driverId);
 
     profile.currentLatitude = lat;
@@ -93,10 +98,10 @@ export class DriversService {
       .orderBy('distance_km', 'ASC')
       .getRawAndEntities();
 
-    return results.entities.map((profile, index) => ({
-      profile,
-      distanceKm: parseFloat(results.raw[index]?.distance_km ?? '0'),
-    }));
+    return results.entities.map((profile, index) => {
+      const raw = results.raw[index] as Record<string, string> | undefined;
+      return { profile, distanceKm: parseFloat(raw?.['distance_km'] ?? '0') };
+    });
   }
 
   /**
@@ -151,7 +156,9 @@ export class DriversService {
     });
 
     if (!profile) {
-      throw new NotFoundException(`Perfil de conductor ${driverId} no encontrado`);
+      throw new NotFoundException(
+        `Perfil de conductor ${driverId} no encontrado`,
+      );
     }
 
     return profile;
@@ -163,7 +170,9 @@ export class DriversService {
     });
 
     if (!profile) {
-      throw new NotFoundException(`Perfil de conductor para usuario ${userId} no encontrado`);
+      throw new NotFoundException(
+        `Perfil de conductor para usuario ${userId} no encontrado`,
+      );
     }
 
     return profile;

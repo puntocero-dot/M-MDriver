@@ -1,7 +1,6 @@
 import {
   IsEnum,
   IsNumber,
-  IsString,
   IsUUID,
   Max,
   Min,

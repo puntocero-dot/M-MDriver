@@ -29,12 +29,12 @@ export class TripsService {
       clientId: requestingUser.sub,
       pickupAddress: dto.pickupAddress,
       dropoffAddress: dto.dropoffAddress,
-      scheduledAt: dto.scheduledAt ? new Date(dto.scheduledAt) : null,
+      scheduledAt: dto.scheduledAt ? new Date(dto.scheduledAt) : undefined,
       quotedPrice: dto.quotedPrice,
       status: TripStatus.QUOTED,
     });
 
-    const savedTrip = await this.tripsRepository.save(trip);
+    const savedTrip: Trip = await this.tripsRepository.save(trip);
 
     if (dto.stops && dto.stops.length > 0) {
       const stops = dto.stops.map((stop, index) =>
@@ -65,7 +65,11 @@ export class TripsService {
     return trip;
   }
 
-  async findByClientId(clientId: string, page = 1, limit = 20): Promise<[Trip[], number]> {
+  async findByClientId(
+    clientId: string,
+    page = 1,
+    limit = 20,
+  ): Promise<[Trip[], number]> {
     return this.tripsRepository.findAndCount({
       where: { clientId },
       relations: ['stops'],
@@ -84,14 +88,21 @@ export class TripsService {
     const trip = await this.findById(tripId);
     this.assertCanModify(trip, requestingUser);
 
-    return this.stateMachine.transition(tripId, toStatus, requestingUser.sub, metadata);
+    return this.stateMachine.transition(
+      tripId,
+      toStatus,
+      requestingUser.sub,
+      metadata,
+    );
   }
 
   async generateShareToken(tripId: string, clientId: string): Promise<string> {
     const trip = await this.findById(tripId);
 
     if (trip.clientId !== clientId) {
-      throw new ForbiddenException('No tienes permiso para compartir este viaje');
+      throw new ForbiddenException(
+        'No tienes permiso para compartir este viaje',
+      );
     }
 
     const token = uuidv4();
@@ -115,7 +126,9 @@ export class TripsService {
     const isPrivileged = [Role.SUPERVISOR, Role.SUPERADMIN].includes(user.role);
 
     if (!isClient && !isDriver && !isPrivileged) {
-      throw new ForbiddenException('No tienes permiso para modificar este viaje');
+      throw new ForbiddenException(
+        'No tienes permiso para modificar este viaje',
+      );
     }
   }
 }

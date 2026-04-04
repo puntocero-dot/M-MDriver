@@ -50,7 +50,10 @@ export class MedicalService {
   private encrypt(plaintext: string): string {
     const iv = crypto.randomBytes(12); // 12 bytes = 96 bits for GCM
     const cipher = crypto.createCipheriv('aes-256-gcm', this.encryptionKey, iv);
-    const encrypted = Buffer.concat([cipher.update(plaintext, 'utf8'), cipher.final()]);
+    const encrypted = Buffer.concat([
+      cipher.update(plaintext, 'utf8'),
+      cipher.final(),
+    ]);
     const authTag = cipher.getAuthTag(); // 16 bytes
     return `${iv.toString('hex')}:${authTag.toString('hex')}:${encrypted.toString('hex')}`;
   }
@@ -65,14 +68,25 @@ export class MedicalService {
     const authTag = Buffer.from(authTagHex, 'hex');
     const encrypted = Buffer.from(encryptedHex, 'hex');
 
-    const decipher = crypto.createDecipheriv('aes-256-gcm', this.encryptionKey, iv);
+    const decipher = crypto.createDecipheriv(
+      'aes-256-gcm',
+      this.encryptionKey,
+      iv,
+    );
     decipher.setAuthTag(authTag);
-    return Buffer.concat([decipher.update(encrypted), decipher.final()]).toString('utf8');
+    return Buffer.concat([
+      decipher.update(encrypted),
+      decipher.final(),
+    ]).toString('utf8');
   }
 
-  private encryptProfile(dto: Partial<UpsertMedicalProfileDto>): Partial<MedicalProfile> {
-    const result: Partial<MedicalProfile> = { ...dto } as Partial<MedicalProfile>;
-    for (const field of ENCRYPTED_FIELDS) {
+  private encryptProfile(
+    dto: Partial<UpsertMedicalProfileDto>,
+  ): Partial<MedicalProfile> {
+    const result: Partial<MedicalProfile> = {
+      ...dto,
+    } as Partial<MedicalProfile>;
+    for (const field of ENCRYPTED_FIELDS as readonly EncryptedField[]) {
       const value = (dto as Record<string, string | undefined>)[field];
       if (value !== undefined && value !== null) {
         (result as Record<string, string>)[field] = this.encrypt(value);
@@ -81,15 +95,22 @@ export class MedicalService {
     return result;
   }
 
-  private decryptProfile(profile: MedicalProfile): MedicalProfile & Record<string, unknown> {
-    const decrypted = { ...profile } as MedicalProfile & Record<string, unknown>;
+  private decryptProfile(
+    profile: MedicalProfile,
+  ): MedicalProfile & Record<string, unknown> {
+    const decrypted = { ...profile } as MedicalProfile &
+      Record<string, unknown>;
     for (const field of ENCRYPTED_FIELDS) {
-      const value = (profile as unknown as Record<string, string | null>)[field];
+      const value = (profile as unknown as Record<string, string | null>)[
+        field
+      ];
       if (value) {
         try {
           (decrypted as Record<string, unknown>)[field] = this.decrypt(value);
         } catch {
-          this.logger.error(`Failed to decrypt field '${field}' for profile ${profile.id}`);
+          this.logger.error(
+            `Failed to decrypt field '${field}' for profile ${profile.id}`,
+          );
           (decrypted as Record<string, unknown>)[field] = null;
         }
       }
@@ -99,7 +120,10 @@ export class MedicalService {
 
   // ─── CRUD Operations ──────────────────────────────────────────────────────
 
-  async upsert(userId: string, dto: UpsertMedicalProfileDto): Promise<MedicalProfile> {
+  async upsert(
+    userId: string,
+    dto: UpsertMedicalProfileDto,
+  ): Promise<MedicalProfile> {
     const encryptedData = this.encryptProfile(dto);
 
     let profile = await this.profileRepository.findOne({ where: { userId } });
@@ -120,7 +144,9 @@ export class MedicalService {
   async findByUserId(userId: string): Promise<MedicalProfile> {
     const profile = await this.profileRepository.findOne({ where: { userId } });
     if (!profile) {
-      throw new NotFoundException(`Perfil médico no encontrado para el usuario ${userId}`);
+      throw new NotFoundException(
+        `Perfil médico no encontrado para el usuario ${userId}`,
+      );
     }
     return this.decryptProfile(profile) as MedicalProfile;
   }
@@ -129,7 +155,9 @@ export class MedicalService {
    * findForSOS — returns decrypted profile for supervisor use in SOS context.
    * Returns null (not throws) if the client hasn't set up a medical profile.
    */
-  async findForSOS(userId: string): Promise<(MedicalProfile & Record<string, unknown>) | null> {
+  async findForSOS(
+    userId: string,
+  ): Promise<(MedicalProfile & Record<string, unknown>) | null> {
     const profile = await this.profileRepository.findOne({ where: { userId } });
     if (!profile) return null;
     return this.decryptProfile(profile);
@@ -141,8 +169,12 @@ export class MedicalService {
   async delete(userId: string): Promise<void> {
     const result = await this.profileRepository.delete({ userId });
     if (result.affected === 0) {
-      throw new NotFoundException(`Perfil médico no encontrado para el usuario ${userId}`);
+      throw new NotFoundException(
+        `Perfil médico no encontrado para el usuario ${userId}`,
+      );
     }
-    this.logger.log(`Medical profile deleted (GDPR erasure) for user ${userId}`);
+    this.logger.log(
+      `Medical profile deleted (GDPR erasure) for user ${userId}`,
+    );
   }
 }
