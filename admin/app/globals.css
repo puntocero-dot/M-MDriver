@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:is(.dark *));
+
 @theme inline {
   --color-navy-dark: #0A1628;
   --color-navy-medium: #132040;
@@ -7,6 +9,39 @@
   --color-gold: #C5A55A;
   --color-gold-light: #D4BA7A;
   --font-inter: "Inter", sans-serif;
+  --animate-gradient: gradient 8s linear infinite;
+  @keyframes gradient {
+  to {
+    backgroundPosition: var(--bg-size) 0;
+    }
+  }
+  --animate-border-beam: border-beam calc(var(--duration)*1s) infinite linear;
+  @keyframes border-beam {
+  100% {
+    offset-distance: 100%;
+    }
+  }
+  --animate-shimmer-slide: shimmer-slide var(--speed) ease-in-out infinite alternate;
+  --animate-spin-around: spin-around calc(var(--speed) * 2) infinite linear;
+  @keyframes spin-around {
+  0% {
+    transform: translateZ(0) rotate(0);
+    }
+  15%, 35% {
+    transform: translateZ(0) rotate(90deg);
+    }
+  65%, 85% {
+    transform: translateZ(0) rotate(270deg);
+    }
+  100% {
+    transform: translateZ(0) rotate(360deg);
+    }
+  }
+  @keyframes shimmer-slide {
+  to {
+    transform: translate(calc(100cqw - 100%), 0);
+    }
+  }
 }
 
 @layer base {

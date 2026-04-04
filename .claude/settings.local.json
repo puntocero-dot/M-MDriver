@@ -38,7 +38,15 @@
       "Bash(curl -s http://localhost:3000)",
       "Bash(curl -s http://localhost:3000/api/v1/auth/login -X POST -H \"Content-Type: application/json\" -d \"{\"\"email\"\":\"\"test@test.com\"\",\"\"password\"\":\"\"wrong\"\"}\")",
       "Bash(curl -s -X POST http://localhost:3000/api/v1/auth/register -H \"Content-Type: application/json\" -d \"{\"\"email\"\":\"\"test@mmdriver.com\"\",\"\"password\"\":\"\"TestPass123!\"\",\"\"firstName\"\":\"\"Juan\"\",\"\"lastName\"\":\"\"Perez\"\",\"\"phone\"\":\"\"+50312345678\"\",\"\"role\"\":\"\"client\"\"}\")",
-      "Bash(curl -s -X POST http://localhost:3000/api/v1/auth/register -H \"Content-Type: application/json\" -d \"{\"\"email\"\":\"\"test@mmdriver.com\"\",\"\"password\"\":\"\"TestPass123!\"\",\"\"firstName\"\":\"\"Juan\"\",\"\"lastName\"\":\"\"Perez\"\",\"\"phone\"\":\"\"+50312345678\"\",\"\"role\"\":\"\"CLIENT\"\"}\")"
+      "Bash(curl -s -X POST http://localhost:3000/api/v1/auth/register -H \"Content-Type: application/json\" -d \"{\"\"email\"\":\"\"test@mmdriver.com\"\",\"\"password\"\":\"\"TestPass123!\"\",\"\"firstName\"\":\"\"Juan\"\",\"\"lastName\"\":\"\"Perez\"\",\"\"phone\"\":\"\"+50312345678\"\",\"\"role\"\":\"\"CLIENT\"\"}\")",
+      "Bash(npx @_davideast/stitch-mcp --version)",
+      "Bash(uipro --version)",
+      "Bash(uipro init:*)",
+      "Bash(npx @_davideast/stitch-mcp init)",
+      "Bash(ls \"C:/Users/DELL/Desktop/Proyectos/Pirin_Project/admin/app/\\(dashboard\\)/drivers/\")",
+      "Bash(python -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(''''deps:'''', list\\(d.get\\(''''dependencies'''',{}\\).keys\\(\\)\\)\\)\")",
+      "Bash(npx shadcn@latest add \"https://21st.dev/r/danielpetho/animated-number\" --overwrite)",
+      "Bash(npx shadcn@latest add \"https://21st.dev/r/magicui/number-ticker\" --overwrite)"
     ]
   }
 }

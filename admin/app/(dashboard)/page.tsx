@@ -3,6 +3,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { Car, UserCheck, AlertTriangle, DollarSign, Clock, TrendingUp } from "lucide-react";
 import StatCard from "@/components/ui/stat-card";
+import { RevenueChart } from "@/components/ui/revenue-chart";
+import { AnimatedGradientText } from "@/components/ui/animated-gradient-text";
 import api from "@/lib/api";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
@@ -118,11 +120,18 @@ export default function DashboardPage() {
   return (
     <div className="space-y-6">
       {/* Page header */}
-      <div>
-        <h1 className="text-2xl font-bold text-white">Dashboard</h1>
-        <p className="text-slate-400 text-sm mt-1">
-          Resumen operativo en tiempo real — M&amp;M Driver
-        </p>
+      <div className="flex items-start justify-between">
+        <div>
+          <h1 className="text-2xl font-bold text-white">Dashboard</h1>
+          <p className="text-slate-400 text-sm mt-1">
+            Resumen operativo en tiempo real
+          </p>
+        </div>
+        <AnimatedGradientText className="hidden sm:flex text-xs font-semibold">
+          <span className="inline animate-gradient bg-gradient-to-r from-[#C5A55A] via-[#F0D080] to-[#C5A55A] bg-[length:var(--bg-size)_100%] bg-clip-text text-transparent">
+            ✦ M&amp;M Driver Admin
+          </span>
+        </AnimatedGradientText>
       </div>
 
       {/* Error banner */}
@@ -181,6 +190,9 @@ export default function DashboardPage() {
           </>
         )}
       </div>
+
+      {/* Revenue chart — full width */}
+      <RevenueChart />
 
       {/* Bottom grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
