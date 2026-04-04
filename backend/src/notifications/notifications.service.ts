@@ -22,18 +22,28 @@ export class NotificationsService {
         ?.replace(/\\n/g, '\n');
       const clientEmail = this.configService.get<string>('FIREBASE_CLIENT_EMAIL');
 
-      if (projectId && privateKey && clientEmail) {
-        admin.initializeApp({
-          credential: admin.credential.cert({
-            projectId,
-            privateKey,
-            clientEmail,
-          }),
-        });
-        this.logger.log('Firebase Admin SDK initialized');
+      const isRealKey =
+        privateKey?.startsWith('-----BEGIN') ||
+        privateKey?.includes('PRIVATE KEY');
+
+      if (projectId && isRealKey && clientEmail) {
+        try {
+          admin.initializeApp({
+            credential: admin.credential.cert({
+              projectId,
+              privateKey,
+              clientEmail,
+            }),
+          });
+          this.logger.log('Firebase Admin SDK initialized');
+        } catch (err) {
+          this.logger.warn(
+            `Firebase Admin SDK init failed (push notifications disabled): ${(err as Error).message}`,
+          );
+        }
       } else {
         this.logger.warn(
-          'Firebase credentials not fully configured — push notifications disabled',
+          'Firebase credentials not configured — push notifications disabled in this environment',
         );
       }
     }

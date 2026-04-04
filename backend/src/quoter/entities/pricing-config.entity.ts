@@ -40,10 +40,10 @@ export class PricingConfig {
   @Column({ name: 'is_active', default: false })
   isActive: boolean;
 
-  @Column({ name: 'effective_from', nullable: true })
+  @Column({ name: 'effective_from', type: 'timestamp with time zone', nullable: true })
   effectiveFrom: Date | null;
 
-  @Column({ name: 'effective_until', nullable: true })
+  @Column({ name: 'effective_until', type: 'timestamp with time zone', nullable: true })
   effectiveUntil: Date | null;
 
   @CreateDateColumn({ name: 'created_at' })

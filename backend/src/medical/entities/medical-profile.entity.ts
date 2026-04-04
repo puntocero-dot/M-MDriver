@@ -36,7 +36,7 @@ export class MedicalProfile {
   @JoinColumn({ name: 'user_id' })
   user: User;
 
-  @Column({ name: 'blood_type', length: 10, nullable: true })
+  @Column({ name: 'blood_type', type: 'varchar', length: 10, nullable: true })
   bloodType: string | null;
 
   /** AES-256-GCM encrypted */
@@ -55,13 +55,13 @@ export class MedicalProfile {
   @Column({ name: 'emergency_instructions', type: 'text', nullable: true })
   emergencyInstructions: string | null;
 
-  @Column({ name: 'doctor_name', length: 200, nullable: true })
+  @Column({ name: 'doctor_name', type: 'varchar', length: 200, nullable: true })
   doctorName: string | null;
 
-  @Column({ name: 'doctor_phone', length: 30, nullable: true })
+  @Column({ name: 'doctor_phone', type: 'varchar', length: 30, nullable: true })
   doctorPhone: string | null;
 
-  @Column({ name: 'insurance_provider', length: 200, nullable: true })
+  @Column({ name: 'insurance_provider', type: 'varchar', length: 200, nullable: true })
   insuranceProvider: string | null;
 
   @CreateDateColumn({ name: 'created_at' })

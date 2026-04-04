@@ -44,7 +44,7 @@ export class VoipCall {
   @JoinColumn({ name: 'receiver_user_id' })
   receiver: User;
 
-  @Column({ name: 'plivo_call_uuid', length: 100, nullable: true })
+  @Column({ name: 'plivo_call_uuid', type: 'varchar', length: 100, nullable: true })
   plivoCallUuid: string | null;
 
   @Column({
@@ -60,6 +60,6 @@ export class VoipCall {
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 
-  @Column({ name: 'ended_at', nullable: true })
+  @Column({ name: 'ended_at', type: 'timestamp with time zone', nullable: true })
   endedAt: Date | null;
 }

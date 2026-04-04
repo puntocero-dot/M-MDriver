@@ -25,13 +25,13 @@ export class RefreshToken {
   @Column({ name: 'token_hash' })
   tokenHash: string;
 
-  @Column({ name: 'device_info', nullable: true })
+  @Column({ name: 'device_info', type: 'text', nullable: true })
   deviceInfo: string | null;
 
   @Column({ name: 'expires_at' })
   expiresAt: Date;
 
-  @Column({ name: 'revoked_at', nullable: true })
+  @Column({ name: 'revoked_at', type: 'timestamp with time zone', nullable: true })
   revokedAt: Date | null;
 
   @CreateDateColumn({ name: 'created_at' })

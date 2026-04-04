@@ -27,14 +27,14 @@ export class Trip {
   client: User;
 
   @Index()
-  @Column({ name: 'driver_id', nullable: true })
+  @Column({ name: 'driver_id', type: 'uuid', nullable: true })
   driverId: string | null;
 
   @ManyToOne(() => User, { nullable: true })
   @JoinColumn({ name: 'driver_id' })
   driver: User | null;
 
-  @Column({ name: 'vehicle_id', nullable: true })
+  @Column({ name: 'vehicle_id', type: 'uuid', nullable: true })
   vehicleId: string | null;
 
   @Index()
@@ -47,19 +47,19 @@ export class Trip {
   @Column({ name: 'dropoff_address' })
   dropoffAddress: string;
 
-  @Column({ name: 'scheduled_at', nullable: true })
+  @Column({ name: 'scheduled_at', type: 'timestamp with time zone', nullable: true })
   scheduledAt: Date | null;
 
-  @Column({ name: 'started_at', nullable: true })
+  @Column({ name: 'started_at', type: 'timestamp with time zone', nullable: true })
   startedAt: Date | null;
 
-  @Column({ name: 'completed_at', nullable: true })
+  @Column({ name: 'completed_at', type: 'timestamp with time zone', nullable: true })
   completedAt: Date | null;
 
-  @Column({ name: 'cancelled_at', nullable: true })
+  @Column({ name: 'cancelled_at', type: 'timestamp with time zone', nullable: true })
   cancelledAt: Date | null;
 
-  @Column({ name: 'cancellation_reason', nullable: true })
+  @Column({ name: 'cancellation_reason', type: 'text', nullable: true })
   cancellationReason: string | null;
 
   @Column({ name: 'quoted_price', type: 'numeric', precision: 10, scale: 2 })
@@ -71,25 +71,25 @@ export class Trip {
   @Column({ default: 'USD', length: 3 })
   currency: string;
 
-  @Column({ name: 'distance_meters', nullable: true })
+  @Column({ name: 'distance_meters', type: 'int', nullable: true })
   distanceMeters: number | null;
 
-  @Column({ name: 'duration_seconds', nullable: true })
+  @Column({ name: 'duration_seconds', type: 'int', nullable: true })
   durationSeconds: number | null;
 
   @Column({ name: 'wait_time_seconds', default: 0 })
   waitTimeSeconds: number;
 
-  @Column({ name: 'payment_hold_id', nullable: true })
+  @Column({ name: 'payment_hold_id', type: 'text', nullable: true })
   paymentHoldId: string | null;
 
-  @Column({ name: 'payment_capture_id', nullable: true })
+  @Column({ name: 'payment_capture_id', type: 'text', nullable: true })
   paymentCaptureId: string | null;
 
   @Column({ name: 'is_shared_live', default: false })
   isSharedLive: boolean;
 
-  @Column({ name: 'share_token', unique: true, nullable: true })
+  @Column({ name: 'share_token', type: 'text', unique: true, nullable: true })
   shareToken: string | null;
 
   @OneToMany(() => TripStop, (stop) => stop.trip, { cascade: true })

@@ -41,10 +41,10 @@ export class Payment {
   })
   status: PaymentStatus;
 
-  @Column({ name: 'n1co_transaction_id', nullable: true })
+  @Column({ name: 'n1co_transaction_id', type: 'text', nullable: true })
   n1coTransactionId: string | null;
 
-  @Column({ name: 'n1co_hold_id', nullable: true })
+  @Column({ name: 'n1co_hold_id', type: 'text', nullable: true })
   n1coHoldId: string | null;
 
   @Column({ name: 'payment_method', length: 50 })

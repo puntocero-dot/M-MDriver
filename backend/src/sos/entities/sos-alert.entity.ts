@@ -50,14 +50,14 @@ export class SosAlert {
   })
   status: SosAlertStatus;
 
-  @Column({ name: 'acknowledged_by', nullable: true })
+  @Column({ name: 'acknowledged_by', type: 'uuid', nullable: true })
   acknowledgedBy: string | null;
 
   @ManyToOne(() => User, { nullable: true })
   @JoinColumn({ name: 'acknowledged_by' })
   acknowledgedByUser: User | null;
 
-  @Column({ name: 'resolved_at', nullable: true })
+  @Column({ name: 'resolved_at', type: 'timestamp with time zone', nullable: true })
   resolvedAt: Date | null;
 
   @Column({ type: 'text', nullable: true })
