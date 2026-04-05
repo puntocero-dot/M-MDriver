@@ -306,7 +306,7 @@ function Services() {
           <h2 className="text-5xl md:text-7xl font-black text-white mb-8">
             Servicios a su Medida
           </h2>
-          <p className="text-on-surface-muted text-xl max-w-2xl mx-auto font-medium">
+          <p className="text-on-surface-muted text-xl max-w-2xl mx-auto font-medium text-center">
             Diseñados para quienes exigen discreción absoluta y el máximo lujo en cada traslado.
           </p>
         </FadeIn>
@@ -386,7 +386,7 @@ function HowItWorks() {
   return (
     <section id="how" className="bg-surface">
       <div className="container-page">
-        <FadeIn className="text-center mb-16">
+        <FadeIn className="text-center mb-28">
           <span className="text-[11px] font-bold tracking-[1em] uppercase text-gold/60 mb-6 block">
             The Protocol
           </span>
@@ -454,11 +454,11 @@ function Fleet() {
           <h2 className="text-6xl md:text-8xl xl:text-[10rem] font-serif text-white mb-16 leading-[1.05] md:leading-[0.9]">
             Excelencia <br /> <span className="text-gold-glow italic">Innegociable</span>.
           </h2>
-          <p className="text-2xl text-on-surface-muted leading-relaxed mb-24 font-light border-l-[1px] border-gold/20 pl-12 max-w-2xl">
+          <p className="text-xl text-on-surface-muted leading-relaxed mb-20 font-light border-l-[1px] border-gold/20 pl-10 max-w-2xl">
             Superamos estándares diplomáticos. Especialistas en logística crítica para la élite.
           </p>
 
-          <div className="grid gap-14">
+          <div className="grid gap-8">
             {features.map((f, i) => (
               <FadeIn key={f.title} delay={i * 0.15} className="flex gap-10 group">
                 <div 
@@ -545,7 +545,7 @@ function BigCTA() {
           </a>
         </div>
 
-        <div className="flex flex-wrap items-center justify-center gap-x-20 gap-y-12 pt-16 border-t border-white/5">
+        <div className="flex flex-wrap items-center justify-center gap-x-14 gap-y-8 mt-12 pt-12 border-t border-white/5">
           {[
             { label: "Background Checked", icon: Shield },
             { label: "N1CO Integrated", icon: Star },
