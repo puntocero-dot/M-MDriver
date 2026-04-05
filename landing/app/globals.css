@@ -35,12 +35,12 @@
   /* Spacing & Layout Tokens (Strict Control) */
   --container-max:      85rem;
   --navbar-height:      5.5rem;
-  --section-padding:    8rem;
+  --section-padding:    5rem;
 }
 
 @media (min-width: 768px) {
   :root {
-    --section-padding:  12rem;
+    --section-padding:  7rem;
   }
 }
 

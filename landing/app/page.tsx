@@ -312,36 +312,36 @@ function Services() {
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
           variants={stagger}
-          className="grid sm:grid-cols-2 lg:grid-cols-4 gap-12"
+          className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6"
         >
           {services.map((s) => (
             <motion.div
               key={s.title}
               variants={fadeUp}
-              className="group relative rounded-[3.5rem] p-16 flex flex-col gap-12 transition-all duration-700 bg-surface-container/40 border border-white/5 hover:border-gold/40 hover:bg-surface-container hover:-translate-y-4"
+              className="group relative rounded-[2rem] p-8 flex flex-col gap-6 transition-all duration-700 bg-surface-container/40 border border-white/5 hover:border-gold/40 hover:bg-surface-container hover:-translate-y-2"
             >
-              {/* Premium Icon Composition - Refined Relationship */}
-              <div className="relative w-24 h-24">
+              {/* Premium Icon */}
+              <div className="relative w-20 h-20">
                 <div className="absolute inset-0 bg-gold/15 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
                 <div
-                  className="relative w-full h-full rounded-[2.5rem] flex items-center justify-center glass border-white/10 transition-all duration-700 group-hover:rounded-full group-hover:rotate-[15deg] group-hover:border-gold/30"
+                  className="relative w-full h-full rounded-[1.5rem] flex items-center justify-center glass border-white/10 transition-all duration-700 group-hover:rounded-full group-hover:rotate-[15deg] group-hover:border-gold/30"
                   style={{ boxShadow: `0 15px 40px -10px ${s.color}30` }}
                 >
-                  <s.icon size={40} style={{ color: s.color }} strokeWidth={1} className="transition-transform duration-700 group-hover:scale-110 group-hover:-rotate-[15deg]" />
+                  <s.icon size={34} style={{ color: s.color }} strokeWidth={1} className="transition-transform duration-700 group-hover:scale-110 group-hover:-rotate-[15deg]" />
                 </div>
               </div>
               
-              <div className="flex flex-col gap-8">
-                <h3 className="text-4xl font-serif text-white tracking-tight leading-tight">
+              <div className="flex flex-col gap-3">
+                <h3 className="text-2xl font-serif text-white tracking-tight leading-tight">
                   {s.title}
                 </h3>
-                <p className="text-lg text-on-surface-muted leading-relaxed font-light">
+                <p className="text-base text-on-surface-muted leading-relaxed font-light">
                   {s.desc}
                 </p>
               </div>
 
-              <div className="mt-auto pt-8 flex items-center gap-4 text-[12px] font-bold text-gold tracking-[0.3em] uppercase opacity-40 group-hover:opacity-100 group-hover:translate-x-3 transition-all duration-700">
-                Saber más <ArrowRight size={18} />
+              <div className="mt-auto flex items-center gap-3 text-[11px] font-bold text-gold tracking-[0.3em] uppercase opacity-40 group-hover:opacity-100 group-hover:translate-x-2 transition-all duration-700">
+                Saber más <ArrowRight size={16} />
               </div>
             </motion.div>
           ))}
@@ -378,8 +378,8 @@ function HowItWorks() {
   return (
     <section id="how" className="bg-surface">
       <div className="container-page">
-        <FadeIn className="text-center mb-40">
-          <span className="text-[11px] font-bold tracking-[1em] uppercase text-gold/60 mb-10 block">
+        <FadeIn className="text-center mb-16">
+          <span className="text-[11px] font-bold tracking-[1em] uppercase text-gold/60 mb-6 block">
             The Protocol
           </span>
           <h2 className="text-6xl md:text-9xl font-serif text-white">
@@ -387,22 +387,22 @@ function HowItWorks() {
           </h2>
         </FadeIn>
 
-        <div className="grid md:grid-cols-3 gap-24 mt-40">
+        <div className="grid md:grid-cols-3 gap-12">
           {steps.map((step, i) => (
             <FadeIn key={step.num} delay={i * 0.2}>
               <div className="flex flex-col items-center text-center group">
-                <div className="relative mb-20">
-                  <div className="w-52 h-52 rounded-[4.5rem] flex items-center justify-center glass border-white/10 transition-all duration-1000 group-hover:rounded-full group-hover:scale-110 group-hover:border-gold/50 group-hover:bg-gold/5">
-                    <step.icon size={72} className="text-gold transition-all duration-700 group-hover:scale-110 group-hover:rotate-6" strokeWidth={0.5} />
+                <div className="relative mb-10">
+                  <div className="w-44 h-44 rounded-[3.5rem] flex items-center justify-center glass border-white/10 transition-all duration-1000 group-hover:rounded-full group-hover:scale-110 group-hover:border-gold/50 group-hover:bg-gold/5">
+                    <step.icon size={60} className="text-gold transition-all duration-700 group-hover:scale-110 group-hover:rotate-6" strokeWidth={0.5} />
                   </div>
-                  <span className="absolute -top-6 -right-6 w-20 h-20 rounded-full flex items-center justify-center text-2xl font-serif italic font-black bg-gold text-on-primary shadow-2xl border-8 border-surface">
+                  <span className="absolute -top-5 -right-5 w-16 h-16 rounded-full flex items-center justify-center text-xl font-serif italic font-black bg-gold text-on-primary shadow-2xl border-8 border-surface">
                     {step.num}
                   </span>
                 </div>
-                <h3 className="text-4xl font-serif text-white mb-10 group-hover:text-gold transition-colors duration-500">
+                <h3 className="text-3xl font-serif text-white mb-5 group-hover:text-gold transition-colors duration-500">
                   {step.title}
                 </h3>
-                <p className="text-xl text-on-surface-muted leading-relaxed font-light max-w-[340px]">
+                <p className="text-lg text-on-surface-muted leading-relaxed font-light max-w-[300px]">
                   {step.desc}
                 </p>
               </div>
@@ -522,11 +522,11 @@ function BigCTA() {
           ELEVA TU <br /> <span className="text-gold-glow italic">EXPERIENCIA</span>
         </h2>
 
-        <div className="flex flex-col md:flex-row gap-10 justify-center items-center mb-32 max-w-4xl mx-auto">
-          <a href="https://wa.me/50300000000" className="btn-premium px-20 py-10 rounded-full text-base w-full md:w-auto tracking-[0.2em] shadow-2xl">
+        <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-24 max-w-2xl mx-auto">
+          <a href="https://wa.me/50300000000" className="btn-premium px-12 py-5 rounded-full text-sm w-full sm:w-auto tracking-[0.2em] shadow-2xl">
             CONTACTAR CONCIERGE
           </a>
-          <a href="#" className="btn-outline-premium px-20 py-10 rounded-full text-base w-full md:w-auto tracking-[0.2em]">
+          <a href="#" className="btn-outline-premium px-12 py-5 rounded-full text-sm w-full sm:w-auto tracking-[0.2em]">
             DESCARGAR APP
           </a>
         </div>
