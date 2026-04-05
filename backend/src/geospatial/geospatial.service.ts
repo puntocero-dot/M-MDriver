@@ -29,26 +29,34 @@ export class GeospatialService implements OnModuleDestroy {
     const password = this.configService.get<string>('redis.password');
 
     if (url) {
+      this.logger.log(`Connecting to Redis via URL: ${url.replace(/:[^@:]+@/, ':****@')}`);
       this.redis = new Redis(url, {
         maxRetriesPerRequest: null,
         enableReadyCheck: false,
+        connectionName: 'GeospatialService',
       });
     } else {
+      this.logger.log(`Connecting to Redis via Host: ${host}:${port}`);
       this.redis = new Redis({
         host,
         port,
         password,
         maxRetriesPerRequest: null,
         enableReadyCheck: false,
+        connectionName: 'GeospatialService',
       });
     }
 
     this.redis.on('error', (err) => {
-      this.logger.error('Redis connection error', err.message);
+      this.logger.error(`Redis connection error: ${err.message}`, err.stack);
     });
 
     this.redis.on('connect', () => {
-      this.logger.log('Redis connected');
+      this.logger.log('Redis client: connect event triggered');
+    });
+
+    this.redis.on('ready', () => {
+      this.logger.log('Redis client: ready to accept commands');
     });
   }
 
