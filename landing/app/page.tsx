@@ -172,7 +172,7 @@ function Hero() {
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
   return (
-    <section className="min-h-screen flex items-center pt-24 md:pt-0">
+    <section className="hero-section min-h-screen flex items-center">
       {/* Background blobs simplified & moved back */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
         <div
@@ -230,10 +230,10 @@ function Hero() {
             transition={{ delay: 0.8, duration: 0.8 }}
             className="flex flex-col sm:flex-row gap-8"
           >
-            <a href="#contact" className="btn-premium px-14 py-7 rounded-full text-sm tracking-[0.2em]">
+            <a href="#contact" className="btn-premium">
               Comenzar Reserva
             </a>
-            <a href="#how" className="btn-outline-premium px-14 py-7 rounded-full text-sm tracking-[0.2em]">
+            <a href="#how" className="btn-outline-premium">
               Metodología
             </a>
           </motion.div>
@@ -322,35 +322,34 @@ function Services() {
             <motion.div
               key={s.title}
               variants={fadeUp}
-              className="group relative rounded-2xl p-8 flex flex-col gap-6 transition-all duration-500 bg-surface-container border border-white/[0.07] hover:border-gold/30 hover:bg-surface-high hover:-translate-y-1 cursor-pointer"
+              className="card-service group"
             >
-              {/* Icon — matches reference: small tinted container */}
+              {/* Icon */}
               <div
-                className="w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-500 group-hover:scale-105 group-hover:rotate-3"
+                className="card-service-icon"
                 style={{
                   background: `${s.color}18`,
-                  border: `1px solid ${s.color}28`,
+                  border: `1px solid ${s.color}30`,
                 }}
               >
                 <s.icon
-                  size={26}
+                  size={24}
                   style={{ color: s.color }}
-                  strokeWidth={1.5}
-                  className="transition-transform duration-500 group-hover:scale-110"
+                  strokeWidth={1.75}
                 />
               </div>
 
-              <div className="flex flex-col gap-3 flex-1">
-                <h3 className="text-xl font-serif font-bold text-white leading-snug">
+              <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem", flex: 1 }}>
+                <h3 style={{ fontFamily: '"Bodoni Moda", serif', fontSize: "1.1rem", fontWeight: 700, color: "var(--on-surface)", lineHeight: 1.3 }}>
                   {s.title}
                 </h3>
-                <p className="text-sm text-on-surface-muted leading-relaxed">
+                <p style={{ fontSize: "0.85rem", color: "var(--on-surface-muted)", lineHeight: 1.65 }}>
                   {s.desc}
                 </p>
               </div>
 
-              <div className="flex items-center gap-2 text-[11px] font-bold text-gold tracking-[0.25em] uppercase opacity-40 group-hover:opacity-100 group-hover:translate-x-2 transition-all duration-500">
-                Saber más <ArrowRight size={14} />
+              <div style={{ display: "flex", alignItems: "center", gap: "0.4rem", fontSize: "0.7rem", fontWeight: 700, color: "var(--gold)", letterSpacing: "0.2em", textTransform: "uppercase", opacity: 0.5 }} className="group-hover:opacity-100 group-hover:translate-x-2 transition-all duration-400">
+                Saber más <ArrowRight size={13} />
               </div>
             </motion.div>
           ))}

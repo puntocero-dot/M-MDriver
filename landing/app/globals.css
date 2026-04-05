@@ -164,6 +164,49 @@ section {
   padding-bottom: var(--section-padding);
 }
 
+/* ── Card System ─────────────────────────────────────────────────────────── */
+/* Cards use direct CSS instead of Tailwind @apply to bypass * { padding: 0 } reset */
+.card-service {
+  padding: 1.75rem;           /* 28px - breathing room on all sides */
+  border-radius: 1.25rem;     /* 20px - modern but not extreme */
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  background-color: var(--surface-container);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.card-service:hover {
+  border-color: rgba(207, 161, 46, 0.35);
+  background-color: var(--surface-high);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 50px -20px rgba(207, 161, 46, 0.2);
+}
+
+.card-service-icon {
+  width: 3.25rem;      /* 52px */
+  height: 3.25rem;
+  border-radius: 0.875rem; /* 14px */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform 0.4s ease;
+}
+
+.card-service:hover .card-service-icon {
+  transform: scale(1.08) rotate(3deg);
+}
+
+/* Push main page content below the fixed navbar */
+.hero-section {
+  padding-top: calc(var(--navbar-height) + 4rem);
+}
+
 .container-page {
   @apply max-w-[var(--container-max)] mx-auto px-6 md:px-10 relative z-20;
 }
