@@ -454,7 +454,7 @@ function Fleet() {
           <h2 className="text-6xl md:text-8xl xl:text-[10rem] font-serif text-white mb-16 leading-[1.05] md:leading-[0.9]">
             Excelencia <br /> <span className="text-gold-glow italic">Innegociable</span>.
           </h2>
-          <p className="text-xl text-on-surface-muted leading-relaxed mb-20 font-light border-l-[1px] border-gold/20 pl-10 max-w-2xl">
+          <p className="text-xl text-on-surface-muted leading-relaxed mb-32 font-light border-l-[1px] border-gold/20 pl-10 max-w-2xl">
             Superamos estándares diplomáticos. Especialistas en logística crítica para la élite.
           </p>
 
@@ -487,7 +487,7 @@ function Fleet() {
         <FadeIn delay={0.3} className="w-full lg:w-2/5 relative h-full flex flex-col justify-center mt-20 lg:mt-0">
           <div className="absolute inset-0 bg-gold/5 blur-[150px] rounded-full pointer-events-none" />
           
-          <div className="relative glass rounded-2xl p-8 md:p-12 border-white/10 shadow-2xl overflow-hidden group">
+          <div className="card-dashboard group">
             <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/40 to-transparent" />
             
             <h3 className="text-xl font-serif text-white mb-10 flex items-center gap-4">
@@ -536,11 +536,11 @@ function BigCTA() {
           ELEVA TU <br /> <span className="text-gold-glow italic">EXPERIENCIA</span>
         </h2>
 
-        <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-24 max-w-2xl mx-auto">
-          <a href="https://wa.me/50300000000" className="btn-premium px-12 py-5 rounded-full text-sm w-full sm:w-auto tracking-[0.2em] shadow-2xl">
+        <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-32 max-w-2xl mx-auto">
+          <a href="https://wa.me/50300000000" className="btn-premium">
             CONTACTAR CONCIERGE
           </a>
-          <a href="#" className="btn-outline-premium px-12 py-5 rounded-full text-sm w-full sm:w-auto tracking-[0.2em]">
+          <a href="#" className="btn-outline-premium">
             DESCARGAR APP
           </a>
         </div>

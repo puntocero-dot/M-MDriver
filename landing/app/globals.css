@@ -202,6 +202,17 @@ section {
   transform: scale(1.08) rotate(3deg);
 }
 
+.card-dashboard {
+  padding: 2.5rem;            /* 40px - explicit padding for the dashboard */
+  border-radius: 1.5rem;      /* 24px */
+  background: rgba(15, 15, 15, 0.7);
+  backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+  position: relative;
+  overflow: hidden;
+}
+
 /* Push main page content below the fixed navbar */
 .hero-section {
   padding-top: calc(var(--navbar-height) + 4rem);
