@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Jost:ital,wght@0,100..900;1,100..900&display=swap');
+
 @import "tailwindcss";
 
 /* ── Tailwind v4: explicit source paths ── */
@@ -7,22 +9,22 @@
 /* ── Premium Luxury Design System: Midnight Gold ─────────────────────────── */
 :root {
   /* Deep Neutral Palette (Midnight) - Enhanced Contrast */
-  --surface:            #080808;
-  --surface-low:        #111111;
-  --surface-container:  #1a1a1a;
-  --surface-high:       #262626;
-  --surface-highest:    #303030;
+  --surface:            #0a0a0a;
+  --surface-low:        #141414;
+  --surface-container:  #1f1f1f;
+  --surface-high:       #2a2a2a;
+  --surface-highest:    #353535;
   
   /* Premium Accent (Brushed Gold) */
-  --gold:               #d4af37;
-  --gold-vibrant:       #f2ca50;
-  --gold-soft:          #e5c158;
-  --gold-dim:           #b8860b;
+  --gold:               #cfa12e;
+  --gold-vibrant:       #f5d169;
+  --gold-soft:          #dfbc5e;
+  --gold-dim:           #a68121;
   
   /* On Surface Palette */
-  --on-surface:         #fdfdfd;
-  --on-surface-muted:   #a8a8a8;
-  --on-surface-var:     #787878;
+  --on-surface:         #fefefe;
+  --on-surface-muted:   #b0b0b0;
+  --on-surface-var:     #808080;
   --on-primary:         #000000;
 
   /* Functional Colors */
@@ -31,14 +33,14 @@
   --info:               #3b82f6;
   
   /* Spacing & Layout Tokens (Strict Control) */
-  --container-max:      80rem;
-  --navbar-height:      4.5rem;
-  --section-padding:    6rem;
+  --container-max:      85rem;
+  --navbar-height:      5.5rem;
+  --section-padding:    8rem;
 }
 
 @media (min-width: 768px) {
   :root {
-    --section-padding:  10rem;
+    --section-padding:  12rem;
   }
 }
 
@@ -57,7 +59,7 @@ html {
 body {
   background-color: var(--surface);
   color: var(--on-surface);
-  font-family: "Inter", system-ui, sans-serif;
+  font-family: "Jost", system-ui, sans-serif;
   min-height: 100dvh;
   overflow-x: hidden;
   line-height: 1.6;
@@ -65,26 +67,26 @@ body {
 
 /* ── Premium Typography ─────────────────────────────────────────────────── */
 h1, h2, h3, h4, h5, h6 {
-  font-family: "Outfit", sans-serif;
-  font-weight: 700;
-  letter-spacing: -0.015em;
-  line-height: 1.1;
+  font-family: "Bodoni Moda", serif;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.05; /* Prevents overlap while maintaining luxury feel */
 }
 
 /* ── Sophisticated Glassmorphism (Visible & Clean) ───────────────────────── */
 .glass {
-  background: rgba(18, 18, 18, 0.85);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
+  background: rgba(15, 15, 15, 0.7);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
 }
 
 .glass-gold {
-  background: rgba(212, 175, 55, 0.05);
+  background: rgba(207, 161, 46, 0.03);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(212, 175, 55, 0.25);
-  box-shadow: 0 10px 30px -5px rgba(212, 175, 55, 0.1);
+  border: 1px solid rgba(207, 161, 46, 0.2);
+  box-shadow: 0 10px 40px -10px rgba(207, 161, 46, 0.1);
 }
 
 /* ── Professional Utility Classes ───────────────────────────────────────── */
@@ -94,39 +96,47 @@ h1, h2, h3, h4, h5, h6 {
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  filter: drop-shadow(0 0 5px rgba(207, 161, 46, 0.2));
 }
 
 .btn-premium {
-  @apply relative overflow-hidden transition-all duration-500 active:scale-95 cursor-pointer;
+  @apply relative overflow-hidden transition-all duration-500 active:scale-95 cursor-pointer inline-flex items-center justify-center;
   background: linear-gradient(135deg, var(--gold-vibrant) 0%, var(--gold) 100%);
   color: var(--on-primary);
-  font-family: "Outfit", sans-serif;
+  font-family: "Jost", sans-serif;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  box-shadow: 0 10px 25px -5px rgba(212, 175, 55, 0.3);
+  letter-spacing: 0.15em;
+  box-shadow: 0 15px 30px -5px rgba(207, 161, 46, 0.4);
+  /* Larger default scale to match typography */
+  padding: 1.25rem 3rem;
+  font-size: 0.9rem;
 }
 
 .btn-premium:hover {
-  @apply -translate-y-0.5 shadow-2xl scale-[1.02];
-  filter: brightness(1.1);
+  @apply -translate-y-1 shadow-2xl;
+  filter: brightness(1.05);
+  box-shadow: 0 20px 40px -10px rgba(207, 161, 46, 0.6);
 }
 
 .btn-outline-premium {
-  @apply border transition-all duration-500 cursor-pointer;
-  border-color: rgba(255, 255, 255, 0.15);
+  @apply border-2 transition-all duration-500 cursor-pointer inline-flex items-center justify-center;
+  border-color: rgba(207, 161, 46, 0.4);
   background: rgba(255, 255, 255, 0.02);
   color: var(--on-surface);
-  font-family: "Outfit", sans-serif;
+  font-family: "Jost", sans-serif;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.15em;
+  padding: 1.25rem 3rem;
+  font-size: 0.9rem;
 }
 
 .btn-outline-premium:hover {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: var(--gold);
+  background: rgba(207, 161, 46, 0.05);
+  border-color: var(--gold-vibrant);
   color: var(--gold-vibrant);
+  @apply -translate-y-1;
 }
 
 .noise-overlay {
