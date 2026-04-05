@@ -24,7 +24,8 @@ export default registerAs(
     ssl:
       process.env.DB_SSL === 'true' ||
       process.env.PGSSL === 'true' ||
-      (process.env.NODE_ENV === 'production' && !!process.env.DATABASE_URL)
+      process.env.NODE_ENV === 'production' ||
+      !!process.env.RAILWAY_ENVIRONMENT
         ? { rejectUnauthorized: false }
         : false,
     synchronize: false,
