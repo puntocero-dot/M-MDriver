@@ -72,14 +72,19 @@ export class PaymentsService {
     payment.metadata = { ...payment.metadata, holdResult };
 
     const updated = await this.paymentsRepository.save(payment);
-    this.logger.log(`Hold placed for payment ${paymentId} — holdId: ${holdResult.holdId}`);
+    this.logger.log(
+      `Hold placed for payment ${paymentId} — holdId: ${holdResult.holdId}`,
+    );
     return updated;
   }
 
   /**
    * Capture the payment (after trip completes) via N1co.
    */
-  async capturePayment(paymentId: string, finalAmount: number): Promise<Payment> {
+  async capturePayment(
+    paymentId: string,
+    finalAmount: number,
+  ): Promise<Payment> {
     const payment = await this.findById(paymentId);
 
     if (payment.status !== PaymentStatus.HOLD_PLACED) {
@@ -89,7 +94,9 @@ export class PaymentsService {
     }
 
     if (!payment.n1coHoldId) {
-      throw new BadRequestException(`El pago ${paymentId} no tiene holdId registrado`);
+      throw new BadRequestException(
+        `El pago ${paymentId} no tiene holdId registrado`,
+      );
     }
 
     const captureResult = await this.n1coService.captureHold(
@@ -122,13 +129,18 @@ export class PaymentsService {
     }
 
     if (!payment.n1coHoldId) {
-      throw new BadRequestException(`El pago ${paymentId} no tiene holdId registrado`);
+      throw new BadRequestException(
+        `El pago ${paymentId} no tiene holdId registrado`,
+      );
     }
 
     await this.n1coService.releaseHold(payment.n1coHoldId);
 
     payment.status = PaymentStatus.REFUNDED;
-    payment.metadata = { ...payment.metadata, releasedAt: new Date().toISOString() };
+    payment.metadata = {
+      ...payment.metadata,
+      releasedAt: new Date().toISOString(),
+    };
 
     const updated = await this.paymentsRepository.save(payment);
     this.logger.log(`Hold released for payment ${paymentId}`);

@@ -10,17 +10,32 @@ import { TripStateTransition } from './entities/trip-state-transition.entity';
  * Define las transiciones validas y registra cada cambio en audit trail.
  */
 const VALID_TRANSITIONS = new Map<TripStatus, TripStatus[]>([
-  [TripStatus.QUOTED,              [TripStatus.CONFIRMED, TripStatus.CANCELLED]],
-  [TripStatus.CONFIRMED,           [TripStatus.DRIVER_ASSIGNED, TripStatus.CANCELLED]],
-  [TripStatus.DRIVER_ASSIGNED,     [TripStatus.EN_ROUTE_TO_PICKUP, TripStatus.CANCELLED]],
-  [TripStatus.EN_ROUTE_TO_PICKUP,  [TripStatus.AT_PICKUP, TripStatus.CANCELLED]],
-  [TripStatus.AT_PICKUP,           [TripStatus.IN_TRANSIT, TripStatus.CANCELLED]],
-  [TripStatus.IN_TRANSIT,          [TripStatus.AT_STOP, TripStatus.COMPLETED, TripStatus.SOS_ACTIVE]],
-  [TripStatus.AT_STOP,             [TripStatus.WAITING_AT_STOP, TripStatus.IN_TRANSIT, TripStatus.COMPLETED]],
-  [TripStatus.WAITING_AT_STOP,     [TripStatus.IN_TRANSIT, TripStatus.COMPLETED, TripStatus.SOS_ACTIVE]],
-  [TripStatus.SOS_ACTIVE,          [TripStatus.IN_TRANSIT, TripStatus.COMPLETED, TripStatus.CANCELLED]],
-  [TripStatus.COMPLETED,           []],
-  [TripStatus.CANCELLED,           []],
+  [TripStatus.QUOTED, [TripStatus.CONFIRMED, TripStatus.CANCELLED]],
+  [TripStatus.CONFIRMED, [TripStatus.DRIVER_ASSIGNED, TripStatus.CANCELLED]],
+  [
+    TripStatus.DRIVER_ASSIGNED,
+    [TripStatus.EN_ROUTE_TO_PICKUP, TripStatus.CANCELLED],
+  ],
+  [TripStatus.EN_ROUTE_TO_PICKUP, [TripStatus.AT_PICKUP, TripStatus.CANCELLED]],
+  [TripStatus.AT_PICKUP, [TripStatus.IN_TRANSIT, TripStatus.CANCELLED]],
+  [
+    TripStatus.IN_TRANSIT,
+    [TripStatus.AT_STOP, TripStatus.COMPLETED, TripStatus.SOS_ACTIVE],
+  ],
+  [
+    TripStatus.AT_STOP,
+    [TripStatus.WAITING_AT_STOP, TripStatus.IN_TRANSIT, TripStatus.COMPLETED],
+  ],
+  [
+    TripStatus.WAITING_AT_STOP,
+    [TripStatus.IN_TRANSIT, TripStatus.COMPLETED, TripStatus.SOS_ACTIVE],
+  ],
+  [
+    TripStatus.SOS_ACTIVE,
+    [TripStatus.IN_TRANSIT, TripStatus.COMPLETED, TripStatus.CANCELLED],
+  ],
+  [TripStatus.COMPLETED, []],
+  [TripStatus.CANCELLED, []],
 ]);
 
 @Injectable()

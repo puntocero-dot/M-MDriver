@@ -33,6 +33,10 @@ export class NotificationsController {
       dto.token,
       dto.deviceType,
     );
-    return { id: fcmToken.id, deviceType: fcmToken.deviceType, createdAt: fcmToken.createdAt };
+    return {
+      id: fcmToken.id,
+      deviceType: fcmToken.deviceType,
+      createdAt: fcmToken.createdAt,
+    };
   }
 }

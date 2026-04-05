@@ -24,9 +24,9 @@ export class GeospatialService implements OnModuleDestroy {
 
   constructor(private readonly configService: ConfigService) {
     this.redis = new Redis({
-      host: this.configService.get<string>('REDIS_HOST') ?? 'localhost',
-      port: this.configService.get<number>('REDIS_PORT') ?? 6379,
-      lazyConnect: true,
+      host: this.configService.get<string>('redis.host') ?? 'localhost',
+      port: this.configService.get<number>('redis.port') ?? 6379,
+      password: this.configService.get<string>('redis.password'),
     });
 
     this.redis.on('error', (err) => {
@@ -46,9 +46,18 @@ export class GeospatialService implements OnModuleDestroy {
    * Store driver's latest GPS position using Redis GEOADD.
    * Key: 'driver_locations', member: driverId
    */
-  async storeDriverLocation(driverId: string, lng: number, lat: number): Promise<void> {
+  async storeDriverLocation(
+    driverId: string,
+    lng: number,
+    lat: number,
+  ): Promise<void> {
     try {
-      await this.redis.geoadd(GeospatialService.DRIVER_LOCATIONS_KEY, lng, lat, driverId);
+      await this.redis.geoadd(
+        GeospatialService.DRIVER_LOCATIONS_KEY,
+        lng,
+        lat,
+        driverId,
+      );
     } catch (err) {
       this.logger.error(`Error storing location for driver ${driverId}`, err);
     }
@@ -58,7 +67,9 @@ export class GeospatialService implements OnModuleDestroy {
    * Get driver's current position using Redis GEOPOS.
    * Returns [lng, lat] or null if not found.
    */
-  async getDriverLocation(driverId: string): Promise<{ lat: number; lng: number } | null> {
+  async getDriverLocation(
+    driverId: string,
+  ): Promise<{ lat: number; lng: number } | null> {
     try {
       const positions = await this.redis.geopos(
         GeospatialService.DRIVER_LOCATIONS_KEY,
@@ -122,7 +133,11 @@ export class GeospatialService implements OnModuleDestroy {
       const entry = JSON.stringify({ ...data, timestamp: Date.now() });
 
       await this.redis.lpush(key, entry);
-      await this.redis.ltrim(key, 0, GeospatialService.GPS_TRACE_MAX_ENTRIES - 1);
+      await this.redis.ltrim(
+        key,
+        0,
+        GeospatialService.GPS_TRACE_MAX_ENTRIES - 1,
+      );
     } catch (err) {
       this.logger.error(`Error saving GPS trace for trip ${data.tripId}`, err);
     }
@@ -135,7 +150,10 @@ export class GeospatialService implements OnModuleDestroy {
     try {
       await this.redis.zrem(GeospatialService.DRIVER_LOCATIONS_KEY, driverId);
     } catch (err) {
-      this.logger.error(`Error removing driver ${driverId} from location set`, err);
+      this.logger.error(
+        `Error removing driver ${driverId} from location set`,
+        err,
+      );
     }
   }
 }

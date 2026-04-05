@@ -65,7 +65,13 @@ export class Trip {
   @Column({ name: 'quoted_price', type: 'numeric', precision: 10, scale: 2 })
   quotedPrice: number;
 
-  @Column({ name: 'final_price', type: 'numeric', precision: 10, scale: 2, nullable: true })
+  @Column({
+    name: 'final_price',
+    type: 'numeric',
+    precision: 10,
+    scale: 2,
+    nullable: true,
+  })
   finalPrice: number | null;
 
   @Column({ default: 'USD', length: 3 })

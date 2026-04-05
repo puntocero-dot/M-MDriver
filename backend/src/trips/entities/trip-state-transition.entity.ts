@@ -23,7 +23,12 @@ export class TripStateTransition {
   @JoinColumn({ name: 'trip_id' })
   trip: Trip;
 
-  @Column({ name: 'from_status', type: 'enum', enum: TripStatus, nullable: true })
+  @Column({
+    name: 'from_status',
+    type: 'enum',
+    enum: TripStatus,
+    nullable: true,
+  })
   fromStatus: TripStatus | null;
 
   @Column({ name: 'to_status', type: 'enum', enum: TripStatus })

@@ -18,12 +18,25 @@ import { AdminModule } from './admin/admin.module';
 import { HealthController } from './health/health.controller';
 import databaseConfig from './config/database.config';
 import jwtConfig from './config/jwt.config';
+import n1coConfig from './config/n1co.config';
+import firebaseConfig from './config/firebase.config';
+import plivoConfig from './config/plivo.config';
+import redisConfig from './config/redis.config';
+import medicalConfig from './config/medical.config';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [databaseConfig, jwtConfig],
+      load: [
+        databaseConfig,
+        jwtConfig,
+        n1coConfig,
+        firebaseConfig,
+        plivoConfig,
+        redisConfig,
+        medicalConfig,
+      ],
       envFilePath: '.env',
     }),
     TypeOrmModule.forRootAsync({

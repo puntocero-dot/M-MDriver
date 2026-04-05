@@ -6,10 +6,7 @@ import { DriverProfile } from './entities/driver-profile.entity';
 import { TripsModule } from '../trips/trips.module';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([DriverProfile]),
-    TripsModule,
-  ],
+  imports: [TypeOrmModule.forFeature([DriverProfile]), TripsModule],
   controllers: [DriversController, TripAssignController],
   providers: [DriversService],
   exports: [DriversService],

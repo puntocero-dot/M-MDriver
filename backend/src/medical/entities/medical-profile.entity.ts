@@ -61,7 +61,12 @@ export class MedicalProfile {
   @Column({ name: 'doctor_phone', type: 'varchar', length: 30, nullable: true })
   doctorPhone: string | null;
 
-  @Column({ name: 'insurance_provider', type: 'varchar', length: 200, nullable: true })
+  @Column({
+    name: 'insurance_provider',
+    type: 'varchar',
+    length: 200,
+    nullable: true,
+  })
   insuranceProvider: string | null;
 
   @CreateDateColumn({ name: 'created_at' })

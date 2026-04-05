@@ -16,7 +16,10 @@ export class QuoteBreakdownDto {
   @ApiProperty({ description: 'Factor de combustible aplicado' })
   fuel: number;
 
-  @ApiProperty({ description: 'Recargo por vehículo de empresa (0 si es vehiculo del cliente)' })
+  @ApiProperty({
+    description:
+      'Recargo por vehículo de empresa (0 si es vehiculo del cliente)',
+  })
   vehicleSurcharge: number;
 }
 

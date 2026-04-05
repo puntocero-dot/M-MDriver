@@ -1,4 +1,8 @@
-import { Injectable, ServiceUnavailableException, Logger } from '@nestjs/common';
+import {
+  Injectable,
+  ServiceUnavailableException,
+  Logger,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, LessThanOrEqual, IsNull, Or } from 'typeorm';
 import { PricingConfig } from './entities/pricing-config.entity';
@@ -24,8 +28,10 @@ export class QuoterService {
     // Estimate distance and duration using a simplified linear model.
     // In production, replace with Google Maps Directions API call.
     const distanceMeters = this.estimateDistance(
-      dto.pickupLat, dto.pickupLng,
-      dto.dropoffLat, dto.dropoffLng,
+      dto.pickupLat,
+      dto.pickupLng,
+      dto.dropoffLat,
+      dto.dropoffLng,
     );
     const estimatedMinutes = this.estimateDuration(distanceMeters);
 
@@ -37,9 +43,12 @@ export class QuoterService {
     const distanceCost = distanceKm * Number(config.perKmRate);
     const timeCost = estimatedMinutes * Number(config.perMinuteRate);
     const stopsCost = stopsCount * Number(config.perStopSurcharge);
-    const vehicleSurcharge = isCompanyVehicle ? Number(config.companyVehicleSurcharge) : 0;
+    const vehicleSurcharge = isCompanyVehicle
+      ? Number(config.companyVehicleSurcharge)
+      : 0;
 
-    const subtotal = baseCost + distanceCost + timeCost + stopsCost + vehicleSurcharge;
+    const subtotal =
+      baseCost + distanceCost + timeCost + stopsCost + vehicleSurcharge;
     const fuelAdjusted = subtotal * Number(config.fuelFactor);
     const finalPrice = Math.max(fuelAdjusted, Number(config.minimumFare));
     const fuelCost = fuelAdjusted - subtotal;
@@ -50,7 +59,9 @@ export class QuoterService {
     return {
       estimatedPrice: Math.round(finalPrice * 100) / 100,
       estimatedDistanceMeters: Math.round(distanceMeters),
-      estimatedDurationSeconds: Math.round(estimatedMinutes * SECONDS_PER_MINUTE),
+      estimatedDurationSeconds: Math.round(
+        estimatedMinutes * SECONDS_PER_MINUTE,
+      ),
       breakdown: {
         base: Math.round(baseCost * 100) / 100,
         distance: Math.round(distanceCost * 100) / 100,
@@ -88,8 +99,10 @@ export class QuoterService {
    * Haversine formula para distancia entre dos puntos geograficos.
    */
   private estimateDistance(
-    lat1: number, lon1: number,
-    lat2: number, lon2: number,
+    lat1: number,
+    lon1: number,
+    lat2: number,
+    lon2: number,
   ): number {
     const R = 6371000; // metros
     const phi1 = (lat1 * Math.PI) / 180;

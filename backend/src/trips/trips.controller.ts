@@ -73,7 +73,9 @@ export class TripsController {
   @Post(':id/share')
   @Roles(Role.CLIENT)
   @HttpCode(HttpStatus.OK)
-  @ApiOperation({ summary: 'Generar token para compartir viaje en vivo (CLIENT)' })
+  @ApiOperation({
+    summary: 'Generar token para compartir viaje en vivo (CLIENT)',
+  })
   async generateShare(
     @Param('id', ParseUUIDPipe) id: string,
     @CurrentUser() user: JwtPayload,

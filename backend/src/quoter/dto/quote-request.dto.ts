@@ -29,7 +29,10 @@ export class StopDto {
   @Max(180)
   lng: number;
 
-  @ApiPropertyOptional({ example: 15, description: 'Minutos estimados de espera' })
+  @ApiPropertyOptional({
+    example: 15,
+    description: 'Minutos estimados de espera',
+  })
   @IsOptional()
   @IsNumber()
   @Min(0)

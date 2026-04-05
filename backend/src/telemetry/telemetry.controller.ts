@@ -68,9 +68,7 @@ export class TelemetryController {
    */
   @Get('trips/:tripId/events')
   @Roles(Role.SUPERVISOR, Role.SUPERADMIN, Role.DRIVER)
-  async getTripEvents(
-    @Param('tripId', ParseUUIDPipe) tripId: string,
-  ) {
+  async getTripEvents(@Param('tripId', ParseUUIDPipe) tripId: string) {
     return this.telemetryService.getTripEvents(tripId);
   }
 }

@@ -54,7 +54,7 @@ export class GeospatialGateway
         return;
       }
 
-      const secret = this.configService.getOrThrow<string>('JWT_SECRET');
+      const secret = this.configService.getOrThrow<string>('jwt.secret');
       const payload = this.jwtService.verify<JwtPayload>(token, { secret });
 
       (client as AuthenticatedSocket).user = payload;

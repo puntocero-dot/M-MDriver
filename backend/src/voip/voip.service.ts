@@ -38,12 +38,9 @@ export class VoipService {
     private readonly usersRepository: Repository<User>,
     private readonly configService: ConfigService,
   ) {
-    const authId = this.configService.get<string>('PLIVO_AUTH_ID', '');
-    const authToken = this.configService.get<string>('PLIVO_AUTH_TOKEN', '');
-    this.maskedNumber = this.configService.get<string>(
-      'PLIVO_PHONE_NUMBER',
-      '',
-    );
+    const authId = this.configService.get<string>('plivo.authId', '');
+    const authToken = this.configService.get<string>('plivo.authToken', '');
+    this.maskedNumber = this.configService.get<string>('plivo.phoneNumber', '');
 
     this.plivoClient = new plivo.Client(authId, authToken);
   }

@@ -35,9 +35,9 @@ export class N1coService implements PaymentGateway {
     private readonly httpService: HttpService,
     private readonly configService: ConfigService,
   ) {
-    this.baseUrl = this.configService.getOrThrow<string>('N1CO_API_URL');
-    this.apiKey = this.configService.getOrThrow<string>('N1CO_API_KEY');
-    this.merchantId = this.configService.get<string>('N1CO_MERCHANT_ID') ?? '';
+    this.baseUrl = this.configService.getOrThrow<string>('n1co.apiUrl');
+    this.apiKey = this.configService.getOrThrow<string>('n1co.apiKey');
+    this.merchantId = this.configService.get<string>('n1co.merchantId') ?? '';
   }
 
   private get authHeaders(): Record<string, string> {
@@ -48,7 +48,9 @@ export class N1coService implements PaymentGateway {
   }
 
   async placeHold(params: HoldParams): Promise<HoldResult> {
-    this.logger.log(`N1co placeHold — amount: ${params.amount} ${params.currency}`);
+    this.logger.log(
+      `N1co placeHold — amount: ${params.amount} ${params.currency}`,
+    );
 
     try {
       const response = await firstValueFrom(
@@ -64,7 +66,9 @@ export class N1coService implements PaymentGateway {
         ),
       );
 
-      this.logger.log(`N1co placeHold success — holdId: ${response.data.holdId}`);
+      this.logger.log(
+        `N1co placeHold success — holdId: ${response.data.holdId}`,
+      );
       return response.data;
     } catch (err) {
       this.logger.error('N1co placeHold failed', err);
@@ -88,7 +92,9 @@ export class N1coService implements PaymentGateway {
         ),
       );
 
-      this.logger.log(`N1co captureHold success — txId: ${response.data.transactionId}`);
+      this.logger.log(
+        `N1co captureHold success — txId: ${response.data.transactionId}`,
+      );
       return response.data;
     } catch (err) {
       this.logger.error(`N1co captureHold failed for holdId: ${holdId}`, err);

@@ -16,11 +16,11 @@ import { RefreshToken } from '../users/entities/refresh-token.entity';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
-        secret: configService.getOrThrow<string>('JWT_SECRET'),
+        secret: configService.getOrThrow<string>('jwt.secret'),
         signOptions: {
           // Cast required: @nestjs/jwt uses ms StringValue branded type; env vars are plain strings
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-          expiresIn: (configService.get<string>('JWT_ACCESS_EXPIRATION') ??
+          expiresIn: (configService.get<string>('jwt.accessExpiration') ??
             '15m') as any,
         },
       }),

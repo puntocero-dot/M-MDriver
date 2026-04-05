@@ -22,9 +22,11 @@ export class RolesGuard implements CanActivate {
     const user = request.user;
 
     const hasRole = requiredRoles.includes(user?.role);
-    
+
     if (!hasRole) {
-      console.log(`[RolesGuard] Access Denied: User role "${user?.role}" not in required roles [${requiredRoles.join(', ')}]`);
+      console.log(
+        `[RolesGuard] Access Denied: User role "${user?.role}" not in required roles [${requiredRoles.join(', ')}]`,
+      );
     }
 
     return hasRole;

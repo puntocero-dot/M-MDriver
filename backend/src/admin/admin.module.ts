@@ -11,7 +11,13 @@ import { PricingConfig } from '../quoter/entities/pricing-config.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Trip, DriverProfile, SosAlert, User, PricingConfig]),
+    TypeOrmModule.forFeature([
+      Trip,
+      DriverProfile,
+      SosAlert,
+      User,
+      PricingConfig,
+    ]),
     AuthModule,
   ],
   controllers: [AdminController],

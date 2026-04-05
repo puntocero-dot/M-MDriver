@@ -12,7 +12,11 @@ export class LocationUpdateDto {
   @Max(90)
   lat: number;
 
-  @ApiProperty({ description: 'Longitud (-180 a 180)', minimum: -180, maximum: 180 })
+  @ApiProperty({
+    description: 'Longitud (-180 a 180)',
+    minimum: -180,
+    maximum: 180,
+  })
   @IsNumber()
   @Min(-180)
   @Max(180)

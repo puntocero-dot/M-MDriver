@@ -16,13 +16,11 @@ export class NotificationsService {
   ) {
     // Initialize Firebase Admin SDK only once (singleton pattern)
     if (!admin.apps.length) {
-      const projectId = this.configService.get<string>('FIREBASE_PROJECT_ID');
+      const projectId = this.configService.get<string>('firebase.projectId');
+      const clientEmail = this.configService.get<string>('firebase.clientEmail');
       const privateKey = this.configService
-        .get<string>('FIREBASE_PRIVATE_KEY')
+        .get<string>('firebase.privateKey')
         ?.replace(/\\n/g, '\n');
-      const clientEmail = this.configService.get<string>(
-        'FIREBASE_CLIENT_EMAIL',
-      );
 
       const isRealKey =
         privateKey?.startsWith('-----BEGIN') ||

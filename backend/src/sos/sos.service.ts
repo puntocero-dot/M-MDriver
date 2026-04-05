@@ -61,7 +61,9 @@ export class SosService {
     }
 
     // Fetch client's medical profile (may be null if not set up)
-    const medicalProfile = await this.medicalService.findForSOS(userId).catch(() => null);
+    const medicalProfile = await this.medicalService
+      .findForSOS(userId)
+      .catch(() => null);
 
     // Emit WebSocket event to supervisors room — includes decrypted medical profile
     // for immediate triage by supervisors without requiring a separate API call.
@@ -99,7 +101,9 @@ export class SosService {
     alert.acknowledgedBy = supervisorId;
 
     const updated = await this.sosAlertsRepository.save(alert);
-    this.logger.log(`SOS acknowledged — alertId: ${alertId} by supervisor: ${supervisorId}`);
+    this.logger.log(
+      `SOS acknowledged — alertId: ${alertId} by supervisor: ${supervisorId}`,
+    );
     return updated;
   }
 
@@ -138,7 +142,9 @@ export class SosService {
       );
     }
 
-    this.logger.log(`SOS resolved — alertId: ${alertId} by supervisor: ${supervisorId}`);
+    this.logger.log(
+      `SOS resolved — alertId: ${alertId} by supervisor: ${supervisorId}`,
+    );
     return updated;
   }
 

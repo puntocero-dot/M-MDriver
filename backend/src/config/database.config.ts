@@ -10,10 +10,7 @@ export default registerAs(
     database: process.env.DB_NAME ?? 'mmdriver',
     username: process.env.DB_USER ?? 'postgres',
     password: process.env.DB_PASSWORD ?? '',
-    ssl:
-      process.env.DB_SSL === 'true'
-        ? { rejectUnauthorized: false }
-        : false,
+    ssl: process.env.DB_SSL === 'true' ? { rejectUnauthorized: false } : false,
     synchronize: false,
     logging: process.env.NODE_ENV === 'development',
     entities: [__dirname + '/../**/*.entity{.ts,.js}'],

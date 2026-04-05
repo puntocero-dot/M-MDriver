@@ -44,7 +44,12 @@ export class VoipCall {
   @JoinColumn({ name: 'receiver_user_id' })
   receiver: User;
 
-  @Column({ name: 'plivo_call_uuid', type: 'varchar', length: 100, nullable: true })
+  @Column({
+    name: 'plivo_call_uuid',
+    type: 'varchar',
+    length: 100,
+    nullable: true,
+  })
   plivoCallUuid: string | null;
 
   @Column({

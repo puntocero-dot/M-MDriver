@@ -1,33 +1,38 @@
 @import "tailwindcss";
 
-/* ── Tailwind v4: explicit source paths so the oxide scanner finds all TSX ── */
+/* ── Tailwind v4: explicit source paths ── */
 @source "../app/**/*.{ts,tsx}";
 @source "../components/**/*.{ts,tsx}";
 
-/* ── Stitch "Midnight Concierge" design tokens ───────────────────────────── */
+/* ── Premium Luxury Design System: Midnight Gold ─────────────────────────── */
 :root {
-  --surface:            #131313;
-  --surface-low:        #1c1b1b;
-  --surface-container:  #201f1f;
-  --surface-high:       #2a2a2a;
-  --surface-highest:    #353534;
-  --surface-bright:     #3a3939;
+  /* Deep Neutral Palette (Midnight) */
+  --surface:            #0a0a0a;
+  --surface-low:        #121212;
+  --surface-container:  #181818;
+  --surface-high:       #242424;
+  --surface-highest:    #2a2a2a;
+  
+  /* Premium Accent (Brushed Gold) */
+  --gold:               #d4af37;
+  --gold-vibrant:       #f2ca50;
+  --gold-soft:          #e5c158;
+  --gold-dim:           #b8860b;
+  
+  /* On Surface Palette */
+  --on-surface:         #f5f5f5;
+  --on-surface-muted:   #a3a3a3;
+  --on-surface-var:     #737373;
+  --on-primary:         #1a1a1a;
 
-  --gold:               #f2ca50;
-  --gold-dim:           #d4af37;
-  --gold-light:         #ffe088;
-
-  --on-surface:         #e5e2e1;
-  --on-surface-var:     #d0c5af;
-  --on-primary:         #3c2f00;
-
-  --secondary:          #c7c6c4;
-  --tertiary:           #bfcdff;
-
-  --outline:            #99907c;
-  --outline-var:        #4d4635;
-
-  --error:              #ffb4ab;
+  /* Functional Colors */
+  --success:            #10b981;
+  --error:              #ef4444;
+  --info:               #3b82f6;
+  
+  /* Spacing & Layout Tokens */
+  --container-max:      80rem;
+  --navbar-height:      5rem;
 }
 
 * {
@@ -39,6 +44,7 @@
 html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
@@ -46,36 +52,111 @@ body {
   color: var(--on-surface);
   font-family: "Inter", system-ui, sans-serif;
   min-height: 100dvh;
+  overflow-x: hidden;
+  line-height: 1.6;
 }
 
-/* Scrollbar — hidden, Stitch spec */
-::-webkit-scrollbar { display: none; }
-* { scrollbar-width: none; }
-
-/* Gold glow text utility */
-.text-gold-glow {
-  color: var(--gold);
-  text-shadow: 0 0 20px rgba(242, 202, 80, 0.35);
-}
-
-/* Glassmorphism card utility */
-.glass {
-  background: rgba(53, 53, 52, 0.55);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 0.5px solid rgba(77, 70, 53, 0.35);
-}
-
-/* Gold gradient button */
-.btn-gold {
-  background: linear-gradient(135deg, #f2ca50 0%, #d4af37 100%);
-  color: #3c2f00;
+/* ── Premium Typography ─────────────────────────────────────────────────── */
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Outfit", sans-serif;
   font-weight: 700;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  transition: opacity 0.2s, transform 0.2s;
+  letter-spacing: -0.02em;
 }
-.btn-gold:hover {
-  opacity: 0.92;
-  transform: translateY(-1px);
+
+/* ── Sophisticated Glassmorphism ────────────────────────────────────────── */
+.glass {
+  background: rgba(24, 24, 24, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.glass-gold {
+  background: rgba(212, 175, 55, 0.03);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(212, 175, 55, 0.15);
+}
+
+/* ── Professional Utility Classes ───────────────────────────────────────── */
+
+/* Gold glow text utility - refined */
+.text-gold-glow {
+  background: linear-gradient(135deg, var(--gold-vibrant), var(--gold));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 8px rgba(242, 202, 80, 0.25));
+}
+
+/* Premium Button Architecture */
+.btn-premium {
+  @apply relative overflow-hidden transition-all duration-300 active:scale-[0.98] cursor-pointer;
+  background: linear-gradient(135deg, var(--gold-vibrant) 0%, var(--gold) 100%);
+  color: var(--on-primary);
+  font-family: "Outfit", sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+}
+
+.btn-premium:hover {
+  @apply transform -translate-y-0.5;
+  box-shadow: 0 8px 25px rgba(212, 175, 55, 0.35);
+  filter: brightness(1.1);
+}
+
+.btn-outline-premium {
+  @apply border transition-all duration-300 cursor-pointer;
+  border-color: rgba(212, 175, 55, 0.3);
+  background: transparent;
+  color: var(--on-surface);
+  font-family: "Outfit", sans-serif;
+  font-weight: 500;
+}
+
+.btn-outline-premium:hover {
+  background: rgba(212, 175, 55, 0.05);
+  border-color: var(--gold);
+  color: var(--gold-vibrant);
+}
+
+/* Subtle Noise Texture Overlay */
+.noise-overlay {
+  position: relative;
+}
+
+.noise-overlay::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: url("https://grainy-gradients.vercel.app/noise.svg");
+  opacity: 0.03;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Section Transitions */
+.section-fade-bottom {
+  mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+}
+
+/* Container Utility */
+.container-page {
+  @apply max-w-7xl mx-auto px-6 md:px-12 w-full;
+}
+
+/* Scrollbar - Premium Minimal */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--surface);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--surface-high);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gold-dim);
 }

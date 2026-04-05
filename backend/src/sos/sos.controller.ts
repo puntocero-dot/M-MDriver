@@ -62,7 +62,9 @@ export class SosController {
 
   @Get('active')
   @Roles(Role.SUPERVISOR, Role.SUPERADMIN)
-  @ApiOperation({ summary: 'Listar alertas SOS activas (SUPERVISOR, SUPERADMIN)' })
+  @ApiOperation({
+    summary: 'Listar alertas SOS activas (SUPERVISOR, SUPERADMIN)',
+  })
   getActive(): Promise<SosAlert[]> {
     return this.sosService.getActiveAlerts();
   }

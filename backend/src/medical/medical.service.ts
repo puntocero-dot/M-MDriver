@@ -31,7 +31,7 @@ export class MedicalService {
     private readonly profileRepository: Repository<MedicalProfile>,
     private readonly configService: ConfigService,
   ) {
-    const rawKey = this.configService.get<string>('MEDICAL_ENCRYPTION_KEY');
+    const rawKey = this.configService.get<string>('medical.encryptionKey');
     if (!rawKey) {
       this.logger.warn(
         'MEDICAL_ENCRYPTION_KEY not set — sensitive medical data will NOT be encrypted',

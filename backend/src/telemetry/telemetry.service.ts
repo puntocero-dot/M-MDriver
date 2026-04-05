@@ -1,7 +1,10 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Between } from 'typeorm';
-import { DrivingEvent, DrivingEventType } from './entities/driving-event.entity';
+import {
+  DrivingEvent,
+  DrivingEventType,
+} from './entities/driving-event.entity';
 import { DriverProfile } from '../drivers/entities/driver-profile.entity';
 import { DrivingEventDto } from './dto/driving-event.dto';
 import { GeospatialGateway } from '../geospatial/geospatial.gateway';
@@ -33,7 +36,10 @@ export class TelemetryService {
    * recordEvent — persist a single driving event.
    * If severity >= 8 (HIGH_SEVERITY_THRESHOLD), emit a WS alert to SUPERVISOR room.
    */
-  async recordEvent(driverId: string, dto: DrivingEventDto): Promise<DrivingEvent> {
+  async recordEvent(
+    driverId: string,
+    dto: DrivingEventDto,
+  ): Promise<DrivingEvent> {
     const event = this.eventRepository.create({
       tripId: dto.tripId,
       driverId,
@@ -72,7 +78,10 @@ export class TelemetryService {
   /**
    * recordBatch — persist multiple driving events from a single driver batch upload.
    */
-  async recordBatch(driverId: string, events: DrivingEventDto[]): Promise<DrivingEvent[]> {
+  async recordBatch(
+    driverId: string,
+    events: DrivingEventDto[],
+  ): Promise<DrivingEvent[]> {
     const results: DrivingEvent[] = [];
     for (const dto of events) {
       // ensure each event is attributed to the authenticated driver
@@ -93,7 +102,13 @@ export class TelemetryService {
     driverId: string,
     fromDate: Date,
     toDate: Date,
-  ): Promise<{ driverId: string; score: number; eventCount: number; fromDate: Date; toDate: Date }> {
+  ): Promise<{
+    driverId: string;
+    score: number;
+    eventCount: number;
+    fromDate: Date;
+    toDate: Date;
+  }> {
     const events = await this.eventRepository.find({
       where: {
         driverId,

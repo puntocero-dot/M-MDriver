@@ -52,7 +52,7 @@ export class AuthService {
 
     try {
       payload = this.jwtService.verify<JwtPayload>(token, {
-        secret: this.configService.get<string>('JWT_SECRET'),
+        secret: this.configService.get<string>('jwt.secret'),
       });
     } catch {
       throw new UnauthorizedException('Refresh token inválido o expirado');
@@ -119,7 +119,7 @@ export class AuthService {
 
       // Cast required: @nestjs/jwt uses ms StringValue branded type
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      expiresIn: (this.configService.get<string>('JWT_ACCESS_EXPIRATION') ??
+      expiresIn: (this.configService.get<string>('jwt.accessExpiration') ??
         '15m') as any,
     });
 

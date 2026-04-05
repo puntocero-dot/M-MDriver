@@ -61,7 +61,9 @@ export class TripShareController {
     }
 
     if (!trip.isSharedLive) {
-      throw new ForbiddenException('El seguimiento en vivo no está activo para este viaje');
+      throw new ForbiddenException(
+        'El seguimiento en vivo no está activo para este viaje',
+      );
     }
 
     // Fetch live driver location from Redis (if trip is active)
@@ -69,7 +71,9 @@ export class TripShareController {
     let currentLng: number | undefined;
 
     if (trip.driverId) {
-      const location = await this.geospatialService.getDriverLocation(trip.driverId);
+      const location = await this.geospatialService.getDriverLocation(
+        trip.driverId,
+      );
       if (location) {
         currentLat = location.lat;
         currentLng = location.lng;

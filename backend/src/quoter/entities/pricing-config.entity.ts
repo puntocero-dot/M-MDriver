@@ -22,10 +22,20 @@ export class PricingConfig {
   @Column({ name: 'per_minute_rate', type: 'numeric', precision: 10, scale: 2 })
   perMinuteRate: number;
 
-  @Column({ name: 'per_stop_surcharge', type: 'numeric', precision: 10, scale: 2 })
+  @Column({
+    name: 'per_stop_surcharge',
+    type: 'numeric',
+    precision: 10,
+    scale: 2,
+  })
   perStopSurcharge: number;
 
-  @Column({ name: 'wait_time_per_minute', type: 'numeric', precision: 10, scale: 2 })
+  @Column({
+    name: 'wait_time_per_minute',
+    type: 'numeric',
+    precision: 10,
+    scale: 2,
+  })
   waitTimePerMinute: number;
 
   @Column({ name: 'minimum_fare', type: 'numeric', precision: 10, scale: 2 })
@@ -34,7 +44,13 @@ export class PricingConfig {
   @Column({ name: 'fuel_factor', type: 'numeric', precision: 5, scale: 3 })
   fuelFactor: number;
 
-  @Column({ name: 'company_vehicle_surcharge', type: 'numeric', precision: 10, scale: 2, default: 0 })
+  @Column({
+    name: 'company_vehicle_surcharge',
+    type: 'numeric',
+    precision: 10,
+    scale: 2,
+    default: 0,
+  })
   companyVehicleSurcharge: number;
 
   @Column({ name: 'is_active', default: false })

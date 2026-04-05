@@ -9,7 +9,12 @@ import {
   ParseUUIDPipe,
   UseGuards,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiBearerAuth,
+  ApiQuery,
+} from '@nestjs/swagger';
 import { DriversService, NearbyDriver } from './drivers.service';
 import { UpdateAvailabilityDto } from './dto/update-availability.dto';
 import { AssignDriverDto } from './dto/assign-driver.dto';
@@ -31,10 +36,25 @@ export class DriversController {
 
   @Get('nearby')
   @Roles(Role.SUPERVISOR, Role.SUPERADMIN)
-  @ApiOperation({ summary: 'Conductores disponibles cercanos (SUPERVISOR, SUPERADMIN)' })
-  @ApiQuery({ name: 'lat', type: Number, description: 'Latitud del punto de búsqueda' })
-  @ApiQuery({ name: 'lng', type: Number, description: 'Longitud del punto de búsqueda' })
-  @ApiQuery({ name: 'radius', type: Number, required: false, description: 'Radio en km (default 10)' })
+  @ApiOperation({
+    summary: 'Conductores disponibles cercanos (SUPERVISOR, SUPERADMIN)',
+  })
+  @ApiQuery({
+    name: 'lat',
+    type: Number,
+    description: 'Latitud del punto de búsqueda',
+  })
+  @ApiQuery({
+    name: 'lng',
+    type: Number,
+    description: 'Longitud del punto de búsqueda',
+  })
+  @ApiQuery({
+    name: 'radius',
+    type: Number,
+    required: false,
+    description: 'Radio en km (default 10)',
+  })
   findNearby(
     @Query('lat') lat: number,
     @Query('lng') lng: number,
@@ -59,10 +79,10 @@ export class DriversController {
 
   @Get(':id/profile')
   @Roles(Role.SUPERVISOR, Role.SUPERADMIN)
-  @ApiOperation({ summary: 'Obtener perfil de conductor (SUPERVISOR, SUPERADMIN)' })
-  getProfile(
-    @Param('id', ParseUUIDPipe) id: string,
-  ): Promise<DriverProfile> {
+  @ApiOperation({
+    summary: 'Obtener perfil de conductor (SUPERVISOR, SUPERADMIN)',
+  })
+  getProfile(@Param('id', ParseUUIDPipe) id: string): Promise<DriverProfile> {
     return this.driversService.getDriverProfile(id);
   }
 }
@@ -80,12 +100,18 @@ export class TripAssignController {
 
   @Post(':tripId/assign')
   @Roles(Role.SUPERVISOR, Role.SUPERADMIN)
-  @ApiOperation({ summary: 'Asignar conductor a viaje (SUPERVISOR, SUPERADMIN)' })
+  @ApiOperation({
+    summary: 'Asignar conductor a viaje (SUPERVISOR, SUPERADMIN)',
+  })
   assignDriver(
     @Param('tripId', ParseUUIDPipe) tripId: string,
     @Body() dto: AssignDriverDto,
     @CurrentUser() user: JwtPayload,
   ): Promise<Trip> {
-    return this.driversService.assignDriverToTrip(tripId, dto.driverId, user.sub);
+    return this.driversService.assignDriverToTrip(
+      tripId,
+      dto.driverId,
+      user.sub,
+    );
   }
 }
