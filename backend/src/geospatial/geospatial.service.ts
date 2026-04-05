@@ -23,11 +23,25 @@ export class GeospatialService implements OnModuleDestroy {
   private static readonly GPS_TRACE_MAX_ENTRIES = 500;
 
   constructor(private readonly configService: ConfigService) {
-    this.redis = new Redis({
-      host: this.configService.get<string>('redis.host') ?? 'localhost',
-      port: this.configService.get<number>('redis.port') ?? 6379,
-      password: this.configService.get<string>('redis.password'),
-    });
+    const url = this.configService.get<string>('redis.url');
+    const host = this.configService.get<string>('redis.host') ?? 'localhost';
+    const port = this.configService.get<number>('redis.port') ?? 6379;
+    const password = this.configService.get<string>('redis.password');
+
+    if (url) {
+      this.redis = new Redis(url, {
+        maxRetriesPerRequest: null,
+        enableReadyCheck: false,
+      });
+    } else {
+      this.redis = new Redis({
+        host,
+        port,
+        password,
+        maxRetriesPerRequest: null,
+        enableReadyCheck: false,
+      });
+    }
 
     this.redis.on('error', (err) => {
       this.logger.error('Redis connection error', err.message);
