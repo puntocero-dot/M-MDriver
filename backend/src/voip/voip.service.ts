@@ -26,7 +26,7 @@ import { JwtPayload } from '../common/interfaces/jwt-payload.interface';
 @Injectable()
 export class VoipService {
   private readonly logger = new Logger(VoipService.name);
-  private readonly plivoClient: plivo.Client;
+  private plivoClient: plivo.Client | null = null;
   private readonly maskedNumber: string;
 
   constructor(
@@ -42,7 +42,13 @@ export class VoipService {
     const authToken = this.configService.get<string>('plivo.authToken', '');
     this.maskedNumber = this.configService.get<string>('plivo.phoneNumber', '');
 
-    this.plivoClient = new plivo.Client(authId, authToken);
+    if (authId && authToken) {
+      this.plivoClient = new plivo.Client(authId, authToken);
+    } else {
+      this.logger.warn(
+        'Plivo credentials not configured — VoIP calls will be unavailable',
+      );
+    }
   }
 
   /**
@@ -101,6 +107,14 @@ export class VoipService {
     });
     const savedCall = await this.voipCallRepository.save(voipCall);
 
+    if (!this.plivoClient) {
+      savedCall.status = VoipCallStatus.FAILED;
+      await this.voipCallRepository.save(savedCall);
+      throw new BadRequestException(
+        'VoIP no está configurado en este entorno',
+      );
+    }
+
     try {
       /**
        * Plivo masked call:
@@ -150,6 +164,9 @@ export class VoipService {
   async getCallStatus(callUuid: string): Promise<Record<string, unknown>> {
     if (!callUuid) {
       throw new BadRequestException('callUuid requerido');
+    }
+    if (!this.plivoClient) {
+      throw new BadRequestException('VoIP no está configurado en este entorno');
     }
 
     try {
