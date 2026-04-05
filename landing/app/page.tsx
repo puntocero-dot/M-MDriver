@@ -312,36 +312,36 @@ function Services() {
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
           variants={stagger}
-          className="grid sm:grid-cols-2 lg:grid-cols-4 gap-10"
+          className="grid sm:grid-cols-2 lg:grid-cols-4 gap-12"
         >
           {services.map((s) => (
             <motion.div
               key={s.title}
               variants={fadeUp}
-              className="group relative rounded-[3rem] p-12 flex flex-col gap-10 transition-all duration-700 bg-surface-container/40 border border-white/5 hover:border-gold/40 hover:bg-surface-container hover:-translate-y-4"
+              className="group relative rounded-[3.5rem] p-16 flex flex-col gap-12 transition-all duration-700 bg-surface-container/40 border border-white/5 hover:border-gold/40 hover:bg-surface-container hover:-translate-y-4"
             >
-              {/* Premium Icon Composition */}
-              <div className="relative w-20 h-20">
-                <div className="absolute inset-0 bg-gold/20 blur-2xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+              {/* Premium Icon Composition - Refined Relationship */}
+              <div className="relative w-24 h-24">
+                <div className="absolute inset-0 bg-gold/15 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
                 <div
-                  className="relative w-full h-full rounded-[2rem] flex items-center justify-center glass border-white/10 transition-all duration-700 group-hover:rounded-full group-hover:rotate-[10deg] group-hover:border-gold/30"
-                  style={{ boxShadow: `0 10px 30px -10px ${s.color}40` }}
+                  className="relative w-full h-full rounded-[2.5rem] flex items-center justify-center glass border-white/10 transition-all duration-700 group-hover:rounded-full group-hover:rotate-[15deg] group-hover:border-gold/30"
+                  style={{ boxShadow: `0 15px 40px -10px ${s.color}30` }}
                 >
-                  <s.icon size={36} style={{ color: s.color }} strokeWidth={1.2} className="transition-transform duration-700 group-hover:scale-110 group-hover:-rotate-[10deg]" />
+                  <s.icon size={40} style={{ color: s.color }} strokeWidth={1} className="transition-transform duration-700 group-hover:scale-110 group-hover:-rotate-[15deg]" />
                 </div>
               </div>
               
-              <div className="flex flex-col gap-6">
-                <h3 className="text-3xl font-serif text-white tracking-tight leading-tight">
+              <div className="flex flex-col gap-8">
+                <h3 className="text-4xl font-serif text-white tracking-tight leading-tight">
                   {s.title}
                 </h3>
-                <p className="text-[15px] text-on-surface-muted leading-relaxed font-light">
+                <p className="text-lg text-on-surface-muted leading-relaxed font-light">
                   {s.desc}
                 </p>
               </div>
 
-              <div className="mt-auto pt-6 flex items-center gap-3 text-[11px] font-bold text-gold tracking-[0.2em] uppercase opacity-40 group-hover:opacity-100 group-hover:translate-x-2 transition-all duration-700">
-                Detalles del servicio <ArrowRight size={16} />
+              <div className="mt-auto pt-8 flex items-center gap-4 text-[12px] font-bold text-gold tracking-[0.3em] uppercase opacity-40 group-hover:opacity-100 group-hover:translate-x-3 transition-all duration-700">
+                Saber más <ArrowRight size={18} />
               </div>
             </motion.div>
           ))}
@@ -387,19 +387,19 @@ function HowItWorks() {
           </h2>
         </FadeIn>
 
-        <div className="grid md:grid-cols-3 gap-24">
+        <div className="grid md:grid-cols-3 gap-24 mt-40">
           {steps.map((step, i) => (
             <FadeIn key={step.num} delay={i * 0.2}>
               <div className="flex flex-col items-center text-center group">
-                <div className="relative mb-16">
-                  <div className="w-48 h-48 rounded-[4rem] flex items-center justify-center glass border-white/10 transition-all duration-1000 group-hover:rounded-full group-hover:scale-110 group-hover:border-gold/50 group-hover:bg-gold/5">
-                    <step.icon size={64} className="text-gold transition-all duration-700 group-hover:scale-110 group-hover:rotate-6" strokeWidth={0.6} />
+                <div className="relative mb-20">
+                  <div className="w-52 h-52 rounded-[4.5rem] flex items-center justify-center glass border-white/10 transition-all duration-1000 group-hover:rounded-full group-hover:scale-110 group-hover:border-gold/50 group-hover:bg-gold/5">
+                    <step.icon size={72} className="text-gold transition-all duration-700 group-hover:scale-110 group-hover:rotate-6" strokeWidth={0.5} />
                   </div>
-                  <span className="absolute -top-6 -right-6 w-16 h-16 rounded-3xl flex items-center justify-center text-xl font-serif italic font-black bg-gold text-on-primary shadow-2xl border-4 border-surface">
+                  <span className="absolute -top-6 -right-6 w-20 h-20 rounded-full flex items-center justify-center text-2xl font-serif italic font-black bg-gold text-on-primary shadow-2xl border-8 border-surface">
                     {step.num}
                   </span>
                 </div>
-                <h3 className="text-4xl font-serif text-white mb-8 group-hover:text-gold transition-colors duration-500">
+                <h3 className="text-4xl font-serif text-white mb-10 group-hover:text-gold transition-colors duration-500">
                   {step.title}
                 </h3>
                 <p className="text-xl text-on-surface-muted leading-relaxed font-light max-w-[340px]">
@@ -437,30 +437,30 @@ const features = [
 function Fleet() {
   return (
     <section id="fleet" className="bg-surface-low overflow-hidden">
-      <div className="container-page grid lg:grid-cols-2 gap-24 items-center">
-        {/* Left Content */}
-        <FadeIn>
+      <div className="container-page flex flex-col lg:flex-row gap-24 items-center">
+        {/* Left Content - Reduced width to prevent colision */}
+        <FadeIn className="w-full lg:w-3/5">
           <span className="text-[11px] font-bold tracking-[1em] uppercase text-gold/60 mb-12 block">
             The Standard
           </span>
-          <h2 className="text-7xl md:text-[10rem] font-serif text-white mb-16 leading-[0.9] md:leading-[0.85]">
+          <h2 className="text-6xl md:text-8xl xl:text-[10rem] font-serif text-white mb-16 leading-[1.05] md:leading-[0.9]">
             Excelencia <br /> <span className="text-gold-glow italic">Innegociable</span>.
           </h2>
           <p className="text-2xl text-on-surface-muted leading-relaxed mb-24 font-light border-l-[1px] border-gold/20 pl-12 max-w-2xl">
             Superamos estándares diplomáticos. Especialistas en logística crítica para la élite.
           </p>
 
-          <div className="grid gap-16">
+          <div className="grid gap-20">
             {features.map((f, i) => (
-              <FadeIn key={f.title} delay={i * 0.15} className="flex gap-10 group">
-                <div className="w-20 h-20 rounded-3xl flex-shrink-0 flex items-center justify-center bg-surface-container border border-white/5 transition-all duration-500 group-hover:border-gold/50 group-hover:bg-surface-high group-hover:rotate-3">
-                  <f.icon size={36} className="text-gold" strokeWidth={0.8} />
+              <FadeIn key={f.title} delay={i * 0.15} className="flex gap-12 group">
+                <div className="w-24 h-24 rounded-3xl flex-shrink-0 flex items-center justify-center bg-surface-container border border-white/5 transition-all duration-500 group-hover:border-gold/50 group-hover:bg-surface-high group-hover:rotate-3">
+                  <f.icon size={42} className="text-gold" strokeWidth={0.6} />
                 </div>
-                <div className="flex flex-col gap-3">
-                  <h4 className="text-3xl font-serif text-white group-hover:text-gold transition-colors duration-500">
+                <div className="flex flex-col gap-4">
+                  <h4 className="text-4xl font-serif text-white group-hover:text-gold transition-colors duration-500">
                     {f.title}
                   </h4>
-                  <p className="text-lg text-on-surface-muted leading-relaxed font-light">
+                  <p className="text-xl text-on-surface-muted leading-relaxed font-light">
                     {f.desc}
                   </p>
                 </div>
@@ -469,30 +469,30 @@ function Fleet() {
           </div>
         </FadeIn>
 
-        {/* Right Dashboard Visualization */}
-        <FadeIn delay={0.3} className="relative h-full flex flex-col justify-center">
-          <div className="absolute inset-0 bg-gold/10 blur-[150px] rounded-full pointer-events-none" />
+        {/* Right Dashboard Visualization - Better positioning */}
+        <FadeIn delay={0.3} className="w-full lg:w-2/5 relative h-full flex flex-col justify-center mt-20 lg:mt-0">
+          <div className="absolute inset-0 bg-gold/5 blur-[150px] rounded-full pointer-events-none" />
           
-          <div className="relative glass rounded-[3.5rem] p-12 lg:p-16 border-white/10 shadow-2xl overflow-hidden group">
-            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/50 to-transparent" />
+          <div className="relative glass rounded-[4rem] p-16 border-white/10 shadow-2xl overflow-hidden group">
+            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/40 to-transparent" />
             
-            <h3 className="text-2xl font-black text-white mb-12 flex items-center gap-4">
+            <h3 className="text-2xl font-serif text-white mb-16 flex items-center gap-6">
               <span className="w-3 h-3 rounded-full bg-gold animate-pulse" />
               Live Intelligence
             </h3>
 
-            <div className="flex flex-col gap-8">
+            <div className="flex flex-col gap-10">
               {[
                 { label: "Elite Drivers Active", value: "05", total: "/ 12", color: "var(--success)" },
                 { label: "Successful Missions", value: "18", total: "", color: "var(--gold-vibrant)" },
                 { label: "Response Window", value: "08", total: "min", color: "var(--info)" },
                 { label: "Satisfaction Index", value: "4.99", total: "★", color: "var(--gold-vibrant)" },
               ].map((m) => (
-                <div key={m.label} className="flex items-center justify-between py-6 border-b border-white/5 last:border-0 hover:bg-white/[0.02] px-4 rounded-3xl transition-colors">
-                  <span className="text-[11px] font-black text-on-surface-muted uppercase tracking-[0.2em]">{m.label}</span>
+                <div key={m.label} className="flex items-center justify-between py-8 border-b border-white/10 last:border-0 hover:bg-white/[0.03] px-6 rounded-[2.5rem] transition-all duration-500">
+                  <span className="text-[12px] font-bold text-on-surface-muted uppercase tracking-[0.3em] font-sans">{m.label}</span>
                   <div className="flex items-baseline gap-2">
-                    <span className="text-4xl font-black tabular-nums" style={{ color: m.color }}>{m.value}</span>
-                    {m.total && <span className="text-xs font-black text-on-surface-var uppercase">{m.total}</span>}
+                    <span className="text-5xl font-black tabular-nums" style={{ color: m.color }}>{m.value}</span>
+                    {m.total && <span className="text-sm font-bold text-on-surface-var uppercase">{m.total}</span>}
                   </div>
                 </div>
               ))}
