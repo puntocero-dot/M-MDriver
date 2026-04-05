@@ -82,80 +82,84 @@ function Nav() {
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-      className="fixed top-0 left-0 right-0 z-[100] px-6 py-8 flex justify-center pointer-events-none"
+      className="fixed top-0 left-0 right-0 z-[100] pointer-events-none"
     >
-      <div 
-        className={`w-full max-w-6xl h-20 flex items-center justify-between px-10 rounded-full transition-all duration-500 pointer-events-auto ${
-          scrolled ? "glass shadow-2xl border-white/10" : "bg-transparent"
-        }`}
-      >
-        {/* Logo */}
-        <a href="#" className="flex items-center gap-3 group">
-          <span className="text-gold-vibrant text-3xl font-serif font-black tracking-tighter transition-transform group-hover:scale-105">
-            M&M
-          </span>
-          <span className="text-white text-xl font-medium tracking-[0.2em] uppercase font-sans">
-            Driver
-          </span>
-        </a>
+      <div className="container-page py-8 flex justify-center">
+        <div 
+          className={`w-full max-w-6xl h-20 flex items-center justify-between px-8 md:px-12 rounded-full transition-all duration-700 pointer-events-auto ${
+            scrolled ? "glass shadow-2xl border-white/10" : "bg-transparent"
+          }`}
+        >
+          {/* Logo */}
+          <a href="#" className="flex items-center gap-3 group">
+            <span className="text-gold-vibrant text-3xl font-serif font-black tracking-tighter transition-transform group-hover:scale-105">
+              M&M
+            </span>
+            <span className="text-white text-lg font-medium tracking-[0.25em] uppercase font-sans">
+              Driver
+            </span>
+          </a>
 
-        {/* Desktop links */}
-        <div className="hidden md:flex items-center gap-12">
-          {links.map((l) => (
+          {/* Desktop links */}
+          <div className="hidden md:flex items-center gap-10">
+            {links.map((l) => (
+              <a
+                key={l.href}
+                href={l.href}
+                className="text-on-surface-muted hover:text-gold-vibrant text-[10px] font-bold tracking-[0.25em] uppercase transition-all duration-300 hover:tracking-[0.35em]"
+              >
+                {l.label}
+              </a>
+            ))}
+          </div>
+
+          {/* CTA */}
+          <div className="hidden md:block">
             <a
-              key={l.href}
-              href={l.href}
-              className="text-on-surface-muted hover:text-gold-vibrant text-[11px] font-bold tracking-[0.2em] uppercase transition-all duration-300 hover:tracking-[0.3em]"
+              href="#contact"
+              className="btn-premium !py-2.5 !px-8 rounded-full text-[10px] shadow-gold/20 flex items-center gap-2"
             >
-              {l.label}
+              Reserva Ahora
+              <ChevronRight size={14} strokeWidth={3} />
             </a>
-          ))}
+          </div>
+
+          {/* Mobile burger */}
+          <button
+            className="md:hidden text-white p-2"
+            onClick={() => setOpen(!open)}
+          >
+            {open ? <X size={28} /> : <Menu size={28} />}
+          </button>
         </div>
 
-        {/* CTA */}
-        <a
-          href="#contact"
-          className="hidden md:flex btn-premium items-center gap-3 !py-3 !px-8 rounded-full text-[11px] h-12 shadow-gold/20"
-        >
-          Reserva Ahora
-          <ChevronRight size={16} strokeWidth={2.5} />
-        </a>
-
-        {/* Mobile burger */}
-        <button
-          className="md:hidden text-white p-2"
-          onClick={() => setOpen(!open)}
-        >
-          {open ? <X size={28} /> : <Menu size={28} />}
-        </button>
-      </div>
-
-      {/* Mobile menu */}
-      {open && (
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95, y: 10 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          className="absolute top-24 left-6 right-6 glass rounded-[2rem] p-10 flex flex-col gap-8 md:hidden shadow-2xl border-gold/20 pointer-events-auto"
-        >
-          {links.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              onClick={() => setOpen(false)}
-              className="text-xl font-bold text-white hover:text-gold-vibrant transition-colors"
-            >
-              {l.label}
-            </a>
-          ))}
-          <a
-            href="#contact"
-            className="btn-premium px-6 py-5 rounded-2xl text-sm text-center font-bold"
-            onClick={() => setOpen(false)}
+        {/* Mobile menu */}
+        {open && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: 10 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            className="absolute top-28 left-6 right-6 glass rounded-2xl p-10 flex flex-col gap-8 md:hidden shadow-2xl border-gold/20 pointer-events-auto"
           >
-            Solicitar Conductor
-          </a>
-        </motion.div>
-      )}
+            {links.map((l) => (
+              <a
+                key={l.href}
+                href={l.href}
+                onClick={() => setOpen(false)}
+                className="text-xl font-bold text-white hover:text-gold-vibrant transition-colors"
+              >
+                {l.label}
+              </a>
+            ))}
+            <a
+              href="#contact"
+              className="btn-premium px-6 py-5 rounded-xl text-sm text-center font-bold"
+              onClick={() => setOpen(false)}
+            >
+              Solicitar Conductor
+            </a>
+          </motion.div>
+        )}
+      </div>
     </motion.nav>
   );
 }
@@ -204,7 +208,7 @@ function Hero() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 1, ease: [0.16, 1, 0.3, 1] }}
-              className="text-7xl md:text-9xl font-serif text-white leading-[1] md:leading-[0.95]"
+              className="text-6xl md:text-8xl xl:text-9xl font-serif text-white leading-[1] md:leading-[0.95] tracking-tight"
             >
               Tu Conductor <br />
               <span className="text-gold-glow italic">Privado</span>.
@@ -214,7 +218,7 @@ function Hero() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6, duration: 1 }}
-              className="text-2xl text-on-surface-muted leading-relaxed max-w-3xl border-l-[1px] border-gold/30 pl-10 font-light"
+              className="text-xl md:text-2xl text-on-surface-muted leading-relaxed max-w-3xl border-l-[1px] border-gold/30 pl-8 md:pl-10 font-light"
             >
               Redefiniendo la movilidad premium. Discreción, puntualidad y el estándar más alto en transporte personalizado para la élite de El Salvador.
             </motion.p>
@@ -318,30 +322,35 @@ function Services() {
             <motion.div
               key={s.title}
               variants={fadeUp}
-              className="group relative rounded-[2rem] p-8 flex flex-col gap-6 transition-all duration-700 bg-surface-container/40 border border-white/5 hover:border-gold/40 hover:bg-surface-container hover:-translate-y-2"
+              className="group relative rounded-2xl p-8 flex flex-col gap-6 transition-all duration-500 bg-surface-container border border-white/[0.07] hover:border-gold/30 hover:bg-surface-high hover:-translate-y-1 cursor-pointer"
             >
-              {/* Premium Icon */}
-              <div className="relative w-20 h-20">
-                <div className="absolute inset-0 bg-gold/15 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-                <div
-                  className="relative w-full h-full rounded-[1.5rem] flex items-center justify-center glass border-white/10 transition-all duration-700 group-hover:rounded-full group-hover:rotate-[15deg] group-hover:border-gold/30"
-                  style={{ boxShadow: `0 15px 40px -10px ${s.color}30` }}
-                >
-                  <s.icon size={34} style={{ color: s.color }} strokeWidth={1} className="transition-transform duration-700 group-hover:scale-110 group-hover:-rotate-[15deg]" />
-                </div>
+              {/* Icon — matches reference: small tinted container */}
+              <div
+                className="w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-500 group-hover:scale-105 group-hover:rotate-3"
+                style={{
+                  background: `${s.color}18`,
+                  border: `1px solid ${s.color}28`,
+                }}
+              >
+                <s.icon
+                  size={26}
+                  style={{ color: s.color }}
+                  strokeWidth={1.5}
+                  className="transition-transform duration-500 group-hover:scale-110"
+                />
               </div>
-              
-              <div className="flex flex-col gap-3">
-                <h3 className="text-2xl font-serif text-white tracking-tight leading-tight">
+
+              <div className="flex flex-col gap-3 flex-1">
+                <h3 className="text-xl font-serif font-bold text-white leading-snug">
                   {s.title}
                 </h3>
-                <p className="text-base text-on-surface-muted leading-relaxed font-light">
+                <p className="text-sm text-on-surface-muted leading-relaxed">
                   {s.desc}
                 </p>
               </div>
 
-              <div className="mt-auto flex items-center gap-3 text-[11px] font-bold text-gold tracking-[0.3em] uppercase opacity-40 group-hover:opacity-100 group-hover:translate-x-2 transition-all duration-700">
-                Saber más <ArrowRight size={16} />
+              <div className="flex items-center gap-2 text-[11px] font-bold text-gold tracking-[0.25em] uppercase opacity-40 group-hover:opacity-100 group-hover:translate-x-2 transition-all duration-500">
+                Saber más <ArrowRight size={14} />
               </div>
             </motion.div>
           ))}
@@ -391,15 +400,15 @@ function HowItWorks() {
           {steps.map((step, i) => (
             <FadeIn key={step.num} delay={i * 0.2}>
               <div className="flex flex-col items-center text-center group">
-                <div className="relative mb-10">
-                  <div className="w-44 h-44 rounded-[3.5rem] flex items-center justify-center glass border-white/10 transition-all duration-1000 group-hover:rounded-full group-hover:scale-110 group-hover:border-gold/50 group-hover:bg-gold/5">
-                    <step.icon size={60} className="text-gold transition-all duration-700 group-hover:scale-110 group-hover:rotate-6" strokeWidth={0.5} />
+                <div className="relative mb-14">
+                  <div className="w-40 h-40 rounded-3xl flex items-center justify-center glass border-white/10 transition-all duration-1000 group-hover:rounded-2xl group-hover:scale-105 group-hover:border-gold/50 group-hover:bg-gold/5">
+                    <step.icon size={52} className="text-gold transition-all duration-700 group-hover:scale-110 group-hover:rotate-6" strokeWidth={0.5} />
                   </div>
-                  <span className="absolute -top-5 -right-5 w-16 h-16 rounded-full flex items-center justify-center text-xl font-serif italic font-black bg-gold text-on-primary shadow-2xl border-8 border-surface">
+                  <span className="absolute -top-4 -right-4 w-15 h-15 rounded-full flex items-center justify-center text-lg font-serif italic font-black bg-gold text-on-primary shadow-2xl border-[6px] border-surface">
                     {step.num}
                   </span>
                 </div>
-                <h3 className="text-3xl font-serif text-white mb-5 group-hover:text-gold transition-colors duration-500">
+                <h3 className="text-3xl font-serif text-white mb-6 group-hover:text-gold transition-colors duration-500">
                   {step.title}
                 </h3>
                 <p className="text-lg text-on-surface-muted leading-relaxed font-light max-w-[300px]">
@@ -450,17 +459,23 @@ function Fleet() {
             Superamos estándares diplomáticos. Especialistas en logística crítica para la élite.
           </p>
 
-          <div className="grid gap-20">
+          <div className="grid gap-14">
             {features.map((f, i) => (
-              <FadeIn key={f.title} delay={i * 0.15} className="flex gap-12 group">
-                <div className="w-24 h-24 rounded-3xl flex-shrink-0 flex items-center justify-center bg-surface-container border border-white/5 transition-all duration-500 group-hover:border-gold/50 group-hover:bg-surface-high group-hover:rotate-3">
-                  <f.icon size={42} className="text-gold" strokeWidth={0.6} />
+              <FadeIn key={f.title} delay={i * 0.15} className="flex gap-10 group">
+                <div 
+                  className="w-14 h-14 rounded-xl flex-shrink-0 flex items-center justify-center transition-all duration-500 group-hover:scale-105 group-hover:rotate-3"
+                  style={{
+                    background: `rgba(207, 161, 46, 0.1)`,
+                    border: `1px solid rgba(207, 161, 46, 0.2)`,
+                  }}
+                >
+                  <f.icon size={26} className="text-gold transition-transform duration-500 group-hover:scale-110" strokeWidth={1.5} />
                 </div>
-                <div className="flex flex-col gap-4">
-                  <h4 className="text-4xl font-serif text-white group-hover:text-gold transition-colors duration-500">
+                <div className="flex flex-col gap-3">
+                  <h4 className="text-2xl font-serif text-white group-hover:text-gold transition-colors duration-500 font-bold">
                     {f.title}
                   </h4>
-                  <p className="text-xl text-on-surface-muted leading-relaxed font-light">
+                  <p className="text-lg text-on-surface-muted leading-relaxed font-light">
                     {f.desc}
                   </p>
                 </div>
@@ -473,26 +488,26 @@ function Fleet() {
         <FadeIn delay={0.3} className="w-full lg:w-2/5 relative h-full flex flex-col justify-center mt-20 lg:mt-0">
           <div className="absolute inset-0 bg-gold/5 blur-[150px] rounded-full pointer-events-none" />
           
-          <div className="relative glass rounded-[4rem] p-16 border-white/10 shadow-2xl overflow-hidden group">
+          <div className="relative glass rounded-2xl p-8 md:p-12 border-white/10 shadow-2xl overflow-hidden group">
             <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/40 to-transparent" />
             
-            <h3 className="text-2xl font-serif text-white mb-16 flex items-center gap-6">
-              <span className="w-3 h-3 rounded-full bg-gold animate-pulse" />
+            <h3 className="text-xl font-serif text-white mb-10 flex items-center gap-4">
+              <span className="w-2 h-2 rounded-full bg-gold animate-pulse" />
               Live Intelligence
             </h3>
 
-            <div className="flex flex-col gap-10">
+            <div className="flex flex-col gap-4">
               {[
                 { label: "Elite Drivers Active", value: "05", total: "/ 12", color: "var(--success)" },
                 { label: "Successful Missions", value: "18", total: "", color: "var(--gold-vibrant)" },
                 { label: "Response Window", value: "08", total: "min", color: "var(--info)" },
                 { label: "Satisfaction Index", value: "4.99", total: "★", color: "var(--gold-vibrant)" },
               ].map((m) => (
-                <div key={m.label} className="flex items-center justify-between py-8 border-b border-white/10 last:border-0 hover:bg-white/[0.03] px-6 rounded-[2.5rem] transition-all duration-500">
-                  <span className="text-[12px] font-bold text-on-surface-muted uppercase tracking-[0.3em] font-sans">{m.label}</span>
+                <div key={m.label} className="flex items-center justify-between py-6 px-6 rounded-xl border border-white/5 hover:bg-white/[0.03] hover:border-white/10 transition-all duration-500">
+                  <span className="text-[10px] font-bold text-on-surface-muted uppercase tracking-[0.2em] font-sans">{m.label}</span>
                   <div className="flex items-baseline gap-2">
-                    <span className="text-5xl font-black tabular-nums" style={{ color: m.color }}>{m.value}</span>
-                    {m.total && <span className="text-sm font-bold text-on-surface-var uppercase">{m.total}</span>}
+                    <span className="text-4xl font-black tabular-nums" style={{ color: m.color }}>{m.value}</span>
+                    {m.total && <span className="text-[10px] font-bold text-on-surface-var uppercase">{m.total}</span>}
                   </div>
                 </div>
               ))}

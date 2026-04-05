@@ -40,7 +40,7 @@
 
 @media (min-width: 768px) {
   :root {
-    --section-padding:  7rem;
+    --section-padding:  6rem;
   }
 }
 
@@ -54,6 +54,7 @@ html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   scroll-padding-top: var(--navbar-height);
+  scrollbar-gutter: stable;
 }
 
 body {
@@ -106,17 +107,17 @@ h1, h2, h3, h4, h5, h6 {
   font-family: "Jost", sans-serif;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.15em;
-  box-shadow: 0 15px 30px -5px rgba(207, 161, 46, 0.4);
-  /* Larger default scale to match typography */
-  padding: 1.25rem 3rem;
-  font-size: 0.9rem;
+  letter-spacing: 0.2em;
+  box-shadow: 0 10px 30px -10px rgba(207, 161, 46, 0.4);
+  padding: 1.1rem 2.8rem;
+  font-size: 0.85rem;
+  border-radius: 9999px; /* Standard pill shape */
 }
 
 .btn-premium:hover {
   @apply -translate-y-1 shadow-2xl;
   filter: brightness(1.05);
-  box-shadow: 0 20px 40px -10px rgba(207, 161, 46, 0.6);
+  box-shadow: 0 20px 40px -10px rgba(207, 161, 46, 0.5);
 }
 
 .btn-outline-premium {
@@ -127,9 +128,10 @@ h1, h2, h3, h4, h5, h6 {
   font-family: "Jost", sans-serif;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.15em;
-  padding: 1.25rem 3rem;
-  font-size: 0.9rem;
+  letter-spacing: 0.2em;
+  padding: 1.1rem 2.8rem;
+  font-size: 0.85rem;
+  border-radius: 9999px;
 }
 
 .btn-outline-premium:hover {
