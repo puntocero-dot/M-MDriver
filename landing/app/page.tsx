@@ -127,7 +127,7 @@ function Nav() {
           {/* CTA */}
           <div className="hidden md:block">
             <a
-              href="#contact"
+              href="#reserva"
               className="btn-premium !py-2.5 !px-8 rounded-full text-[10px] shadow-gold/20 flex items-center gap-2"
             >
               Reserva Ahora
@@ -162,7 +162,7 @@ function Nav() {
               </a>
             ))}
             <a
-              href="#contact"
+              href="#reserva"
               className="btn-premium px-6 py-5 rounded-xl text-sm text-center font-bold"
               onClick={() => setOpen(false)}
             >
@@ -741,10 +741,10 @@ function BookingSection() {
                     <div className="flex items-end justify-between">
                       <div>
                         <p className="text-5xl font-black text-white tabular-nums">
-                          ${quote.estimatedPrice.toFixed(2)}
+                          ${(quote?.estimatedPrice ?? 0).toFixed(2)}
                         </p>
                         <p className="text-sm text-on-surface-muted mt-1">
-                          {quote.currency} · {(quote.estimatedDistanceMeters / 1000).toFixed(1)} km · ~{Math.round(quote.estimatedDurationSeconds / 60)} min
+                          {quote?.currency ?? "USD"} · {((quote?.estimatedDistanceMeters ?? 0) / 1000).toFixed(1)} km · ~{Math.round((quote?.estimatedDurationSeconds ?? 0) / 60)} min
                         </p>
                       </div>
                       <CheckCircle size={40} className="text-gold opacity-60" />
@@ -811,7 +811,7 @@ function BookingSection() {
                       {pickup} → {dropoff}
                     </span>
                     <span className="text-xl font-black text-gold">
-                      ${quote.estimatedPrice.toFixed(2)}
+                      ${(quote?.estimatedPrice ?? 0).toFixed(2)}
                     </span>
                   </div>
                 )}

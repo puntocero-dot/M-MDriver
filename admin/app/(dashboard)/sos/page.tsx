@@ -162,7 +162,7 @@ function AlertCard({ alert, onAcknowledge, onResolve }: AlertCardProps) {
       >
         <MapPin className="w-3.5 h-3.5 group-hover:text-blue-400" />
         <span className="font-mono">
-          {alert.lat.toFixed(6)}, {alert.lng.toFixed(6)}
+          {(alert.lat ?? 0).toFixed(6)}, {(alert.lng ?? 0).toFixed(6)}
         </span>
         <span className="text-blue-500 underline underline-offset-2">Ver en Google Maps</span>
       </a>

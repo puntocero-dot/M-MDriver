@@ -231,7 +231,7 @@ export default function DriversPage() {
                     <td className="px-4 py-3 hidden sm:table-cell">
                       <div className="flex items-center gap-1.5">
                         <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
-                        <span className="font-semibold text-white">{Number(driver.ratingAvg).toFixed(1)}</span>
+                        <span className="font-semibold text-white">{(Number(driver.ratingAvg) || 0).toFixed(1)}</span>
                       </div>
                     </td>
                     <td className="px-4 py-3 hidden sm:table-cell">
@@ -333,7 +333,7 @@ export default function DriversPage() {
                           {trip.shortId}
                         </span>
                         <span className="text-slate-400 text-xs">{trip.client?.name ?? "—"}</span>
-                        <span className="ml-auto text-white font-semibold text-xs">${Number(trip.quotedPrice).toFixed(2)}</span>
+                        <span className="ml-auto text-white font-semibold text-xs">${(Number(trip.quotedPrice) || 0).toFixed(2)}</span>
                       </div>
                       <p className="text-slate-300 text-xs mt-1 truncate">{trip.pickupAddress}</p>
                       <p className="text-slate-500 text-xs truncate">→ {trip.dropoffAddress}</p>

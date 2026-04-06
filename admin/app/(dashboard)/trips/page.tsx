@@ -182,7 +182,7 @@ export default function TripsPage() {
                     </td>
                     <td className="px-4 py-3 hidden sm:table-cell">
                       <span className="font-semibold text-white">
-                        ${Number(trip.finalPrice ?? trip.quotedPrice).toFixed(2)}
+                        ${(Number(trip.finalPrice ?? trip.quotedPrice) || 0).toFixed(2)}
                       </span>
                     </td>
                     <td className="px-4 py-3 hidden lg:table-cell text-slate-400 text-xs">
