@@ -131,28 +131,19 @@ function Nav() {
                 {l.label}
               </a>
             ))}
-            {isAuthenticated() ? (
-              <button
-                onClick={() => { clearAuth(); window.location.reload(); }}
-                className="text-red-400/70 hover:text-red-400 text-[10px] font-bold tracking-[0.25em] uppercase transition-all duration-300"
-              >
-                Cerrar Sesión
-              </button>
-            ) : (
-              <a
-                href="/login"
-                className="text-gold/70 hover:text-gold text-[10px] font-bold tracking-[0.25em] uppercase transition-all duration-300"
-              >
-                Iniciar Sesión
-              </a>
-            )}
             
             <button
               onClick={() => (window as any).toggleDownloadModal?.()}
-              className="px-6 py-2 rounded-full border border-gold/30 text-gold hover:bg-gold hover:text-black text-[9px] font-bold tracking-[0.2em] uppercase transition-all duration-500"
+              className="text-gold/80 hover:text-gold text-[10px] font-bold tracking-[0.25em] uppercase transition-all duration-300 px-4 py-1.5 rounded-full border border-gold/20 hover:border-gold/50"
             >
-              Descargar App
+              App
             </button>
+            <a
+              href="/login"
+              className="text-white/60 hover:text-white text-[10px] font-bold tracking-[0.25em] uppercase transition-all duration-300"
+            >
+              {isAuthenticated() ? "Miperfil" : "Ingresar"}
+            </a>
           </div>
 
           {/* CTA */}
@@ -816,21 +807,13 @@ function BookingSection() {
                     <button
                       id="btn-proceed-register"
                       onClick={() => setStep("register")}
-                      className="flex-1 btn-outline-premium flex items-center justify-center gap-2"
+                      className="flex-1 btn-premium flex items-center justify-center gap-2"
                     >
-                      Reservar
+                      Reservar Ahora
                       <ArrowRight size={16} />
                     </button>
                   )}
                 </div>
-                
-                <button
-                  onClick={() => (window as any).toggleDownloadModal?.()}
-                  className="flex-1 px-8 py-5 rounded-[2rem] border border-white/10 hover:border-gold/30 text-white hover:text-gold text-[11px] font-bold tracking-[0.3em] uppercase transition-all duration-500 flex items-center justify-center gap-3 group"
-                >
-                  <Smartphone size={18} className="group-hover:scale-110 transition-transform" />
-                  Descargar App
-                </button>
               </motion.div>
             )}
 
@@ -845,29 +828,15 @@ function BookingSection() {
                 style={{ border: "1px solid rgba(255,255,255,0.06)" }}
               >
                 <div className="flex items-center justify-between mb-2">
-                  <h3 className="text-2xl font-serif text-white">Crear Cuenta</h3>
+                  <h3 className="text-3xl font-serif text-white">Crear Cuenta</h3>
                   <button
                     onClick={() => setStep("quote")}
-                    className="text-on-surface-muted hover:text-white transition-colors text-sm"
+                    className="flex items-center gap-2 text-gold/60 hover:text-gold text-[10px] font-bold uppercase tracking-widest transition-all"
                   >
                     ← Volver
                   </button>
                 </div>
-
-                {/* Cost reminder */}
-                {quote && (
-                  <div
-                    className="flex items-center justify-between rounded-xl px-5 py-3 border border-gold/20"
-                    style={{ background: "rgba(207,161,46,0.05)" }}
-                  >
-                    <span className="text-xs text-on-surface-muted">
-                      {pickup} → {dropoff}
-                    </span>
-                    <span className="text-xl font-black text-gold">
-                      ${(quote?.estimatedPrice ?? 0).toFixed(2)}
-                    </span>
-                  </div>
-                )}
+                <p className="text-on-surface-muted text-xs mb-4">Ingrese sus datos para confirmar su reserva.</p>
 
                 <div className="grid grid-cols-2 gap-4">
                   {[

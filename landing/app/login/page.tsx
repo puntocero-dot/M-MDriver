@@ -70,14 +70,14 @@ export default function LoginPage() {
           <span className="text-[10px] font-bold tracking-[0.2em] uppercase">Volver al Inicio</span>
         </button>
 
-        <div className="glass rounded-[2.5rem] p-10 border border-white/5 shadow-2xl relative">
-          <div className="absolute -top-12 left-1/2 -translate-x-1/2 w-24 h-24 rounded-3xl bg-gold flex items-center justify-center shadow-2xl shadow-gold/20 border-[6px] border-[#0A1121]">
-            <ShieldCheck size={40} className="text-[#0A1121]" strokeWidth={1.5} />
+        <div className="glass rounded-[2.5rem] p-8 md:p-12 border border-white/10 shadow-2xl relative">
+          <div className="absolute -top-12 left-1/2 -translate-x-1/2 w-24 h-24 rounded-3xl bg-gold flex items-center justify-center shadow-2xl shadow-gold/30 border-[6px] border-[#0A1121]">
+            <ShieldCheck size={44} className="text-[#0A1121]" strokeWidth={1} />
           </div>
 
-          <div className="mt-10 mb-10 text-center">
-            <h1 className="text-3xl font-serif text-white mb-2 tracking-tight">Bienvenido</h1>
-            <p className="text-[10px] font-bold tracking-[0.3em] uppercase text-gold/60">Servicio de Protocolo Privado</p>
+          <div className="mt-20 mb-10 text-center">
+            <h1 className="text-4xl font-serif text-white mb-2 tracking-tight">Bienvenido</h1>
+            <p className="text-[10px] font-bold tracking-[0.4em] uppercase text-gold/60">Servicio de Protocolo Privado</p>
           </div>
 
           <form onSubmit={handleLogin} className="flex flex-col gap-6">
