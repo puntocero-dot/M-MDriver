@@ -9,7 +9,7 @@ class ApiClient {
 
   static const String _baseUrl = String.fromEnvironment(
     'API_BASE_URL',
-    defaultValue: 'https://api.mmdriver.com/v1',
+    defaultValue: 'https://m-mdriver-production.up.railway.app/api/v1',
   );
 
   static final Dio _instance = _build();

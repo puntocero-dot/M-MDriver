@@ -21,6 +21,10 @@ import {
   CheckCircle,
   Loader2,
   ChevronDown,
+  LogIn,
+  Smartphone,
+  Apple,
+  PlayCircle
 } from "lucide-react";
 import {
   calculateQuote,
@@ -1163,6 +1167,66 @@ function TripHistory() {
   );
 }
 
+// ── App Download Section ───────────────────────────────────────────────────
+
+function AppDownloadSection() {
+  return (
+    <section className="bg-[#0A1628] py-32 relative overflow-hidden">
+      <div className="absolute inset-0 z-0 opacity-10 pointer-events-none">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1200px] h-[1200px] rounded-full bg-gold/10 blur-[150px]" />
+      </div>
+
+      <div className="container-page relative z-10">
+        <div className="max-w-4xl mx-auto text-center mb-16">
+          <FadeIn>
+            <h2 className="text-5xl font-serif text-white mb-6">M&M Driver en tu Bolsillo</h2>
+            <p className="text-lg text-on-surface-muted leading-relaxed">
+              Lleva la experiencia de protocolo privado a donde quiera que vayas. 
+              Seguimiento en vivo, notificaciones instantáneas y seguridad total.
+            </p>
+          </FadeIn>
+        </div>
+
+        <div className="flex flex-col md:flex-row items-center justify-center gap-8">
+          {/* Android Button */}
+          <FadeIn delay={0.2}>
+            <a 
+              href="/downloads/mm-driver.apk" 
+              className="group flex items-center gap-4 bg-white/5 border border-white/10 hover:border-gold/50 transition-all p-6 rounded-[2rem] w-full max-w-[320px] shadow-2xl hover:shadow-gold/10"
+            >
+              <div className="w-14 h-14 rounded-2xl bg-gold flex items-center justify-center text-[#0A1628] shadow-lg shadow-gold/20">
+                <PlayCircle size={32} fill="currentColor" />
+              </div>
+              <div className="text-left">
+                <p className="text-[10px] font-bold tracking-[0.2em] text-gold/60 uppercase mb-1">Disponible en</p>
+                <p className="text-xl font-bold text-white tracking-tight">Android (APK)</p>
+              </div>
+            </a>
+          </FadeIn>
+
+          {/* iOS Button */}
+          <FadeIn delay={0.4}>
+            <div className="group flex items-center gap-4 bg-white/5 border border-white/10 p-6 rounded-[2rem] w-full max-w-[320px] opacity-70 cursor-not-allowed">
+              <div className="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center text-white/40">
+                <Apple size={32} fill="currentColor" />
+              </div>
+              <div className="text-left">
+                <p className="text-[10px] font-bold tracking-[0.2em] text-on-surface-muted uppercase mb-1">Próximamente en</p>
+                <p className="text-xl font-bold text-white/50 tracking-tight">App Store</p>
+              </div>
+            </div>
+          </FadeIn>
+        </div>
+
+        <div className="mt-16 text-center text-xs text-on-surface-var flex items-center justify-center gap-2">
+          <Smartphone size={14} className="text-gold opacity-50" />
+          <span>Requiere Android 8.0+ para la mejor experiencia.</span>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 // ── Main Page Layout ──────────────────────────────────────────────────────────
 
 export default function LandingPage() {
@@ -1175,6 +1239,7 @@ export default function LandingPage() {
       <Fleet />
       <BookingSection />
       <TripHistory />
+      <AppDownloadSection />
       <BigCTA />
       <Footer />
     </div>
