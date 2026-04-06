@@ -35,7 +35,8 @@ export class N1coService implements PaymentGateway {
     private readonly httpService: HttpService,
     private readonly configService: ConfigService,
   ) {
-    this.baseUrl = this.configService.get<string>('n1co.apiUrl') ?? 'https://api.n1co.com';
+    this.baseUrl =
+      this.configService.get<string>('n1co.apiUrl') ?? 'https://api.n1co.com';
     this.apiKey = this.configService.get<string>('n1co.apiKey') ?? '';
     this.merchantId = this.configService.get<string>('n1co.merchantId') ?? '';
 

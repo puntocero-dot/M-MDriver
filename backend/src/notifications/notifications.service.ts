@@ -17,7 +17,9 @@ export class NotificationsService {
     // Initialize Firebase Admin SDK only once (singleton pattern)
     if (!admin.apps.length) {
       const projectId = this.configService.get<string>('firebase.projectId');
-      const clientEmail = this.configService.get<string>('firebase.clientEmail');
+      const clientEmail = this.configService.get<string>(
+        'firebase.clientEmail',
+      );
       const privateKey = this.configService
         .get<string>('firebase.privateKey')
         ?.replace(/\\n/g, '\n');

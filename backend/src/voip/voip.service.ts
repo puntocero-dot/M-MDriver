@@ -110,9 +110,7 @@ export class VoipService {
     if (!this.plivoClient) {
       savedCall.status = VoipCallStatus.FAILED;
       await this.voipCallRepository.save(savedCall);
-      throw new BadRequestException(
-        'VoIP no está configurado en este entorno',
-      );
+      throw new BadRequestException('VoIP no está configurado en este entorno');
     }
 
     try {

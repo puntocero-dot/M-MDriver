@@ -15,7 +15,7 @@ const METERS_PER_KM = 1000;
 const SECONDS_PER_MINUTE = 60;
 
 @Injectable()
-export class QuoterService {
+export class QuoterService implements OnModuleInit {
   private readonly logger = new Logger(QuoterService.name);
 
   constructor(
@@ -38,14 +38,14 @@ export class QuoterService {
       );
       const defaultConfig = this.pricingConfigRepository.create({
         name: 'Tarifa Base M&M Driver 2026',
-        baseFare: 5.00,
+        baseFare: 5.0,
         perKmRate: 0.85,
         perMinuteRate: 0.25,
-        perStopSurcharge: 2.00,
+        perStopSurcharge: 2.0,
         waitTimePerMinute: 0.15,
-        minimumFare: 8.00,
-        fuelFactor: 1.000,
-        companyVehicleSurcharge: 3.00,
+        minimumFare: 8.0,
+        fuelFactor: 1.0,
+        companyVehicleSurcharge: 3.0,
         isActive: true,
         effectiveFrom: new Date(),
       });
