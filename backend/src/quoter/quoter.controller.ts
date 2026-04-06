@@ -14,6 +14,7 @@ import { QuoteResponseDto } from './dto/quote-response.dto';
 import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
 import { RolesGuard } from '../common/guards/roles.guard';
 import { Roles } from '../common/decorators/roles.decorator';
+import { Public } from '../common/decorators/public.decorator';
 import { Role } from '../common/enums/role.enum';
 
 @ApiTags('Cotizador')
@@ -25,6 +26,7 @@ export class QuoterController {
 
   @Post('quote')
   @HttpCode(HttpStatus.OK)
+  @Public()
   @Roles(Role.CLIENT, Role.SUPERVISOR, Role.SUPERADMIN)
   @Throttle({ default: { limit: 30, ttl: 60000 } })
   @ApiOperation({ summary: 'Calcular cotización de viaje' })

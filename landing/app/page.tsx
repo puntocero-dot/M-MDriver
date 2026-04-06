@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion, useInView, useScroll, useTransform, Variants } from "framer-motion";
+import { motion, AnimatePresence, useInView, useScroll, useTransform, Variants } from "framer-motion";
 import {
   Car,
   Shield,
@@ -17,7 +17,17 @@ import {
   Briefcase,
   Globe,
   HeadphonesIcon,
+  Calculator,
+  CheckCircle,
+  Loader2,
+  ChevronDown,
 } from "lucide-react";
+import {
+  calculateQuote,
+  registerClient,
+  createTrip,
+  type QuoteResponse,
+} from "../lib/api";
 
 // ── Animation helpers ─────────────────────────────────────────────────────────
 
@@ -74,6 +84,7 @@ function Nav() {
     { label: "Servicios", href: "#services" },
     { label: "Cómo funciona", href: "#how" },
     { label: "Flota", href: "#fleet" },
+    { label: "Reservar", href: "#reserva" },
     { label: "Contacto", href: "#contact" },
   ];
 
@@ -230,7 +241,7 @@ function Hero() {
             transition={{ delay: 0.8, duration: 0.8 }}
             className="flex flex-col sm:flex-row gap-8"
           >
-            <a href="#contact" className="btn-premium">
+            <a href="#reserva" className="btn-premium">
               Comenzar Reserva
             </a>
             <a href="#how" className="btn-outline-premium">
@@ -518,6 +529,423 @@ function Fleet() {
   );
 }
 
+// ── Booking / Quote Section ───────────────────────────────────────────────────
+
+// Predefined landmark locations in El Salvador for the dropdown
+const LOCATIONS = [
+  { label: "Aeropuerto Internacional", lat: 13.4408, lng: -89.0555 },
+  { label: "Centro Histórico, San Salvador", lat: 13.6929, lng: -89.2182 },
+  { label: "Multiplaza", lat: 13.6786, lng: -89.2507 },
+  { label: "Metrocentro", lat: 13.7000, lng: -89.2244 },
+  { label: "Hospital de Diagnóstico", lat: 13.6964, lng: -89.2176 },
+  { label: "Hospital Bloom", lat: 13.7026, lng: -89.2090 },
+  { label: "Zona Rosa", lat: 13.6840, lng: -89.2430 },
+  { label: "Aeropuerto Ilopango", lat: 13.6985, lng: -89.1196 },
+  { label: "Santa Ana Centro", lat: 13.9952, lng: -89.5590 },
+  { label: "San Miguel Centro", lat: 13.4792, lng: -88.1792 },
+];
+
+type Step = "quote" | "register" | "success";
+
+function SelectInput({
+  label,
+  value,
+  onChange,
+  id,
+}: {
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+  id: string;
+}) {
+  return (
+    <div className="flex flex-col gap-2">
+      <label
+        htmlFor={id}
+        className="text-[10px] font-bold tracking-[0.25em] uppercase text-on-surface-muted"
+      >
+        {label}
+      </label>
+      <div className="relative">
+        <select
+          id={id}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          className="w-full appearance-none rounded-xl px-5 py-4 pr-10 text-sm font-medium text-white bg-white/5 border border-white/10 focus:outline-none focus:border-gold/60 transition-all duration-300"
+          style={{ backgroundColor: "rgba(255,255,255,0.04)" }}
+        >
+          <option value="" disabled style={{ background: "#0D1B35" }}>
+            Seleccionar ubicación…
+          </option>
+          {LOCATIONS.map((loc) => (
+            <option key={loc.label} value={loc.label} style={{ background: "#0D1B35" }}>
+              {loc.label}
+            </option>
+          ))}
+        </select>
+        <ChevronDown
+          size={16}
+          className="absolute right-4 top-1/2 -translate-y-1/2 text-gold pointer-events-none"
+        />
+      </div>
+    </div>
+  );
+}
+
+function BookingSection() {
+  const [step, setStep] = useState<Step>("quote");
+  const [pickup, setPickup] = useState("");
+  const [dropoff, setDropoff] = useState("");
+  const [quote, setQuote] = useState<QuoteResponse | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [token, setToken] = useState("");
+
+  // Register form fields
+  const [form, setForm] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    password: "",
+  });
+
+  const pickupObj = LOCATIONS.find((l) => l.label === pickup);
+  const dropoffObj = LOCATIONS.find((l) => l.label === dropoff);
+
+  async function handleQuote() {
+    if (!pickupObj || !dropoffObj) {
+      setError("Selecciona origen y destino para cotizar.");
+      return;
+    }
+    setError("");
+    setLoading(true);
+    try {
+      const result = await calculateQuote({
+        pickupLat: pickupObj.lat,
+        pickupLng: pickupObj.lng,
+        dropoffLat: dropoffObj.lat,
+        dropoffLng: dropoffObj.lng,
+      });
+      setQuote(result);
+    } catch (err: unknown) {
+      setError((err as Error).message ?? "Error al calcular cotización.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function handleRegisterAndBook() {
+    if (!quote || !pickupObj || !dropoffObj) return;
+    setError("");
+    setLoading(true);
+    try {
+      // 1. Register
+      const auth = await registerClient({ ...form });
+      setToken(auth.accessToken);
+
+      // 2. Create trip
+      await createTrip(
+        {
+          pickupAddress: pickup,
+          dropoffAddress: dropoff,
+          pickupLat: pickupObj.lat,
+          pickupLng: pickupObj.lng,
+          dropoffLat: dropoffObj.lat,
+          dropoffLng: dropoffObj.lng,
+          quotedPrice: quote.estimatedFare,
+        },
+        auth.accessToken
+      );
+      setStep("success");
+    } catch (err: unknown) {
+      setError(
+        (err as Error).message ??
+          "Error al procesar la reserva. Verifique sus datos."
+      );
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <section id="reserva" className="bg-surface-low relative overflow-hidden">
+      {/* Gold ambient glow */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(ellipse 80% 50% at 50% 100%, rgba(207,161,46,0.06) 0%, transparent 100%)",
+        }}
+      />
+
+      <div className="container-page">
+        <FadeIn className="text-center mb-20">
+          <div className="flex items-center justify-center gap-4 mb-6">
+            <div className="h-[1px] w-12 bg-gold/40" />
+            <span className="text-[10px] font-black tracking-[0.6em] uppercase text-gold">
+              Cotizador Ejecutivo
+            </span>
+            <div className="h-[1px] w-12 bg-gold/40" />
+          </div>
+          <h2 className="text-5xl md:text-7xl font-serif text-white mb-8">
+            Su viaje,{" "}
+            <span className="text-gold-glow italic">en segundos</span>.
+          </h2>
+          <p className="text-on-surface-muted text-xl max-w-2xl mx-auto font-light">
+            Obtenga una cotización precisa al instante y reserve su conductor privado ahora mismo.
+          </p>
+        </FadeIn>
+
+        <div className="max-w-2xl mx-auto">
+          <AnimatePresence mode="wait">
+            {step === "quote" && (
+              <motion.div
+                key="quote"
+                initial={{ opacity: 0, y: 24 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -24 }}
+                transition={{ duration: 0.4 }}
+                className="glass rounded-3xl p-10 border border-white/8 flex flex-col gap-8"
+                style={{ border: "1px solid rgba(255,255,255,0.06)" }}
+              >
+                <SelectInput
+                  id="pickup-location"
+                  label="Origen"
+                  value={pickup}
+                  onChange={setPickup}
+                />
+                <SelectInput
+                  id="dropoff-location"
+                  label="Destino"
+                  value={dropoff}
+                  onChange={setDropoff}
+                />
+
+                {error && (
+                  <p className="text-red-400 text-sm font-medium text-center">
+                    {error}
+                  </p>
+                )}
+
+                {quote && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="rounded-2xl border border-gold/20 p-6"
+                    style={{ background: "rgba(207,161,46,0.05)" }}
+                  >
+                    <p className="text-[10px] font-bold tracking-[0.3em] uppercase text-gold/70 mb-4">
+                      Cotización Estimada
+                    </p>
+                    <div className="flex items-end justify-between">
+                      <div>
+                        <p className="text-5xl font-black text-white tabular-nums">
+                          ${quote.estimatedFare.toFixed(2)}
+                        </p>
+                        <p className="text-sm text-on-surface-muted mt-1">
+                          {quote.currency} · {quote.estimatedDistance.toFixed(1)} km · ~{quote.estimatedDurationMinutes} min
+                        </p>
+                      </div>
+                      <CheckCircle size={40} className="text-gold opacity-60" />
+                    </div>
+                  </motion.div>
+                )}
+
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <button
+                    id="btn-quote"
+                    onClick={handleQuote}
+                    disabled={loading}
+                    className="flex-1 btn-premium flex items-center justify-center gap-3 disabled:opacity-60"
+                  >
+                    {loading ? (
+                      <Loader2 size={18} className="animate-spin" />
+                    ) : (
+                      <Calculator size={18} />
+                    )}
+                    {loading ? "Calculando…" : "Cotizar Ahora"}
+                  </button>
+
+                  {quote && (
+                    <button
+                      id="btn-proceed-register"
+                      onClick={() => setStep("register")}
+                      className="flex-1 btn-outline-premium flex items-center justify-center gap-2"
+                    >
+                      Reservar
+                      <ArrowRight size={16} />
+                    </button>
+                  )}
+                </div>
+              </motion.div>
+            )}
+
+            {step === "register" && (
+              <motion.div
+                key="register"
+                initial={{ opacity: 0, y: 24 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -24 }}
+                transition={{ duration: 0.4 }}
+                className="glass rounded-3xl p-10 flex flex-col gap-6"
+                style={{ border: "1px solid rgba(255,255,255,0.06)" }}
+              >
+                <div className="flex items-center justify-between mb-2">
+                  <h3 className="text-2xl font-serif text-white">Crear Cuenta</h3>
+                  <button
+                    onClick={() => setStep("quote")}
+                    className="text-on-surface-muted hover:text-white transition-colors text-sm"
+                  >
+                    ← Volver
+                  </button>
+                </div>
+
+                {/* Cost reminder */}
+                {quote && (
+                  <div
+                    className="flex items-center justify-between rounded-xl px-5 py-3 border border-gold/20"
+                    style={{ background: "rgba(207,161,46,0.05)" }}
+                  >
+                    <span className="text-xs text-on-surface-muted">
+                      {pickup} → {dropoff}
+                    </span>
+                    <span className="text-xl font-black text-gold">
+                      ${quote.estimatedFare.toFixed(2)}
+                    </span>
+                  </div>
+                )}
+
+                <div className="grid grid-cols-2 gap-4">
+                  {[
+                    { id: "firstName", label: "Nombre", type: "text", key: "firstName" as const },
+                    { id: "lastName", label: "Apellido", type: "text", key: "lastName" as const },
+                  ].map((field) => (
+                    <div key={field.id} className="flex flex-col gap-2">
+                      <label
+                        htmlFor={field.id}
+                        className="text-[10px] font-bold tracking-[0.25em] uppercase text-on-surface-muted"
+                      >
+                        {field.label}
+                      </label>
+                      <input
+                        id={field.id}
+                        type={field.type}
+                        value={form[field.key]}
+                        onChange={(e) =>
+                          setForm((f) => ({ ...f, [field.key]: e.target.value }))
+                        }
+                        className="rounded-xl px-4 py-3 text-sm text-white bg-white/5 border border-white/10 focus:outline-none focus:border-gold/60 transition-all"
+                        placeholder={field.label}
+                      />
+                    </div>
+                  ))}
+                </div>
+
+                {[
+                  { id: "email", label: "Email", type: "email", key: "email" as const, placeholder: "su@email.com" },
+                  { id: "phone", label: "Teléfono", type: "tel", key: "phone" as const, placeholder: "+503 XXXX XXXX" },
+                  { id: "password", label: "Contraseña", type: "password", key: "password" as const, placeholder: "Mínimo 8 caracteres" },
+                ].map((field) => (
+                  <div key={field.id} className="flex flex-col gap-2">
+                    <label
+                      htmlFor={field.id}
+                      className="text-[10px] font-bold tracking-[0.25em] uppercase text-on-surface-muted"
+                    >
+                      {field.label}
+                    </label>
+                    <input
+                      id={field.id}
+                      type={field.type}
+                      value={form[field.key]}
+                      onChange={(e) =>
+                        setForm((f) => ({ ...f, [field.key]: e.target.value }))
+                      }
+                      className="rounded-xl px-4 py-3 text-sm text-white bg-white/5 border border-white/10 focus:outline-none focus:border-gold/60 transition-all"
+                      placeholder={field.placeholder}
+                    />
+                  </div>
+                ))}
+
+                {error && (
+                  <p className="text-red-400 text-sm font-medium text-center">
+                    {error}
+                  </p>
+                )}
+
+                <button
+                  id="btn-confirm-booking"
+                  onClick={handleRegisterAndBook}
+                  disabled={loading}
+                  className="btn-premium flex items-center justify-center gap-3 disabled:opacity-60"
+                >
+                  {loading ? (
+                    <Loader2 size={18} className="animate-spin" />
+                  ) : (
+                    <CheckCircle size={18} />
+                  )}
+                  {loading ? "Procesando..." : "Confirmar Reserva"}
+                </button>
+              </motion.div>
+            )}
+
+            {step === "success" && (
+              <motion.div
+                key="success"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                className="glass rounded-3xl p-12 text-center flex flex-col items-center gap-8"
+                style={{ border: "1px solid rgba(207,161,46,0.2)" }}
+              >
+                <motion.div
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+                  className="w-24 h-24 rounded-full flex items-center justify-center"
+                  style={{ background: "rgba(207,161,46,0.15)", border: "1px solid rgba(207,161,46,0.3)" }}
+                >
+                  <CheckCircle size={48} className="text-gold" />
+                </motion.div>
+
+                <div>
+                  <h3 className="text-4xl font-serif text-white mb-4">
+                    ¡Reserva Confirmada!
+                  </h3>
+                  <p className="text-on-surface-muted text-lg font-light">
+                    Su conductor privado ha sido asignado. Recibirá una confirmación por email.
+                  </p>
+                </div>
+
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <a
+                    href="https://wa.me/50300000000"
+                    className="btn-premium flex items-center gap-2"
+                  >
+                    <Phone size={16} /> Contactar Concierge
+                  </a>
+                  <button
+                    onClick={() => {
+                      setStep("quote");
+                      setQuote(null);
+                      setPickup("");
+                      setDropoff("");
+                      setForm({ firstName: "", lastName: "", email: "", phone: "", password: "" });
+                    }}
+                    className="btn-outline-premium"
+                  >
+                    Nueva Cotización
+                  </button>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 // ── Big CTA ───────────────────────────────────────────────────────────────────
 
 function BigCTA() {
@@ -627,6 +1055,7 @@ export default function LandingPage() {
       <Services />
       <HowItWorks />
       <Fleet />
+      <BookingSection />
       <BigCTA />
       <Footer />
     </div>
