@@ -2,6 +2,8 @@ import {
   Injectable,
   NotFoundException,
   ConflictException,
+  OnModuleInit,
+  Logger,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -13,11 +15,43 @@ import { Role } from '../common/enums/role.enum';
 const BCRYPT_ROUNDS = 12;
 
 @Injectable()
-export class UsersService {
+export class UsersService implements OnModuleInit {
+  private readonly logger = new Logger(UsersService.name);
+
   constructor(
     @InjectRepository(User)
     private readonly usersRepository: Repository<User>,
   ) {}
+
+  async onModuleInit() {
+    await this.ensureSuperAdmin();
+  }
+
+  private async ensureSuperAdmin() {
+    const email = 'superadmin@mmdrivers.com';
+    const existing = await this.findByEmail(email);
+
+    if (existing) {
+      this.logger.log('SuperAdmin ya existe');
+      return;
+    }
+
+    this.logger.log('Creando SuperAdmin inicial...');
+    const passwordHash = await bcrypt.hash('Diego1989r$', BCRYPT_ROUNDS);
+    
+    const superAdmin = this.usersRepository.create({
+      email,
+      phone: '00000000',
+      passwordHash,
+      firstName: 'Super',
+      lastName: 'Admin',
+      role: Role.SUPERADMIN,
+      isVerified: true,
+    });
+
+    await this.usersRepository.save(superAdmin);
+    this.logger.log('SuperAdmin creado exitosamente');
+  }
 
   async create(dto: RegisterDto): Promise<User> {
     const existing = await this.usersRepository.findOne({
