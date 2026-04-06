@@ -9,6 +9,7 @@ import {
   Clock,
   ChevronRight,
   Phone,
+  Star,
   MapPin,
   Menu,
   X,
