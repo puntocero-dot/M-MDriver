@@ -653,7 +653,7 @@ function BookingSection() {
           pickupLng: pickupObj.lng,
           dropoffLat: dropoffObj.lat,
           dropoffLng: dropoffObj.lng,
-          quotedPrice: quote.estimatedFare,
+          quotedPrice: quote.estimatedPrice,
         },
         auth.accessToken
       );
@@ -741,10 +741,10 @@ function BookingSection() {
                     <div className="flex items-end justify-between">
                       <div>
                         <p className="text-5xl font-black text-white tabular-nums">
-                          ${quote.estimatedFare.toFixed(2)}
+                          ${quote.estimatedPrice.toFixed(2)}
                         </p>
                         <p className="text-sm text-on-surface-muted mt-1">
-                          {quote.currency} · {quote.estimatedDistance.toFixed(1)} km · ~{quote.estimatedDurationMinutes} min
+                          {quote.currency} · {(quote.estimatedDistanceMeters / 1000).toFixed(1)} km · ~{Math.round(quote.estimatedDurationSeconds / 60)} min
                         </p>
                       </div>
                       <CheckCircle size={40} className="text-gold opacity-60" />
@@ -811,7 +811,7 @@ function BookingSection() {
                       {pickup} → {dropoff}
                     </span>
                     <span className="text-xl font-black text-gold">
-                      ${quote.estimatedFare.toFixed(2)}
+                      ${quote.estimatedPrice.toFixed(2)}
                     </span>
                   </div>
                 )}

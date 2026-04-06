@@ -41,14 +41,18 @@ export interface QuoteRequest {
 }
 
 export interface QuoteResponse {
-  estimatedFare: number;
-  estimatedDistance: number;
-  estimatedDurationMinutes: number;
+  estimatedPrice: number;
+  estimatedDistanceMeters: number;
+  estimatedDurationSeconds: number;
   currency: string;
-  breakdown?: {
-    baseFare: number;
-    distanceFare: number;
-    surgeMultiplier: number;
+  expiresAt: string;
+  breakdown: {
+    base: number;
+    distance: number;
+    time: number;
+    stops: number;
+    fuel: number;
+    vehicleSurcharge: number;
   };
 }
 
