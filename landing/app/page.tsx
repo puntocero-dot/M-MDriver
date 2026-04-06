@@ -25,6 +25,7 @@ import {
 import {
   calculateQuote,
   registerClient,
+  loginClient,
   createTrip,
   type QuoteResponse,
 } from "../lib/api";
@@ -640,11 +641,23 @@ function BookingSection() {
     setError("");
     setLoading(true);
     try {
-      // 1. Register
-      const auth = await registerClient({ ...form });
+      let auth;
+      try {
+        // 1. Attempt to Register
+        auth = await registerClient({ ...form });
+      } catch (err: unknown) {
+        // 2. If email exists (Conflict), attempt to Login with the same password
+        const msg = (err as Error).message ?? "";
+        if (msg.includes("registrado") || msg.includes("Conflict") || msg.includes("409")) {
+          auth = await loginClient(form.email, form.password);
+        } else {
+          throw err;
+        }
+      }
+      
       setToken(auth.accessToken);
 
-      // 2. Create trip
+      // 3. Create trip
       await createTrip(
         {
           pickupAddress: pickup,
@@ -661,7 +674,7 @@ function BookingSection() {
     } catch (err: unknown) {
       setError(
         (err as Error).message ??
-          "Error al procesar la reserva. Verifique sus datos."
+          "Error al procesar la reserva. Verifique sus datos o contraseña."
       );
     } finally {
       setLoading(false);
