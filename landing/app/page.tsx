@@ -16,15 +16,10 @@ import {
   ArrowRight,
   Briefcase,
   Globe,
-  HeadphonesIcon,
-  Calculator,
-  CheckCircle,
-  Loader2,
-  ChevronDown,
+  Download,
   Smartphone,
   Apple,
   PlayCircle,
-  Download,
 } from "lucide-react";
 import {
   calculateQuote,
@@ -156,23 +151,8 @@ function Nav() {
               <Download size={12} />
               App
             </button>
-            {authed ? (
-              <button
-                onClick={() => { clearAuth(); window.location.reload(); }}
-                className="text-[9px] font-bold tracking-[0.2em] uppercase text-white/40 hover:text-red-400 transition-all duration-300"
-              >
-                Salir
-              </button>
-            ) : (
-              <a
-                href="/login"
-                className="text-[9px] font-bold tracking-[0.2em] uppercase text-white/60 hover:text-white transition-all duration-300"
-              >
-                Ingresar
-              </a>
-            )}
             <a
-              href="#reserva"
+              href="/login"
               className="btn-premium !py-2 !px-6 rounded-full text-[9px] shadow-gold/20 flex items-center gap-2"
             >
               Reserva Ahora
@@ -212,13 +192,8 @@ function Nav() {
             >
               Descargar App
             </button>
-            {authed ? (
-              <button onClick={() => { clearAuth(); window.location.reload(); }} className="text-red-400 font-bold text-left text-lg">Cerrar Sesión</button>
-            ) : (
-              <a href="/login" onClick={() => setOpen(false)} className="text-white/70 font-bold text-lg">Iniciar Sesión</a>
-            )}
             <a
-              href="#reserva"
+              href="/login"
               className="btn-premium px-6 py-5 rounded-xl text-sm text-center font-bold"
               onClick={() => setOpen(false)}
             >
@@ -297,7 +272,7 @@ function Hero() {
             transition={{ delay: 0.8, duration: 0.8 }}
             className="flex flex-col sm:flex-row gap-8"
           >
-            <a href="#reserva" className="btn-premium">
+            <a href="/login" className="btn-premium">
               Comenzar Reserva
             </a>
             <a href="#how" className="btn-outline-premium">
@@ -585,68 +560,7 @@ function Fleet() {
   );
 }
 
-// ── Booking / Quote Section ───────────────────────────────────────────────────
 
-// Predefined landmark locations in El Salvador for the dropdown
-const LOCATIONS = [
-  { label: "Aeropuerto Internacional", lat: 13.4408, lng: -89.0555 },
-  { label: "Centro Histórico, San Salvador", lat: 13.6929, lng: -89.2182 },
-  { label: "Multiplaza", lat: 13.6786, lng: -89.2507 },
-  { label: "Metrocentro", lat: 13.7000, lng: -89.2244 },
-  { label: "Hospital de Diagnóstico", lat: 13.6964, lng: -89.2176 },
-  { label: "Hospital Bloom", lat: 13.7026, lng: -89.2090 },
-  { label: "Zona Rosa", lat: 13.6840, lng: -89.2430 },
-  { label: "Aeropuerto Ilopango", lat: 13.6985, lng: -89.1196 },
-  { label: "Santa Ana Centro", lat: 13.9952, lng: -89.5590 },
-  { label: "San Miguel Centro", lat: 13.4792, lng: -88.1792 },
-];
-
-type Step = "quote" | "register" | "success";
-
-function SelectInput({
-  label,
-  value,
-  onChange,
-  id,
-}: {
-  label: string;
-  value: string;
-  onChange: (v: string) => void;
-  id: string;
-}) {
-  return (
-    <div className="flex flex-col gap-2">
-      <label
-        htmlFor={id}
-        className="text-[10px] font-bold tracking-[0.25em] uppercase text-on-surface-muted"
-      >
-        {label}
-      </label>
-      <div className="relative">
-        <select
-          id={id}
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          className="w-full appearance-none rounded-xl px-5 py-4 pr-10 text-sm font-medium text-white bg-white/5 border border-white/10 focus:outline-none focus:border-gold/60 transition-all duration-300"
-          style={{ backgroundColor: "rgba(255,255,255,0.04)" }}
-        >
-          <option value="" disabled style={{ background: "#0D1B35" }}>
-            Seleccionar ubicación…
-          </option>
-          {LOCATIONS.map((loc) => (
-            <option key={loc.label} value={loc.label} style={{ background: "#0D1B35" }}>
-              {loc.label}
-            </option>
-          ))}
-        </select>
-        <ChevronDown
-          size={16}
-          className="absolute right-4 top-1/2 -translate-y-1/2 text-gold pointer-events-none"
-        />
-      </div>
-    </div>
-  );
-}
 
 function BookingSection() {
   // Always start at "quote" — SSR-safe (no localStorage on server)
@@ -1208,85 +1122,97 @@ function DownloadModal() {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={() => setIsOpen(false)}
-          className="fixed inset-0 z-[200] flex items-center justify-center p-6 bg-[#080E1C]/90 backdrop-blur-lg"
+          className="fixed inset-0 z-[200] flex items-center justify-center p-6 bg-[#05080F]/95 backdrop-blur-xl"
         >
           <motion.div
-            initial={{ scale: 0.92, opacity: 0, y: 24 }}
+            initial={{ scale: 0.95, opacity: 0, y: 30 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
-            exit={{ scale: 0.92, opacity: 0, y: 24 }}
-            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            exit={{ scale: 0.95, opacity: 0, y: 30 }}
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
             onClick={(e) => e.stopPropagation()}
-            className="w-full max-w-lg border border-white/8 shadow-2xl relative overflow-hidden rounded-[2rem]"
-            style={{ background: "linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02))" }}
+            className="w-full max-w-2xl border border-white/10 shadow-[0_40px_100px_rgba(0,0,0,0.8)] relative overflow-hidden rounded-[3.5rem]"
+            style={{ 
+              background: "linear-gradient(165deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%)",
+            }}
           >
-            {/* Gold top line */}
-            <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#CFA12E]/60 to-transparent" />
+            {/* Ambient luxury glow */}
+            <div className="absolute top-[-20%] right-[-10%] w-64 h-64 bg-gold/15 blur-[100px] rounded-full pointer-events-none" />
+            <div className="absolute bottom-[-20%] left-[-10%] w-48 h-48 bg-gold/5 blur-[80px] rounded-full pointer-events-none" />
 
             <button
               onClick={() => setIsOpen(false)}
-              className="absolute top-6 right-6 w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-white/40 hover:text-white transition-all"
+              className="absolute top-8 right-8 w-14 h-14 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-white/30 hover:text-white transition-all border border-white/5 shadow-xl"
             >
-              <X size={16} />
+              <X size={24} strokeWidth={1.5} />
             </button>
 
-            <div className="p-10">
-              {/* Icon + title */}
-              <div className="flex flex-col items-center text-center mb-8">
-                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#CFA12E] to-[#A07D20] flex items-center justify-center shadow-lg shadow-[#CFA12E]/20 mb-6">
-                  <Smartphone size={32} className="text-[#080E1C]" strokeWidth={1.5} />
+            <div className="p-16 md:p-24 flex flex-col items-center">
+              {/* Icon Container with multi-layered glow */}
+              <div className="relative mb-14 shrink-0">
+                <div className="absolute inset-0 bg-gold/40 blur-[40px] rounded-[2.5rem] opacity-30" />
+                <div className="relative w-28 h-28 rounded-[2.5rem] bg-gradient-to-br from-[#CFA12E] to-[#A07D20] flex items-center justify-center shadow-2xl">
+                  <Smartphone size={56} className="text-[#05080F]" strokeWidth={1} />
                 </div>
-                <h2 className="text-3xl font-serif text-white mb-2">M&M Driver App</h2>
-                <p className="text-sm text-white/40 max-w-xs leading-relaxed">
-                  GPS en tiempo real, botón SOS y seguimiento compartido. Protocolo VIP en tu bolsillo.
+              </div>
+              
+              <div className="text-center mb-16">
+                <h2 className="text-4xl md:text-5xl font-serif text-white mb-6 tracking-tight">Experiencia M&M Mobile</h2>
+                <p className="text-xl text-white/40 max-w-md leading-relaxed font-light">
+                  Lleve el estándar de protocolo VIP en su bolsillo. Acceso exclusivo para clientes registrados.
                 </p>
               </div>
 
-              {/* Platform buttons */}
-              <div className="grid grid-cols-2 gap-4 mb-8">
-                {/* Android — coming soon */}
-                <div className="flex flex-col items-center gap-3 bg-white/[0.03] border border-white/8 p-5 rounded-2xl opacity-60 cursor-not-allowed">
-                  <div className="w-10 h-10 rounded-xl bg-[#CFA12E]/10 border border-[#CFA12E]/20 flex items-center justify-center">
-                    <PlayCircle size={22} className="text-[#CFA12E]" fill="currentColor" />
+              {/* Platform buttons - more spacing */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-10 w-full mb-16">
+                {/* Android */}
+                <div className="flex flex-col items-center gap-6 bg-white/[0.04] border border-white/10 p-12 rounded-[2.5rem] opacity-60 cursor-not-allowed group hover:bg-white/[0.06] transition-all">
+                  <div className="w-14 h-14 rounded-2xl bg-gold/10 border border-gold/20 flex items-center justify-center">
+                    <PlayCircle size={36} className="text-gold" fill="currentColor" />
                   </div>
                   <div className="text-center">
-                    <p className="text-[8px] font-black tracking-[0.2em] uppercase text-white/30 mb-0.5">Android</p>
-                    <p className="text-sm font-bold text-white/40">Próximamente</p>
+                    <p className="text-[10px] font-black tracking-[0.4em] uppercase text-white/40 mb-2">Android Platform</p>
+                    <p className="text-xl font-bold text-white/50 tracking-tight">Próximamente</p>
                   </div>
                 </div>
 
                 {/* iOS */}
-                <div className="flex flex-col items-center gap-3 bg-white/[0.03] border border-white/8 p-5 rounded-2xl opacity-60 cursor-not-allowed">
-                  <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center">
-                    <Apple size={22} className="text-white/30" fill="currentColor" />
+                <div className="flex flex-col items-center gap-6 bg-white/[0.04] border border-white/10 p-12 rounded-[2.5rem] opacity-60 cursor-not-allowed group hover:bg-white/[0.06] transition-all">
+                  <div className="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center">
+                    <Apple size={36} className="text-white/30" fill="currentColor" />
                   </div>
                   <div className="text-center">
-                    <p className="text-[8px] font-black tracking-[0.2em] uppercase text-white/30 mb-0.5">iOS</p>
-                    <p className="text-sm font-bold text-white/40">Próximamente</p>
+                    <p className="text-[10px] font-black tracking-[0.4em] uppercase text-white/40 mb-2">iOS / Apple</p>
+                    <p className="text-xl font-bold text-white/50 tracking-tight">Próximamente</p>
                   </div>
                 </div>
               </div>
 
-              {/* Install guide */}
-              <div className="bg-white/[0.02] border border-white/5 rounded-xl p-5">
-                <p className="text-[9px] font-black tracking-[0.2em] uppercase text-[#CFA12E]/60 mb-4">Guía de Instalación Android</p>
-                <div className="flex flex-col gap-3">
+              {/* Instructions Section - cleaner layout */}
+              <div className="w-full bg-white/[0.03] border border-white/10 rounded-[2.5rem] p-12">
+                <h4 className="text-[11px] font-black tracking-[0.3em] uppercase text-gold mb-10 flex items-center gap-4">
+                  <div className="w-3 h-[1px] bg-gold" />
+                  Protocolo de Instalación
+                </h4>
+                <div className="grid gap-8">
                   {[
-                    { n: "1", text: "Descarga el archivo APK cuando esté disponible" },
-                    { n: "2", text: "Ve a Ajustes → Seguridad → Fuentes desconocidas" },
-                    { n: "3", text: "Abre el APK descargado y sigue las instrucciones" },
-                    { n: "4", text: "Inicia sesión con tu cuenta M&M Driver" },
+                    { n: "01", text: "Descarga segura del paquete APK certificado." },
+                    { n: "02", text: "Autorización de instalación de fuentes privadas." },
+                    { n: "03", text: "Vinculación de credenciales M&M corporativas." },
+                    { n: "04", text: "Activación de protocolos de seguridad biométricos." },
                   ].map((s) => (
-                    <div key={s.n} className="flex items-start gap-3">
-                      <span className="w-5 h-5 rounded-full bg-[#CFA12E]/15 border border-[#CFA12E]/25 flex items-center justify-center text-[9px] font-black text-[#CFA12E] flex-shrink-0 mt-0.5">{s.n}</span>
-                      <p className="text-xs text-white/40 leading-relaxed">{s.text}</p>
+                    <div key={s.n} className="flex items-start gap-6">
+                      <span className="text-lg font-serif italic font-black text-gold/60 mt-0.5">{s.n}</span>
+                      <p className="text-base text-white/40 font-light leading-relaxed">{s.text}</p>
                     </div>
                   ))}
                 </div>
               </div>
 
-              <p className="mt-6 text-center text-[8px] font-black tracking-[0.25em] text-white/20 uppercase">
-                Seguridad Certificada · Protocolo VIP
-              </p>
+              <div className="mt-16 flex items-center gap-6">
+                <div className="h-[1px] w-8 bg-white/10" />
+                <p className="text-[10px] font-black tracking-[0.3em] text-white/10 uppercase italic">Security Certified Protocol</p>
+                <div className="h-[1px] w-8 bg-white/10" />
+              </div>
             </div>
           </motion.div>
         </motion.div>
@@ -1305,8 +1231,7 @@ export default function LandingPage() {
       <Services />
       <HowItWorks />
       <Fleet />
-      <BookingSection />
-      <TripHistory />
+      {/* Removed Booking and History sections for a cleaner Landing Experience */}
       <DownloadModal />
       <BigCTA />
       <Footer />
