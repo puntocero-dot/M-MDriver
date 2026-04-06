@@ -142,3 +142,20 @@ export async function createTrip(
     headers: { Authorization: `Bearer ${token}` },
   });
 }
+
+/** OBTIENE HISTORIAL DE VIAJES (requiere token JWT) */
+export async function getMyTrips(
+  token: string,
+  page = 1,
+  limit = 10
+): Promise<{ data: Trip[]; total: number }> {
+  // El backend retorna [Trip[], number]
+  const [data, total] = await request<[Trip[], number]>(
+    `/trips/my?page=${page}&limit=${limit}`,
+    {
+      method: "GET",
+      headers: { Authorization: `Bearer ${token}` },
+    }
+  );
+  return { data, total };
+}

@@ -27,7 +27,9 @@ import {
   registerClient,
   loginClient,
   createTrip,
+  getMyTrips,
   type QuoteResponse,
+  type Trip,
 } from "../lib/api";
 import { getToken, getUser, clearAuth, isAuthenticated } from "../lib/auth";
 import { useRouter } from "next/navigation";
@@ -1082,6 +1084,85 @@ function Footer() {
   );
 }
 
+// ── Trip History ─────────────────────────────────────────────────────────────
+
+function TripHistory() {
+  const [trips, setTrips] = useState<Trip[]>([]);
+  const [loading, setLoading] = useState(true);
+  const token = getToken();
+
+  useEffect(() => {
+    if (token) {
+      getMyTrips(token)
+        .then((res) => setTrips(res.data))
+        .catch(console.error)
+        .finally(() => setLoading(false));
+    }
+  }, [token]);
+
+  if (!token || (!loading && trips.length === 0)) return null;
+
+  return (
+    <section className="bg-surface py-24">
+      <div className="container-page">
+        <FadeIn className="mb-12">
+          <h2 className="text-4xl font-serif text-white mb-2">Mis Viajes Recientes</h2>
+          <p className="text-on-surface-muted text-sm uppercase tracking-widest font-bold">Historial de Protocolo</p>
+        </FadeIn>
+
+        <div className="grid gap-4">
+          {loading ? (
+            <div className="flex justify-center p-12">
+              <Loader2 className="animate-spin text-gold" size={32} />
+            </div>
+          ) : (
+            trips.map((t) => (
+              <motion.div 
+                key={t.id}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                className="glass rounded-2xl p-6 border border-white/5 flex flex-col md:flex-row items-center justify-between gap-6 hover:border-gold/30 transition-all group"
+              >
+                <div className="flex flex-col gap-1 flex-1">
+                  <div className="flex items-center gap-3 mb-2">
+                    <span className="px-3 py-1 rounded-full bg-gold/10 text-gold text-[10px] font-black uppercase tracking-widest border border-gold/20">
+                      {t.status}
+                    </span>
+                    <span className="text-[10px] text-on-surface-var font-bold uppercase tracking-tighter">
+                      {new Date(t.createdAt).toLocaleDateString()} · {new Date(t.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2 text-white font-medium">
+                    <MapPin size={14} className="text-gold" />
+                    <span className="text-sm line-clamp-1">{t.pickupAddress}</span>
+                    <ChevronRight size={12} className="text-on-surface-var" />
+                    <span className="text-sm line-clamp-1">{t.dropoffAddress}</span>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-8">
+                  <div className="text-right">
+                    <p className="text-2xl font-black text-white tabular-nums">${(t.fare || (t as any).quotedPrice || 0).toFixed(2)}</p>
+                    <p className="text-[10px] text-on-surface-muted uppercase font-bold tracking-widest">Pactado</p>
+                  </div>
+                  {t.shareToken && (
+                    <a 
+                      href={`/track/${t.shareToken}`}
+                      className="w-12 h-12 rounded-xl bg-gold flex items-center justify-center text-[#0A1121] shadow-lg shadow-gold/20 hover:scale-110 transition-transform"
+                    >
+                      <Globe size={20} strokeWidth={2.5} />
+                    </a>
+                  )}
+                </div>
+              </motion.div>
+            ))
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 // ── Main Page Layout ──────────────────────────────────────────────────────────
 
 export default function LandingPage() {
@@ -1093,6 +1174,7 @@ export default function LandingPage() {
       <HowItWorks />
       <Fleet />
       <BookingSection />
+      <TripHistory />
       <BigCTA />
       <Footer />
     </div>
