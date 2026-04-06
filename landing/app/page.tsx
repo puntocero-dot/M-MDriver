@@ -146,6 +146,13 @@ function Nav() {
                 Iniciar Sesión
               </a>
             )}
+            
+            <button
+              onClick={() => (window as any).toggleDownloadModal?.()}
+              className="px-6 py-2 rounded-full border border-gold/30 text-gold hover:bg-gold hover:text-black text-[9px] font-bold tracking-[0.2em] uppercase transition-all duration-500"
+            >
+              Descargar App
+            </button>
           </div>
 
           {/* CTA */}
@@ -816,6 +823,14 @@ function BookingSection() {
                     </button>
                   )}
                 </div>
+                
+                <button
+                  onClick={() => (window as any).toggleDownloadModal?.()}
+                  className="flex-1 px-8 py-5 rounded-[2rem] border border-white/10 hover:border-gold/30 text-white hover:text-gold text-[11px] font-bold tracking-[0.3em] uppercase transition-all duration-500 flex items-center justify-center gap-3 group"
+                >
+                  <Smartphone size={18} className="group-hover:scale-110 transition-transform" />
+                  Descargar App
+                </button>
               </motion.div>
             )}
 
@@ -1167,63 +1182,85 @@ function TripHistory() {
   );
 }
 
-// ── App Download Section ───────────────────────────────────────────────────
+// ── Download Modal ─────────────────────────────────────────────────────────
 
-function AppDownloadSection() {
+function DownloadModal() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    (window as any).toggleDownloadModal = () => setIsOpen(!isOpen);
+    return () => { delete (window as any).toggleDownloadModal; };
+  }, [isOpen]);
+
   return (
-    <section className="bg-[#0A1628] py-32 relative overflow-hidden">
-      <div className="absolute inset-0 z-0 opacity-10 pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1200px] h-[1200px] rounded-full bg-gold/10 blur-[150px]" />
-      </div>
-
-      <div className="container-page relative z-10">
-        <div className="max-w-4xl mx-auto text-center mb-16">
-          <FadeIn>
-            <h2 className="text-5xl font-serif text-white mb-6">M&M Driver en tu Bolsillo</h2>
-            <p className="text-lg text-on-surface-muted leading-relaxed">
-              Lleva la experiencia de protocolo privado a donde quiera que vayas. 
-              Seguimiento en vivo, notificaciones instantáneas y seguridad total.
-            </p>
-          </FadeIn>
-        </div>
-
-        <div className="flex flex-col md:flex-row items-center justify-center gap-8">
-          {/* Android Button */}
-          <FadeIn delay={0.2}>
-            <a 
-              href="/downloads/mm-driver.apk" 
-              className="group flex items-center gap-4 bg-white/5 border border-white/10 hover:border-gold/50 transition-all p-6 rounded-[2rem] w-full max-w-[320px] shadow-2xl hover:shadow-gold/10"
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-[200] flex items-center justify-center p-6 bg-[#0A1121]/90 backdrop-blur-md"
+        >
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0, y: 20 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            exit={{ scale: 0.9, opacity: 0, y: 20 }}
+            className="w-full max-w-2xl glass rounded-[3rem] p-12 border border-white/10 shadow-2xl relative overflow-hidden"
+          >
+            <button 
+              onClick={() => setIsOpen(false)}
+              className="absolute top-8 right-8 text-on-surface-muted hover:text-white transition-colors"
             >
-              <div className="w-14 h-14 rounded-2xl bg-gold flex items-center justify-center text-[#0A1628] shadow-lg shadow-gold/20">
-                <PlayCircle size={32} fill="currentColor" />
-              </div>
-              <div className="text-left">
-                <p className="text-[10px] font-bold tracking-[0.2em] text-gold/60 uppercase mb-1">Disponible en</p>
-                <p className="text-xl font-bold text-white tracking-tight">Android (APK)</p>
-              </div>
-            </a>
-          </FadeIn>
+              <X size={24} />
+            </button>
 
-          {/* iOS Button */}
-          <FadeIn delay={0.4}>
-            <div className="group flex items-center gap-4 bg-white/5 border border-white/10 p-6 rounded-[2rem] w-full max-w-[320px] opacity-70 cursor-not-allowed">
-              <div className="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center text-white/40">
-                <Apple size={32} fill="currentColor" />
-              </div>
-              <div className="text-left">
-                <p className="text-[10px] font-bold tracking-[0.2em] text-on-surface-muted uppercase mb-1">Próximamente en</p>
-                <p className="text-xl font-bold text-white/50 tracking-tight">App Store</p>
-              </div>
+            <div className="absolute inset-0 z-0 opacity-10 pointer-events-none">
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-gold/20 blur-[100px]" />
             </div>
-          </FadeIn>
-        </div>
 
-        <div className="mt-16 text-center text-xs text-on-surface-var flex items-center justify-center gap-2">
-          <Smartphone size={14} className="text-gold opacity-50" />
-          <span>Requiere Android 8.0+ para la mejor experiencia.</span>
-        </div>
-      </div>
-    </section>
+            <div className="relative z-10 text-center">
+              <div className="w-20 h-20 rounded-3xl bg-gold mx-auto mb-8 flex items-center justify-center text-[#0A1121] shadow-2xl shadow-gold/20">
+                <Smartphone size={40} strokeWidth={1.5} />
+              </div>
+              
+              <h2 className="text-4xl font-serif text-white mb-4">Experiencia M&M Driver</h2>
+              <p className="text-on-surface-muted max-w-md mx-auto mb-12">
+                Escoge tu plataforma y lleva el protocolo VIP en tu bolsillo.
+              </p>
+
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+                <a 
+                  href="/downloads/mm-driver.apk" 
+                  className="flex-1 w-full flex items-center gap-4 bg-white/5 border border-white/10 hover:border-gold/50 p-6 rounded-[2rem] transition-all hover:bg-white/10 group shadow-xl"
+                >
+                  <div className="w-12 h-12 rounded-2xl bg-gold flex items-center justify-center text-[#0A1121]">
+                    <PlayCircle size={28} fill="currentColor" />
+                  </div>
+                  <div className="text-left">
+                    <p className="text-[9px] font-bold tracking-widest text-gold/60 uppercase">Android</p>
+                    <p className="text-lg font-bold text-white uppercase tracking-tighter">Instalar APK</p>
+                  </div>
+                </a>
+
+                <div className="flex-1 w-full flex items-center gap-4 bg-white/5 border border-white/5 p-6 rounded-[2rem] opacity-50 cursor-not-allowed">
+                  <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center text-white/40">
+                    <Apple size={28} fill="currentColor" />
+                  </div>
+                  <div className="text-left">
+                    <p className="text-[9px] font-bold tracking-widest text-on-surface-muted uppercase">iOS</p>
+                    <p className="text-lg font-bold text-white/50 uppercase tracking-tighter">Próximamente</p>
+                  </div>
+                </div>
+              </div>
+
+              <p className="mt-12 text-[10px] font-bold tracking-[0.2em] text-on-surface-var uppercase">
+                Seguridad Certificada · Protocolo VIP
+              </p>
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }
 
@@ -1239,7 +1276,7 @@ export default function LandingPage() {
       <Fleet />
       <BookingSection />
       <TripHistory />
-      <AppDownloadSection />
+      <DownloadModal />
       <BigCTA />
       <Footer />
     </div>
