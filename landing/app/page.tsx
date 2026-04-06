@@ -29,6 +29,8 @@ import {
   createTrip,
   type QuoteResponse,
 } from "../lib/api";
+import { getToken, getUser, clearAuth, isAuthenticated } from "../lib/auth";
+import { useRouter } from "next/navigation";
 
 // ── Animation helpers ─────────────────────────────────────────────────────────
 
@@ -123,6 +125,21 @@ function Nav() {
                 {l.label}
               </a>
             ))}
+            {isAuthenticated() ? (
+              <button
+                onClick={() => { clearAuth(); window.location.reload(); }}
+                className="text-red-400/70 hover:text-red-400 text-[10px] font-bold tracking-[0.25em] uppercase transition-all duration-300"
+              >
+                Cerrar Sesión
+              </button>
+            ) : (
+              <a
+                href="/login"
+                className="text-gold/70 hover:text-gold text-[10px] font-bold tracking-[0.25em] uppercase transition-all duration-300"
+              >
+                Iniciar Sesión
+              </a>
+            )}
           </div>
 
           {/* CTA */}
@@ -131,7 +148,7 @@ function Nav() {
               href="#reserva"
               className="btn-premium !py-2.5 !px-8 rounded-full text-[10px] shadow-gold/20 flex items-center gap-2"
             >
-              Reserva Ahora
+              {isAuthenticated() ? "Nueva Reserva" : "Reserva Ahora"}
               <ChevronRight size={14} strokeWidth={3} />
             </a>
           </div>
@@ -594,13 +611,13 @@ function SelectInput({
 }
 
 function BookingSection() {
-  const [step, setStep] = useState<Step>("quote");
+  const [step, setStep] = useState<Step>(isAuthenticated() ? "quote" : "register");
   const [pickup, setPickup] = useState("");
   const [dropoff, setDropoff] = useState("");
   const [quote, setQuote] = useState<QuoteResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [token, setToken] = useState("");
+  const [token, setToken] = useState(getToken() || "");
 
   // Register form fields
   const [form, setForm] = useState({
@@ -1030,23 +1047,28 @@ function Footer() {
             </p>
           </div>
 
-          {/* Navigation Matrix */}
-          <div className="flex flex-wrap items-center justify-center gap-12">
-            {[
-              "Privacy Policy",
-              "Terms of Service",
-              "Corporate Protocol",
-              "Contact",
-            ].map((l) => (
+            <div className="flex flex-wrap items-center justify-center gap-12">
+              {[
+                "Privacy Policy",
+                "Terms of Service",
+                "Corporate Protocol",
+                "Contact",
+              ].map((l) => (
+                <a
+                  key={l}
+                  href="#"
+                  className="text-[11px] font-bold tracking-[0.2em] text-on-surface-muted hover:text-gold uppercase transition-all duration-300"
+                >
+                  {l}
+                </a>
+              ))}
               <a
-                key={l}
-                href="#"
-                className="text-[11px] font-bold tracking-[0.2em] text-on-surface-muted hover:text-gold uppercase transition-all duration-300"
+                href="/admin"
+                className="text-[11px] font-bold tracking-[0.2em] text-gold/40 hover:text-gold uppercase transition-all duration-300 border-l border-white/10 pl-6 lg:pl-12"
               >
-                {l}
+                Admin Access
               </a>
-            ))}
-          </div>
+            </div>
 
           {/* Copyright Metadata */}
           <div className="text-center md:text-right">
