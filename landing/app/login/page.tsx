@@ -3,14 +3,14 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { 
-  LogIn, 
-  ArrowRight, 
-  Loader2, 
-  ShieldCheck, 
-  Mail, 
+import {
+  ArrowRight,
+  Loader2,
+  ShieldCheck,
+  Mail,
   Lock,
-  ChevronLeft
+  ChevronLeft,
+  AlertTriangle,
 } from "lucide-react";
 import { loginClient } from "../../lib/api";
 import { saveAuth } from "../../lib/auth";
@@ -29,117 +29,169 @@ export default function LoginPage() {
 
     try {
       const response = await loginClient(email, password);
+
+      // Defensive check — the server should always return a user with a role
+      const role = response?.user?.role;
+      if (!role) {
+        setError("Respuesta del servidor inesperada. Intente de nuevo.");
+        return;
+      }
+
       saveAuth(response.accessToken, response.user);
 
-      // Unified Redirection Logic
-      if (response.user.role === "SUPERADMIN" || response.user.role === "SUPERVISOR") {
-        // Redirect to Admin Panel (assuming relative path if on same domain 
-        // or absolute if different)
+      if (role === "SUPERADMIN" || role === "SUPERVISOR") {
         window.location.href = "https://m-m-driver-admin.vercel.app/dashboard";
-      } else if (response.user.role === "DRIVER") {
+      } else if (role === "DRIVER") {
         router.push("/driver-panel");
       } else {
-        // Client stays on landing, but now authorized
-        router.push("/#reserva");
+        // CLIENT — back to landing home
+        router.push("/");
       }
-    } catch (err: any) {
-      setError(err.message || "Credenciales incorrectas. Intente de nuevo.");
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "";
+      if (msg.includes("401") || msg.toLowerCase().includes("credencial") || msg.toLowerCase().includes("inválid")) {
+        setError("Correo o contraseña incorrectos. Verifique sus datos.");
+      } else if (msg.toLowerCase().includes("not found") || msg.includes("404")) {
+        setError("No existe una cuenta con ese correo. ¿Desea registrarse al reservar?");
+      } else if (msg.toLowerCase().includes("network") || msg.toLowerCase().includes("fetch")) {
+        setError("Sin conexión al servidor. Intente más tarde.");
+      } else {
+        setError(msg || "Error al iniciar sesión. Intente de nuevo.");
+      }
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <div className="min-h-screen bg-[#0A1121] flex flex-col items-center justify-center p-6 relative overflow-hidden">
-      {/* Background patterns */}
-      <div className="absolute inset-0 z-0 opacity-20 pointer-events-none">
-        <div className="absolute top-[-10%] right-[-10%] w-[60%] h-[60%] rounded-full bg-gold/10 blur-[120px]" />
-        <div className="absolute bottom-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-gold/5 blur-[100px]" />
+    <div className="min-h-screen bg-[#080E1C] flex flex-col items-center justify-center p-6 relative overflow-hidden">
+      {/* Ambient glows */}
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+        <div className="absolute top-0 right-0 w-[800px] h-[800px] rounded-full opacity-[0.07] blur-[160px] bg-[#CFA12E]" />
+        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] rounded-full opacity-[0.04] blur-[120px] bg-[#CFA12E]" />
       </div>
 
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
+      <motion.div
+        initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
         className="w-full max-w-md z-10"
       >
-        <button 
+        {/* Back link */}
+        <button
           onClick={() => router.push("/")}
-          className="flex items-center gap-2 text-on-surface-muted hover:text-gold transition-colors mb-8 group"
+          className="flex items-center gap-2 text-white/40 hover:text-gold transition-all duration-300 mb-10 group"
         >
-          <ChevronLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
-          <span className="text-[10px] font-bold tracking-[0.2em] uppercase">Volver al Inicio</span>
+          <ChevronLeft size={14} className="group-hover:-translate-x-1 transition-transform" />
+          <span className="text-[9px] font-black tracking-[0.3em] uppercase">Volver al Inicio</span>
         </button>
 
-        <div className="glass rounded-[2.5rem] p-8 md:p-12 border border-white/10 shadow-2xl relative">
-          <div className="absolute -top-12 left-1/2 -translate-x-1/2 w-24 h-24 rounded-3xl bg-gold flex items-center justify-center shadow-2xl shadow-gold/30 border-[6px] border-[#0A1121]">
-            <ShieldCheck size={44} className="text-[#0A1121]" strokeWidth={1} />
+        {/* Card */}
+        <div className="relative rounded-[2rem] border border-white/8 shadow-2xl overflow-hidden"
+          style={{ background: "linear-gradient(145deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%)" }}
+        >
+          {/* Gold top accent line */}
+          <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#CFA12E]/60 to-transparent" />
+
+          {/* Shield icon — inside the card, not floating */}
+          <div className="flex flex-col items-center pt-12 pb-4">
+            <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-[#CFA12E] to-[#A07D20] flex items-center justify-center shadow-xl shadow-[#CFA12E]/20 mb-8">
+              <ShieldCheck size={40} className="text-[#080E1C]" strokeWidth={1.5} />
+            </div>
+            <h1 className="text-4xl font-serif text-white tracking-tight mb-1">Bienvenido</h1>
+            <p className="text-[9px] font-black tracking-[0.4em] uppercase text-[#CFA12E]/60 mb-0">
+              Servicio de Protocolo Privado
+            </p>
           </div>
 
-          <div className="mt-20 mb-10 text-center">
-            <h1 className="text-4xl font-serif text-white mb-2 tracking-tight">Bienvenido</h1>
-            <p className="text-[10px] font-bold tracking-[0.4em] uppercase text-gold/60">Servicio de Protocolo Privado</p>
-          </div>
+          {/* Divider */}
+          <div className="mx-10 h-[1px] bg-white/5 my-6" />
 
-          <form onSubmit={handleLogin} className="flex flex-col gap-6">
+          {/* Form */}
+          <form onSubmit={handleLogin} className="flex flex-col gap-5 px-10 pb-10">
+            {/* Email */}
             <div className="flex flex-col gap-2">
-              <label className="text-[10px] font-bold tracking-[0.2em] uppercase text-on-surface-muted ml-1">Email</label>
+              <label className="text-[9px] font-black tracking-[0.25em] uppercase text-white/40 ml-1">
+                Correo Electrónico
+              </label>
               <div className="relative">
-                <Mail size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-var" />
-                <input 
+                <Mail size={15} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/25" />
+                <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="ejemplo@correo.com"
                   required
-                  className="w-full rounded-2xl bg-white/5 border border-white/10 px-12 py-4 text-sm text-white focus:outline-none focus:border-gold/50 transition-all"
+                  className="w-full rounded-xl bg-white/[0.04] border border-white/8 px-11 py-4 text-sm text-white placeholder:text-white/20 focus:outline-none focus:border-[#CFA12E]/50 focus:bg-white/[0.06] transition-all duration-300"
                 />
               </div>
             </div>
 
+            {/* Password */}
             <div className="flex flex-col gap-2">
-              <label className="text-[10px] font-bold tracking-[0.2em] uppercase text-on-surface-muted ml-1">Contraseña</label>
+              <label className="text-[9px] font-black tracking-[0.25em] uppercase text-white/40 ml-1">
+                Contraseña
+              </label>
               <div className="relative">
-                <Lock size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-var" />
-                <input 
+                <Lock size={15} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/25" />
+                <input
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
                   required
-                  className="w-full rounded-2xl bg-white/5 border border-white/10 px-12 py-4 text-sm text-white focus:outline-none focus:border-gold/50 transition-all"
+                  className="w-full rounded-xl bg-white/[0.04] border border-white/8 px-11 py-4 text-sm text-white placeholder:text-white/20 focus:outline-none focus:border-[#CFA12E]/50 focus:bg-white/[0.06] transition-all duration-300"
                 />
               </div>
             </div>
 
+            {/* Error message */}
             {error && (
-              <motion.p 
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: "auto" }}
-                className="text-red-400 text-xs font-medium text-center bg-red-400/10 py-3 rounded-xl border border-red-400/20"
+              <motion.div
+                initial={{ opacity: 0, y: -8 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="flex items-start gap-3 bg-red-500/8 border border-red-500/20 rounded-xl px-4 py-3"
               >
-                {error}
-              </motion.p>
+                <AlertTriangle size={15} className="text-red-400 flex-shrink-0 mt-0.5" />
+                <p className="text-red-400 text-xs leading-relaxed">{error}</p>
+              </motion.div>
             )}
 
-            <button 
-              type="submit" 
+            {/* Submit */}
+            <button
+              type="submit"
               disabled={loading}
-              className="btn-premium flex items-center justify-center gap-3 mt-4 disabled:opacity-70 group"
+              className="mt-2 w-full py-4 rounded-xl font-black text-[11px] tracking-[0.3em] uppercase transition-all duration-500 disabled:opacity-60 flex items-center justify-center gap-3 group"
+              style={{
+                background: "linear-gradient(135deg, #CFA12E 0%, #A07D20 100%)",
+                color: "#080E1C",
+                boxShadow: "0 8px 32px rgba(207,161,46,0.25)",
+              }}
             >
-              {loading ? <Loader2 size={18} className="animate-spin" /> : <LogIn size={18} />}
-              {loading ? "Iniciando..." : "Ingresar"}
-              <ArrowRight size={16} className="opacity-0 group-hover:opacity-100 group-hover:translate-x-2 transition-all" />
+              {loading ? (
+                <Loader2 size={18} className="animate-spin" />
+              ) : (
+                <>
+                  Ingresar
+                  <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                </>
+              )}
             </button>
           </form>
 
-          <div className="mt-10 text-center">
-            <p className="text-xs text-on-surface-muted italic">
-              ¿No tienes cuenta? <a href="/#reserva" className="text-gold font-bold hover:underline not-italic ml-1">Regístrate al reservar</a>
+          {/* Footer link */}
+          <div className="px-10 pb-10 text-center">
+            <p className="text-[11px] text-white/30">
+              ¿Sin cuenta?{" "}
+              <a href="/#reserva" className="text-[#CFA12E]/80 hover:text-[#CFA12E] font-bold transition-colors">
+                Regístrate al reservar →
+              </a>
             </p>
           </div>
         </div>
 
-        <p className="mt-8 text-center text-[10px] font-bold tracking-[0.2em] text-on-surface-var uppercase">
+        {/* Copyright */}
+        <p className="mt-8 text-center text-[9px] font-black tracking-[0.25em] text-white/20 uppercase">
           © {new Date().getFullYear()} M&M Driver Services · VIP Protocol
         </p>
       </motion.div>

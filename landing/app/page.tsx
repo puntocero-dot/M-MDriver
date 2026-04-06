@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion, AnimatePresence, useInView, useScroll, useTransform, Variants } from "framer-motion";
+import { motion, AnimatePresence, useInView, useScroll, useTransform } from "framer-motion";
 import {
   Car,
   Shield,
@@ -9,7 +9,6 @@ import {
   Clock,
   ChevronRight,
   Phone,
-  Star,
   MapPin,
   Menu,
   X,
@@ -21,10 +20,10 @@ import {
   CheckCircle,
   Loader2,
   ChevronDown,
-  LogIn,
   Smartphone,
   Apple,
-  PlayCircle
+  PlayCircle,
+  Download,
 } from "lucide-react";
 import {
   calculateQuote,
@@ -35,8 +34,21 @@ import {
   type QuoteResponse,
   type Trip,
 } from "../lib/api";
-import { getToken, getUser, clearAuth, isAuthenticated } from "../lib/auth";
-import { useRouter } from "next/navigation";
+import { getToken, clearAuth } from "../lib/auth";
+
+// Hydration-safe auth hook — never reads localStorage during SSR
+function useAuth() {
+  const [authed, setAuthed] = useState(false);
+  useEffect(() => {
+    try {
+      const token = localStorage.getItem("mm_driver_client_token");
+      if (!token) { setAuthed(false); return; }
+      const payload = JSON.parse(atob(token.split(".")[1]));
+      setAuthed(!payload.exp || Date.now() / 1000 < payload.exp);
+    } catch { setAuthed(false); }
+  }, []);
+  return authed;
+}
 
 // ── Animation helpers ─────────────────────────────────────────────────────────
 
@@ -89,11 +101,12 @@ function Nav() {
     return () => window.removeEventListener("scroll", handler);
   }, []);
 
+  const authed = useAuth();
+
   const links = [
     { label: "Servicios", href: "#services" },
-    { label: "Cómo funciona", href: "#how" },
+    { label: "Cómo Funciona", href: "#how" },
     { label: "Flota", href: "#fleet" },
-    { label: "Reservar", href: "#reserva" },
     { label: "Contacto", href: "#contact" },
   ];
 
@@ -105,13 +118,13 @@ function Nav() {
       className="fixed top-0 left-0 right-0 z-[100] pointer-events-none"
     >
       <div className="container-page py-8 flex justify-center">
-        <div 
+        <div
           className={`w-full max-w-6xl h-20 flex items-center justify-between px-8 md:px-12 rounded-full transition-all duration-700 pointer-events-auto ${
             scrolled ? "glass shadow-2xl border-white/10" : "bg-transparent"
           }`}
         >
           {/* Logo */}
-          <a href="#" className="flex items-center gap-3 group">
+          <a href="#" className="flex items-center gap-3 group flex-shrink-0">
             <span className="text-gold-vibrant text-3xl font-serif font-black tracking-tighter transition-transform group-hover:scale-105">
               M&M
             </span>
@@ -121,39 +134,48 @@ function Nav() {
           </a>
 
           {/* Desktop links */}
-          <div className="hidden md:flex items-center gap-10">
+          <div className="hidden md:flex items-center gap-8">
             {links.map((l) => (
               <a
                 key={l.href}
                 href={l.href}
-                className="text-on-surface-muted hover:text-gold-vibrant text-[10px] font-bold tracking-[0.25em] uppercase transition-all duration-300 hover:tracking-[0.35em]"
+                className="text-on-surface-muted hover:text-gold-vibrant text-[10px] font-bold tracking-[0.2em] uppercase transition-all duration-300"
               >
                 {l.label}
               </a>
             ))}
-            
-            <button
-              onClick={() => (window as any).toggleDownloadModal?.()}
-              className="text-gold/80 hover:text-gold text-[10px] font-bold tracking-[0.25em] uppercase transition-all duration-300 px-4 py-1.5 rounded-full border border-gold/20 hover:border-gold/50"
-            >
-              App
-            </button>
-            <a
-              href="/login"
-              className="text-white/60 hover:text-white text-[10px] font-bold tracking-[0.25em] uppercase transition-all duration-300"
-            >
-              {isAuthenticated() ? "Miperfil" : "Ingresar"}
-            </a>
           </div>
 
-          {/* CTA */}
-          <div className="hidden md:block">
+          {/* Right actions */}
+          <div className="hidden md:flex items-center gap-4">
+            <button
+              onClick={() => (window as any).toggleDownloadModal?.()}
+              className="text-[9px] font-bold tracking-[0.2em] uppercase text-gold/70 hover:text-gold transition-all duration-300 px-3 py-1.5 rounded-full border border-gold/20 hover:border-gold/50 flex items-center gap-1.5"
+            >
+              <Download size={12} />
+              App
+            </button>
+            {authed ? (
+              <button
+                onClick={() => { clearAuth(); window.location.reload(); }}
+                className="text-[9px] font-bold tracking-[0.2em] uppercase text-white/40 hover:text-red-400 transition-all duration-300"
+              >
+                Salir
+              </button>
+            ) : (
+              <a
+                href="/login"
+                className="text-[9px] font-bold tracking-[0.2em] uppercase text-white/60 hover:text-white transition-all duration-300"
+              >
+                Ingresar
+              </a>
+            )}
             <a
               href="#reserva"
-              className="btn-premium !py-2.5 !px-8 rounded-full text-[10px] shadow-gold/20 flex items-center gap-2"
+              className="btn-premium !py-2 !px-6 rounded-full text-[9px] shadow-gold/20 flex items-center gap-2"
             >
-              {isAuthenticated() ? "Nueva Reserva" : "Reserva Ahora"}
-              <ChevronRight size={14} strokeWidth={3} />
+              Reserva Ahora
+              <ChevronRight size={12} strokeWidth={3} />
             </a>
           </div>
 
@@ -183,12 +205,23 @@ function Nav() {
                 {l.label}
               </a>
             ))}
+            <button
+              onClick={() => { (window as any).toggleDownloadModal?.(); setOpen(false); }}
+              className="text-gold text-lg font-bold text-left"
+            >
+              Descargar App
+            </button>
+            {authed ? (
+              <button onClick={() => { clearAuth(); window.location.reload(); }} className="text-red-400 font-bold text-left text-lg">Cerrar Sesión</button>
+            ) : (
+              <a href="/login" onClick={() => setOpen(false)} className="text-white/70 font-bold text-lg">Iniciar Sesión</a>
+            )}
             <a
               href="#reserva"
               className="btn-premium px-6 py-5 rounded-xl text-sm text-center font-bold"
               onClick={() => setOpen(false)}
             >
-              Solicitar Conductor
+              Reserva Ahora
             </a>
           </motion.div>
         )}
@@ -419,7 +452,7 @@ function HowItWorks() {
   return (
     <section id="how" className="bg-surface">
       <div className="container-page">
-        <FadeIn className="text-center mb-28">
+        <FadeIn className="text-center mb-40">
           <span className="text-[11px] font-bold tracking-[1em] uppercase text-gold/60 mb-6 block">
             The Protocol
           </span>
@@ -428,22 +461,22 @@ function HowItWorks() {
           </h2>
         </FadeIn>
 
-        <div className="grid md:grid-cols-3 gap-12">
+        <div className="grid md:grid-cols-3 gap-20">
           {steps.map((step, i) => (
             <FadeIn key={step.num} delay={i * 0.2}>
               <div className="flex flex-col items-center text-center group">
-                <div className="relative mb-14">
+                <div className="relative mb-16">
                   <div className="w-40 h-40 rounded-3xl flex items-center justify-center glass border-white/10 transition-all duration-1000 group-hover:rounded-2xl group-hover:scale-105 group-hover:border-gold/50 group-hover:bg-gold/5">
                     <step.icon size={52} className="text-gold transition-all duration-700 group-hover:scale-110 group-hover:rotate-6" strokeWidth={0.5} />
                   </div>
-                  <span className="absolute -top-4 -right-4 w-15 h-15 rounded-full flex items-center justify-center text-lg font-serif italic font-black bg-gold text-on-primary shadow-2xl border-[6px] border-surface">
+                  <span className="absolute -top-4 -right-4 w-10 h-10 rounded-full flex items-center justify-center text-base font-serif italic font-black bg-gold text-on-primary shadow-2xl border-[4px] border-surface">
                     {step.num}
                   </span>
                 </div>
-                <h3 className="text-3xl font-serif text-white mb-6 group-hover:text-gold transition-colors duration-500">
+                <h3 className="text-3xl font-serif text-white mb-8 group-hover:text-gold transition-colors duration-500">
                   {step.title}
                 </h3>
-                <p className="text-lg text-on-surface-muted leading-relaxed font-light max-w-[300px]">
+                <p className="text-base text-on-surface-muted leading-loose font-light max-w-[260px] mx-auto">
                   {step.desc}
                 </p>
               </div>
@@ -615,7 +648,8 @@ function SelectInput({
 }
 
 function BookingSection() {
-  const [step, setStep] = useState<Step>(isAuthenticated() ? "quote" : "register");
+  // Always start at "quote" — SSR-safe (no localStorage on server)
+  const [step, setStep] = useState<Step>("quote");
   const [pickup, setPickup] = useState("");
   const [dropoff, setDropoff] = useState("");
   const [quote, setQuote] = useState<QuoteResponse | null>(null);
@@ -990,9 +1024,13 @@ function BigCTA() {
           <a href="https://wa.me/50300000000" className="btn-premium">
             CONTACTAR CONCIERGE
           </a>
-          <a href="#" className="btn-outline-premium">
+          <button
+            onClick={() => (window as any).toggleDownloadModal?.()}
+            className="btn-outline-premium flex items-center gap-3"
+          >
+            <Download size={18} />
             DESCARGAR APP
-          </a>
+          </button>
         </div>
 
         <div className="flex flex-wrap items-center justify-center gap-x-14 gap-y-8 mt-12 pt-12 border-t border-white/5">
@@ -1157,9 +1195,9 @@ function DownloadModal() {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    (window as any).toggleDownloadModal = () => setIsOpen(!isOpen);
+    (window as any).toggleDownloadModal = () => setIsOpen((prev) => !prev);
     return () => { delete (window as any).toggleDownloadModal; };
-  }, [isOpen]);
+  }, []);
 
   return (
     <AnimatePresence>
@@ -1168,61 +1206,84 @@ function DownloadModal() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[200] flex items-center justify-center p-6 bg-[#0A1121]/90 backdrop-blur-md"
+          onClick={() => setIsOpen(false)}
+          className="fixed inset-0 z-[200] flex items-center justify-center p-6 bg-[#080E1C]/90 backdrop-blur-lg"
         >
           <motion.div
-            initial={{ scale: 0.9, opacity: 0, y: 20 }}
+            initial={{ scale: 0.92, opacity: 0, y: 24 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
-            exit={{ scale: 0.9, opacity: 0, y: 20 }}
-            className="w-full max-w-2xl glass rounded-[3rem] p-12 border border-white/10 shadow-2xl relative overflow-hidden"
+            exit={{ scale: 0.92, opacity: 0, y: 24 }}
+            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            onClick={(e) => e.stopPropagation()}
+            className="w-full max-w-lg border border-white/8 shadow-2xl relative overflow-hidden rounded-[2rem]"
+            style={{ background: "linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02))" }}
           >
-            <button 
+            {/* Gold top line */}
+            <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#CFA12E]/60 to-transparent" />
+
+            <button
               onClick={() => setIsOpen(false)}
-              className="absolute top-8 right-8 text-on-surface-muted hover:text-white transition-colors"
+              className="absolute top-6 right-6 w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-white/40 hover:text-white transition-all"
             >
-              <X size={24} />
+              <X size={16} />
             </button>
 
-            <div className="absolute inset-0 z-0 opacity-10 pointer-events-none">
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-gold/20 blur-[100px]" />
-            </div>
-
-            <div className="relative z-10 text-center">
-              <div className="w-20 h-20 rounded-3xl bg-gold mx-auto mb-8 flex items-center justify-center text-[#0A1121] shadow-2xl shadow-gold/20">
-                <Smartphone size={40} strokeWidth={1.5} />
+            <div className="p-10">
+              {/* Icon + title */}
+              <div className="flex flex-col items-center text-center mb-8">
+                <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#CFA12E] to-[#A07D20] flex items-center justify-center shadow-lg shadow-[#CFA12E]/20 mb-6">
+                  <Smartphone size={32} className="text-[#080E1C]" strokeWidth={1.5} />
+                </div>
+                <h2 className="text-3xl font-serif text-white mb-2">M&M Driver App</h2>
+                <p className="text-sm text-white/40 max-w-xs leading-relaxed">
+                  GPS en tiempo real, botón SOS y seguimiento compartido. Protocolo VIP en tu bolsillo.
+                </p>
               </div>
-              
-              <h2 className="text-4xl font-serif text-white mb-4">Experiencia M&M Driver</h2>
-              <p className="text-on-surface-muted max-w-md mx-auto mb-12">
-                Escoge tu plataforma y lleva el protocolo VIP en tu bolsillo.
-              </p>
 
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-                <a 
-                  href="/downloads/mm-driver.apk" 
-                  className="flex-1 w-full flex items-center gap-4 bg-white/5 border border-white/10 hover:border-gold/50 p-6 rounded-[2rem] transition-all hover:bg-white/10 group shadow-xl"
-                >
-                  <div className="w-12 h-12 rounded-2xl bg-gold flex items-center justify-center text-[#0A1121]">
-                    <PlayCircle size={28} fill="currentColor" />
+              {/* Platform buttons */}
+              <div className="grid grid-cols-2 gap-4 mb-8">
+                {/* Android — coming soon */}
+                <div className="flex flex-col items-center gap-3 bg-white/[0.03] border border-white/8 p-5 rounded-2xl opacity-60 cursor-not-allowed">
+                  <div className="w-10 h-10 rounded-xl bg-[#CFA12E]/10 border border-[#CFA12E]/20 flex items-center justify-center">
+                    <PlayCircle size={22} className="text-[#CFA12E]" fill="currentColor" />
                   </div>
-                  <div className="text-left">
-                    <p className="text-[9px] font-bold tracking-widest text-gold/60 uppercase">Android</p>
-                    <p className="text-lg font-bold text-white uppercase tracking-tighter">Instalar APK</p>
+                  <div className="text-center">
+                    <p className="text-[8px] font-black tracking-[0.2em] uppercase text-white/30 mb-0.5">Android</p>
+                    <p className="text-sm font-bold text-white/40">Próximamente</p>
                   </div>
-                </a>
+                </div>
 
-                <div className="flex-1 w-full flex items-center gap-4 bg-white/5 border border-white/5 p-6 rounded-[2rem] opacity-50 cursor-not-allowed">
-                  <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center text-white/40">
-                    <Apple size={28} fill="currentColor" />
+                {/* iOS */}
+                <div className="flex flex-col items-center gap-3 bg-white/[0.03] border border-white/8 p-5 rounded-2xl opacity-60 cursor-not-allowed">
+                  <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center">
+                    <Apple size={22} className="text-white/30" fill="currentColor" />
                   </div>
-                  <div className="text-left">
-                    <p className="text-[9px] font-bold tracking-widest text-on-surface-muted uppercase">iOS</p>
-                    <p className="text-lg font-bold text-white/50 uppercase tracking-tighter">Próximamente</p>
+                  <div className="text-center">
+                    <p className="text-[8px] font-black tracking-[0.2em] uppercase text-white/30 mb-0.5">iOS</p>
+                    <p className="text-sm font-bold text-white/40">Próximamente</p>
                   </div>
                 </div>
               </div>
 
-              <p className="mt-12 text-[10px] font-bold tracking-[0.2em] text-on-surface-var uppercase">
+              {/* Install guide */}
+              <div className="bg-white/[0.02] border border-white/5 rounded-xl p-5">
+                <p className="text-[9px] font-black tracking-[0.2em] uppercase text-[#CFA12E]/60 mb-4">Guía de Instalación Android</p>
+                <div className="flex flex-col gap-3">
+                  {[
+                    { n: "1", text: "Descarga el archivo APK cuando esté disponible" },
+                    { n: "2", text: "Ve a Ajustes → Seguridad → Fuentes desconocidas" },
+                    { n: "3", text: "Abre el APK descargado y sigue las instrucciones" },
+                    { n: "4", text: "Inicia sesión con tu cuenta M&M Driver" },
+                  ].map((s) => (
+                    <div key={s.n} className="flex items-start gap-3">
+                      <span className="w-5 h-5 rounded-full bg-[#CFA12E]/15 border border-[#CFA12E]/25 flex items-center justify-center text-[9px] font-black text-[#CFA12E] flex-shrink-0 mt-0.5">{s.n}</span>
+                      <p className="text-xs text-white/40 leading-relaxed">{s.text}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <p className="mt-6 text-center text-[8px] font-black tracking-[0.25em] text-white/20 uppercase">
                 Seguridad Certificada · Protocolo VIP
               </p>
             </div>
