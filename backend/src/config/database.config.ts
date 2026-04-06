@@ -28,7 +28,10 @@ export default registerAs(
       !!process.env.RAILWAY_ENVIRONMENT
         ? { rejectUnauthorized: false }
         : false,
-    synchronize: false,
+    synchronize:
+      process.env.NODE_ENV === 'production' ||
+      !!process.env.RAILWAY_ENVIRONMENT ||
+      process.env.DB_SYNC === 'true',
     logging: process.env.NODE_ENV === 'development',
     entities: [__dirname + '/../**/*.entity{.ts,.js}'],
     migrations: [__dirname + '/../database/migrations/*{.ts,.js}'],

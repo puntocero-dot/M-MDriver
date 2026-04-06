@@ -2,6 +2,7 @@ import {
   Injectable,
   ServiceUnavailableException,
   Logger,
+  OnModuleInit,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, LessThanOrEqual, IsNull, Or } from 'typeorm';
@@ -21,6 +22,37 @@ export class QuoterService {
     @InjectRepository(PricingConfig)
     private readonly pricingConfigRepository: Repository<PricingConfig>,
   ) {}
+
+  async onModuleInit(): Promise<void> {
+    await this.ensureActiveConfig();
+  }
+
+  private async ensureActiveConfig(): Promise<void> {
+    const config = await this.pricingConfigRepository.findOne({
+      where: { isActive: true },
+    });
+
+    if (!config) {
+      this.logger.log(
+        'No active pricing config found. Seeding default config...',
+      );
+      const defaultConfig = this.pricingConfigRepository.create({
+        name: 'Tarifa Base M&M Driver 2026',
+        baseFare: 5.00,
+        perKmRate: 0.85,
+        perMinuteRate: 0.25,
+        perStopSurcharge: 2.00,
+        waitTimePerMinute: 0.15,
+        minimumFare: 8.00,
+        fuelFactor: 1.000,
+        companyVehicleSurcharge: 3.00,
+        isActive: true,
+        effectiveFrom: new Date(),
+      });
+      await this.pricingConfigRepository.save(defaultConfig);
+      this.logger.log('Default pricing config seeded and activated.');
+    }
+  }
 
   async calculateQuote(dto: QuoteRequestDto): Promise<QuoteResponseDto> {
     const config = await this.getActivePricingConfig();
