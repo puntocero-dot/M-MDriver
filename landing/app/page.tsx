@@ -672,10 +672,12 @@ function BookingSection() {
       );
       setStep("success");
     } catch (err: unknown) {
-      setError(
-        (err as Error).message ??
-          "Error al procesar la reserva. Verifique sus datos o contraseña."
-      );
+      const msg = (err as Error).message ?? "";
+      if (msg.includes("401") || msg.includes("Unauthorized")) {
+        setError("Este correo ya está registrado. Por favor, verifique su contraseña.");
+      } else {
+        setError(msg || "Error al procesar la reserva. Verifique sus datos.");
+      }
     } finally {
       setLoading(false);
     }
