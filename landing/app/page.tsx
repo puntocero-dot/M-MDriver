@@ -20,17 +20,9 @@ import {
   Smartphone,
   Apple,
   PlayCircle,
+  Headphones,
 } from "lucide-react";
-import {
-  calculateQuote,
-  registerClient,
-  loginClient,
-  createTrip,
-  getMyTrips,
-  type QuoteResponse,
-  type Trip,
-} from "../lib/api";
-import { getToken, clearAuth } from "../lib/auth";
+import { getToken } from "../lib/auth";
 
 // Hydration-safe auth hook — never reads localStorage during SSR
 function useAuth() {
@@ -144,15 +136,19 @@ function Nav() {
 
           {/* Right actions */}
           <div className="hidden md:flex items-center gap-4">
-            <button
+            <button 
               onClick={() => (window as any).toggleDownloadModal?.()}
-              className="text-[9px] font-bold tracking-[0.2em] uppercase text-gold/70 hover:text-gold transition-all duration-300 px-3 py-1.5 rounded-full border border-gold/20 hover:border-gold/50 flex items-center gap-1.5"
+              className="btn-outline-premium flex items-center gap-3"
             >
-              <Download size={12} />
-              App
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="lucide lucide-download" aria-hidden="true">
+                <path d="M12 15V3"></path>
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <path d="m7 10 5 5 5-5"></path>
+              </svg>
+              DESCARGAR APP
             </button>
             <a
-              href="/login"
+              href="/reserva"
               className="btn-premium !py-2 !px-6 rounded-full text-[9px] shadow-gold/20 flex items-center gap-2"
             >
               Reserva Ahora
@@ -193,7 +189,7 @@ function Nav() {
               Descargar App
             </button>
             <a
-              href="/login"
+              href="/reserva"
               className="btn-premium px-6 py-5 rounded-xl text-sm text-center font-bold"
               onClick={() => setOpen(false)}
             >
@@ -272,7 +268,7 @@ function Hero() {
             transition={{ delay: 0.8, duration: 0.8 }}
             className="flex flex-col sm:flex-row gap-8"
           >
-            <a href="/login" className="btn-premium">
+            <a href="/reserva" className="btn-premium">
               Comenzar Reserva
             </a>
             <a href="#how" className="btn-outline-premium">
@@ -468,7 +464,7 @@ function HowItWorks() {
 
 const features = [
   {
-    icon: HeadphonesIcon,
+    icon: Headphones,
     title: "Conductores Verificados",
     desc: "Cada conductor pasa por verificación de antecedentes, capacitación en etiqueta y protocolo médico.",
   },
@@ -562,360 +558,7 @@ function Fleet() {
 
 
 
-function BookingSection() {
-  // Always start at "quote" — SSR-safe (no localStorage on server)
-  const [step, setStep] = useState<Step>("quote");
-  const [pickup, setPickup] = useState("");
-  const [dropoff, setDropoff] = useState("");
-  const [quote, setQuote] = useState<QuoteResponse | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [token, setToken] = useState(getToken() || "");
 
-  // Register form fields
-  const [form, setForm] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    password: "",
-  });
-
-  const pickupObj = LOCATIONS.find((l) => l.label === pickup);
-  const dropoffObj = LOCATIONS.find((l) => l.label === dropoff);
-
-  async function handleQuote() {
-    if (!pickupObj || !dropoffObj) {
-      setError("Selecciona origen y destino para cotizar.");
-      return;
-    }
-    setError("");
-    setLoading(true);
-    try {
-      const result = await calculateQuote({
-        pickupLat: pickupObj.lat,
-        pickupLng: pickupObj.lng,
-        dropoffLat: dropoffObj.lat,
-        dropoffLng: dropoffObj.lng,
-      });
-      setQuote(result);
-    } catch (err: unknown) {
-      setError((err as Error).message ?? "Error al calcular cotización.");
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  async function handleRegisterAndBook() {
-    if (!quote || !pickupObj || !dropoffObj) return;
-    setError("");
-    setLoading(true);
-    try {
-      let auth;
-      try {
-        // 1. Attempt to Register
-        auth = await registerClient({ ...form });
-      } catch (err: unknown) {
-        // 2. If email exists (Conflict), attempt to Login with the same password
-        const msg = (err as Error).message ?? "";
-        if (msg.includes("registrado") || msg.includes("Conflict") || msg.includes("409")) {
-          auth = await loginClient(form.email, form.password);
-        } else {
-          throw err;
-        }
-      }
-      
-      setToken(auth.accessToken);
-
-      // 3. Create trip
-      await createTrip(
-        {
-          pickupAddress: pickup,
-          dropoffAddress: dropoff,
-          pickupLat: pickupObj.lat,
-          pickupLng: pickupObj.lng,
-          dropoffLat: dropoffObj.lat,
-          dropoffLng: dropoffObj.lng,
-          quotedPrice: quote.estimatedPrice,
-        },
-        auth.accessToken
-      );
-      setStep("success");
-    } catch (err: unknown) {
-      const msg = (err as Error).message ?? "";
-      if (msg.includes("401") || msg.includes("Unauthorized")) {
-        setError("Este correo ya está registrado. Por favor, verifique su contraseña.");
-      } else {
-        setError(msg || "Error al procesar la reserva. Verifique sus datos.");
-      }
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  return (
-    <section id="reserva" className="bg-surface-low relative overflow-hidden">
-      {/* Gold ambient glow */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(ellipse 80% 50% at 50% 100%, rgba(207,161,46,0.06) 0%, transparent 100%)",
-        }}
-      />
-
-      <div className="container-page">
-        <FadeIn className="text-center mb-20">
-          <div className="flex items-center justify-center gap-4 mb-6">
-            <div className="h-[1px] w-12 bg-gold/40" />
-            <span className="text-[10px] font-black tracking-[0.6em] uppercase text-gold">
-              Cotizador Ejecutivo
-            </span>
-            <div className="h-[1px] w-12 bg-gold/40" />
-          </div>
-          <h2 className="text-5xl md:text-7xl font-serif text-white mb-8">
-            Su viaje,{" "}
-            <span className="text-gold-glow italic">en segundos</span>.
-          </h2>
-          <p className="text-on-surface-muted text-xl max-w-2xl mx-auto font-light">
-            Obtenga una cotización precisa al instante y reserve su conductor privado ahora mismo.
-          </p>
-        </FadeIn>
-
-        <div className="max-w-2xl mx-auto">
-          <AnimatePresence mode="wait">
-            {step === "quote" && (
-              <motion.div
-                key="quote"
-                initial={{ opacity: 0, y: 24 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -24 }}
-                transition={{ duration: 0.4 }}
-                className="glass rounded-3xl p-10 border border-white/8 flex flex-col gap-8"
-                style={{ border: "1px solid rgba(255,255,255,0.06)" }}
-              >
-                <SelectInput
-                  id="pickup-location"
-                  label="Origen"
-                  value={pickup}
-                  onChange={setPickup}
-                />
-                <SelectInput
-                  id="dropoff-location"
-                  label="Destino"
-                  value={dropoff}
-                  onChange={setDropoff}
-                />
-
-                {error && (
-                  <p className="text-red-400 text-sm font-medium text-center">
-                    {error}
-                  </p>
-                )}
-
-                {quote && (
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    className="rounded-2xl border border-gold/20 p-6"
-                    style={{ background: "rgba(207,161,46,0.05)" }}
-                  >
-                    <p className="text-[10px] font-bold tracking-[0.3em] uppercase text-gold/70 mb-4">
-                      Cotización Estimada
-                    </p>
-                    <div className="flex items-end justify-between">
-                      <div>
-                        <p className="text-5xl font-black text-white tabular-nums">
-                          ${(quote?.estimatedPrice ?? 0).toFixed(2)}
-                        </p>
-                        <p className="text-sm text-on-surface-muted mt-1">
-                          {quote?.currency ?? "USD"} · {((quote?.estimatedDistanceMeters ?? 0) / 1000).toFixed(1)} km · ~{Math.round((quote?.estimatedDurationSeconds ?? 0) / 60)} min
-                        </p>
-                      </div>
-                      <CheckCircle size={40} className="text-gold opacity-60" />
-                    </div>
-                  </motion.div>
-                )}
-
-                <div className="flex flex-col sm:flex-row gap-4">
-                  <button
-                    id="btn-quote"
-                    onClick={handleQuote}
-                    disabled={loading}
-                    className="flex-1 btn-premium flex items-center justify-center gap-3 disabled:opacity-60"
-                  >
-                    {loading ? (
-                      <Loader2 size={18} className="animate-spin" />
-                    ) : (
-                      <Calculator size={18} />
-                    )}
-                    {loading ? "Calculando…" : "Cotizar Ahora"}
-                  </button>
-
-                  {quote && (
-                    <button
-                      id="btn-proceed-register"
-                      onClick={() => setStep("register")}
-                      className="flex-1 btn-premium flex items-center justify-center gap-2"
-                    >
-                      Reservar Ahora
-                      <ArrowRight size={16} />
-                    </button>
-                  )}
-                </div>
-              </motion.div>
-            )}
-
-            {step === "register" && (
-              <motion.div
-                key="register"
-                initial={{ opacity: 0, y: 24 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -24 }}
-                transition={{ duration: 0.4 }}
-                className="glass rounded-3xl p-10 flex flex-col gap-6"
-                style={{ border: "1px solid rgba(255,255,255,0.06)" }}
-              >
-                <div className="flex items-center justify-between mb-2">
-                  <h3 className="text-3xl font-serif text-white">Crear Cuenta</h3>
-                  <button
-                    onClick={() => setStep("quote")}
-                    className="flex items-center gap-2 text-gold/60 hover:text-gold text-[10px] font-bold uppercase tracking-widest transition-all"
-                  >
-                    ← Volver
-                  </button>
-                </div>
-                <p className="text-on-surface-muted text-xs mb-4">Ingrese sus datos para confirmar su reserva.</p>
-
-                <div className="grid grid-cols-2 gap-4">
-                  {[
-                    { id: "firstName", label: "Nombre", type: "text", key: "firstName" as const },
-                    { id: "lastName", label: "Apellido", type: "text", key: "lastName" as const },
-                  ].map((field) => (
-                    <div key={field.id} className="flex flex-col gap-2">
-                      <label
-                        htmlFor={field.id}
-                        className="text-[10px] font-bold tracking-[0.25em] uppercase text-on-surface-muted"
-                      >
-                        {field.label}
-                      </label>
-                      <input
-                        id={field.id}
-                        type={field.type}
-                        value={form[field.key]}
-                        onChange={(e) =>
-                          setForm((f) => ({ ...f, [field.key]: e.target.value }))
-                        }
-                        className="rounded-xl px-4 py-3 text-sm text-white bg-white/5 border border-white/10 focus:outline-none focus:border-gold/60 transition-all"
-                        placeholder={field.label}
-                      />
-                    </div>
-                  ))}
-                </div>
-
-                {[
-                  { id: "email", label: "Email", type: "email", key: "email" as const, placeholder: "su@email.com" },
-                  { id: "phone", label: "Teléfono", type: "tel", key: "phone" as const, placeholder: "+503 XXXX XXXX" },
-                  { id: "password", label: "Contraseña", type: "password", key: "password" as const, placeholder: "Mínimo 8 caracteres" },
-                ].map((field) => (
-                  <div key={field.id} className="flex flex-col gap-2">
-                    <label
-                      htmlFor={field.id}
-                      className="text-[10px] font-bold tracking-[0.25em] uppercase text-on-surface-muted"
-                    >
-                      {field.label}
-                    </label>
-                    <input
-                      id={field.id}
-                      type={field.type}
-                      value={form[field.key]}
-                      onChange={(e) =>
-                        setForm((f) => ({ ...f, [field.key]: e.target.value }))
-                      }
-                      className="rounded-xl px-4 py-3 text-sm text-white bg-white/5 border border-white/10 focus:outline-none focus:border-gold/60 transition-all"
-                      placeholder={field.placeholder}
-                    />
-                  </div>
-                ))}
-
-                {error && (
-                  <p className="text-red-400 text-sm font-medium text-center">
-                    {error}
-                  </p>
-                )}
-
-                <button
-                  id="btn-confirm-booking"
-                  onClick={handleRegisterAndBook}
-                  disabled={loading}
-                  className="btn-premium flex items-center justify-center gap-3 disabled:opacity-60"
-                >
-                  {loading ? (
-                    <Loader2 size={18} className="animate-spin" />
-                  ) : (
-                    <CheckCircle size={18} />
-                  )}
-                  {loading ? "Procesando..." : "Confirmar Reserva"}
-                </button>
-              </motion.div>
-            )}
-
-            {step === "success" && (
-              <motion.div
-                key="success"
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                className="glass rounded-3xl p-12 text-center flex flex-col items-center gap-8"
-                style={{ border: "1px solid rgba(207,161,46,0.2)" }}
-              >
-                <motion.div
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-                  className="w-24 h-24 rounded-full flex items-center justify-center"
-                  style={{ background: "rgba(207,161,46,0.15)", border: "1px solid rgba(207,161,46,0.3)" }}
-                >
-                  <CheckCircle size={48} className="text-gold" />
-                </motion.div>
-
-                <div>
-                  <h3 className="text-4xl font-serif text-white mb-4">
-                    ¡Reserva Confirmada!
-                  </h3>
-                  <p className="text-on-surface-muted text-lg font-light">
-                    Su conductor privado ha sido asignado. Recibirá una confirmación por email.
-                  </p>
-                </div>
-
-                <div className="flex flex-col sm:flex-row gap-4">
-                  <a
-                    href="https://wa.me/50300000000"
-                    className="btn-premium flex items-center gap-2"
-                  >
-                    <Phone size={16} /> Contactar Concierge
-                  </a>
-                  <button
-                    onClick={() => {
-                      setStep("quote");
-                      setQuote(null);
-                      setPickup("");
-                      setDropoff("");
-                      setForm({ firstName: "", lastName: "", email: "", phone: "", password: "" });
-                    }}
-                    className="btn-outline-premium"
-                  >
-                    Nueva Cotización
-                  </button>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-      </div>
-    </section>
-  );
-}
 
 // ── Big CTA ───────────────────────────────────────────────────────────────────
 
@@ -990,28 +633,28 @@ function Footer() {
             </p>
           </div>
 
-            <div className="flex flex-wrap items-center justify-center gap-12">
-              {[
-                "Privacy Policy",
-                "Terms of Service",
-                "Corporate Protocol",
-                "Contact",
-              ].map((l) => (
-                <a
-                  key={l}
-                  href="#"
-                  className="text-[11px] font-bold tracking-[0.2em] text-on-surface-muted hover:text-gold uppercase transition-all duration-300"
-                >
-                  {l}
-                </a>
-              ))}
+          <div className="flex flex-wrap items-center justify-center gap-12">
+            {[
+              "Privacy Policy",
+              "Terms of Service",
+              "Corporate Protocol",
+              "Contact",
+            ].map((l) => (
               <a
-                href="/admin"
-                className="text-[11px] font-bold tracking-[0.2em] text-gold/40 hover:text-gold uppercase transition-all duration-300 border-l border-white/10 pl-6 lg:pl-12"
+                key={l}
+                href="#"
+                className="text-[11px] font-bold tracking-[0.2em] text-on-surface-muted hover:text-gold uppercase transition-all duration-300"
               >
-                Admin Access
+                {l}
               </a>
-            </div>
+            ))}
+            <a
+              href="/admin"
+              className="text-[11px] font-bold tracking-[0.2em] text-gold/40 hover:text-gold uppercase transition-all duration-300 border-l border-white/10 pl-6 lg:pl-12"
+            >
+              Admin Access
+            </a>
+          </div>
 
           {/* Copyright Metadata */}
           <div className="text-center md:text-right">
@@ -1025,84 +668,6 @@ function Footer() {
   );
 }
 
-// ── Trip History ─────────────────────────────────────────────────────────────
-
-function TripHistory() {
-  const [trips, setTrips] = useState<Trip[]>([]);
-  const [loading, setLoading] = useState(true);
-  const token = getToken();
-
-  useEffect(() => {
-    if (token) {
-      getMyTrips(token)
-        .then((res) => setTrips(res.data))
-        .catch(console.error)
-        .finally(() => setLoading(false));
-    }
-  }, [token]);
-
-  if (!token || (!loading && trips.length === 0)) return null;
-
-  return (
-    <section className="bg-surface py-24">
-      <div className="container-page">
-        <FadeIn className="mb-12">
-          <h2 className="text-4xl font-serif text-white mb-2">Mis Viajes Recientes</h2>
-          <p className="text-on-surface-muted text-sm uppercase tracking-widest font-bold">Historial de Protocolo</p>
-        </FadeIn>
-
-        <div className="grid gap-4">
-          {loading ? (
-            <div className="flex justify-center p-12">
-              <Loader2 className="animate-spin text-gold" size={32} />
-            </div>
-          ) : (
-            trips.map((t) => (
-              <motion.div 
-                key={t.id}
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                className="glass rounded-2xl p-6 border border-white/5 flex flex-col md:flex-row items-center justify-between gap-6 hover:border-gold/30 transition-all group"
-              >
-                <div className="flex flex-col gap-1 flex-1">
-                  <div className="flex items-center gap-3 mb-2">
-                    <span className="px-3 py-1 rounded-full bg-gold/10 text-gold text-[10px] font-black uppercase tracking-widest border border-gold/20">
-                      {t.status}
-                    </span>
-                    <span className="text-[10px] text-on-surface-var font-bold uppercase tracking-tighter">
-                      {new Date(t.createdAt).toLocaleDateString()} · {new Date(t.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-2 text-white font-medium">
-                    <MapPin size={14} className="text-gold" />
-                    <span className="text-sm line-clamp-1">{t.pickupAddress}</span>
-                    <ChevronRight size={12} className="text-on-surface-var" />
-                    <span className="text-sm line-clamp-1">{t.dropoffAddress}</span>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-8">
-                  <div className="text-right">
-                    <p className="text-2xl font-black text-white tabular-nums">${(t.fare || (t as any).quotedPrice || 0).toFixed(2)}</p>
-                    <p className="text-[10px] text-on-surface-muted uppercase font-bold tracking-widest">Pactado</p>
-                  </div>
-                  {t.shareToken && (
-                    <a 
-                      href={`/track/${t.shareToken}`}
-                      className="w-12 h-12 rounded-xl bg-gold flex items-center justify-center text-[#0A1121] shadow-lg shadow-gold/20 hover:scale-110 transition-transform"
-                    >
-                      <Globe size={20} strokeWidth={2.5} />
-                    </a>
-                  )}
-                </div>
-              </motion.div>
-            ))
-          )}
-        </div>
-      </div>
-    </section>
-  );
-}
 
 // ── Download Modal ─────────────────────────────────────────────────────────
 
