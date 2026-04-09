@@ -669,8 +669,6 @@ function Footer() {
 }
 
 
-// ── Download Modal ─────────────────────────────────────────────────────────
-
 function DownloadModal() {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -687,7 +685,7 @@ function DownloadModal() {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={() => setIsOpen(false)}
-          className="fixed inset-0 z-[200] flex items-center justify-center p-6 bg-[#05080F]/95 backdrop-blur-xl"
+          className="fixed inset-0 z-[200] flex items-center justify-center p-4 sm:p-6 bg-[#05080F]/95 backdrop-blur-xl"
         >
           <motion.div
             initial={{ scale: 0.95, opacity: 0, y: 30 }}
@@ -695,7 +693,7 @@ function DownloadModal() {
             exit={{ scale: 0.95, opacity: 0, y: 30 }}
             transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
             onClick={(e) => e.stopPropagation()}
-            className="w-full max-w-2xl border border-white/10 shadow-[0_40px_100px_rgba(0,0,0,0.8)] relative overflow-hidden rounded-[3.5rem]"
+            className="w-full max-w-2xl border border-white/10 shadow-2xl relative overflow-hidden rounded-[2rem] md:rounded-[2.5rem]"
             style={{ 
               background: "linear-gradient(165deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%)",
             }}
@@ -706,77 +704,78 @@ function DownloadModal() {
 
             <button
               onClick={() => setIsOpen(false)}
-              className="absolute top-8 right-8 w-14 h-14 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-white/30 hover:text-white transition-all border border-white/5 shadow-xl"
+              className="absolute top-6 right-6 w-12 h-12 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-white/50 hover:text-white transition-all border border-white/5 shadow-xl z-10"
             >
-              <X size={24} strokeWidth={1.5} />
+              <X size={20} strokeWidth={1.5} />
             </button>
 
-            <div className="p-16 md:p-24 flex flex-col items-center">
-              {/* Icon Container with multi-layered glow */}
-              <div className="relative mb-14 shrink-0">
-                <div className="absolute inset-0 bg-gold/40 blur-[40px] rounded-[2.5rem] opacity-30" />
-                <div className="relative w-28 h-28 rounded-[2.5rem] bg-gradient-to-br from-[#CFA12E] to-[#A07D20] flex items-center justify-center shadow-2xl">
-                  <Smartphone size={56} className="text-[#05080F]" strokeWidth={1} />
+            {/* Scrollable Content Container */}
+            <div className="max-h-[85vh] overflow-y-auto p-8 md:p-14 flex flex-col items-center">
+              {/* Icon Container */}
+              <div className="relative mb-8 shrink-0">
+                <div className="absolute inset-0 bg-gold/40 blur-[30px] rounded-3xl opacity-30" />
+                <div className="relative w-24 h-24 rounded-3xl bg-gradient-to-br from-[#CFA12E] to-[#A07D20] flex items-center justify-center shadow-xl">
+                  <Smartphone size={48} className="text-[#05080F]" strokeWidth={1} />
                 </div>
               </div>
               
-              <div className="text-center mb-16">
-                <h2 className="text-4xl md:text-5xl font-serif text-white mb-6 tracking-tight">Experiencia M&M Mobile</h2>
-                <p className="text-xl text-white/40 max-w-md leading-relaxed font-light">
-                  Lleve el estándar de protocolo VIP en su bolsillo. Acceso exclusivo para clientes registrados.
+              <div className="text-center mb-10">
+                <h2 className="text-3xl md:text-4xl font-serif text-white mb-4 tracking-tight">Experiencia M&M Mobile</h2>
+                <p className="text-lg text-white/40 max-w-sm mx-auto leading-relaxed font-light">
+                  Lleve el estándar de protocolo VIP en su bolsillo. Acceso exclusivo para clientes.
                 </p>
               </div>
 
-              {/* Platform buttons - more spacing */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-10 w-full mb-16">
+              {/* Platform buttons */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full mb-10">
                 {/* Android */}
-                <div className="flex flex-col items-center gap-6 bg-white/[0.04] border border-white/10 p-12 rounded-[2.5rem] opacity-60 cursor-not-allowed group hover:bg-white/[0.06] transition-all">
-                  <div className="w-14 h-14 rounded-2xl bg-gold/10 border border-gold/20 flex items-center justify-center">
-                    <PlayCircle size={36} className="text-gold" fill="currentColor" />
+                <div className="flex flex-col items-center gap-4 bg-white/[0.04] border border-white/10 p-6 md:p-8 rounded-[1.5rem] opacity-60 cursor-not-allowed group transition-all">
+                  <div className="w-12 h-12 rounded-xl bg-gold/10 border border-gold/20 flex items-center justify-center">
+                    <PlayCircle size={28} className="text-gold" fill="currentColor" />
                   </div>
                   <div className="text-center">
-                    <p className="text-[10px] font-black tracking-[0.4em] uppercase text-white/40 mb-2">Android Platform</p>
-                    <p className="text-xl font-bold text-white/50 tracking-tight">Próximamente</p>
+                    <p className="text-[9px] font-black tracking-[0.3em] uppercase text-white/40 mb-1">Android Platform</p>
+                    <p className="text-lg font-bold text-white/50 tracking-tight">Próximamente</p>
                   </div>
                 </div>
 
                 {/* iOS */}
-                <div className="flex flex-col items-center gap-6 bg-white/[0.04] border border-white/10 p-12 rounded-[2.5rem] opacity-60 cursor-not-allowed group hover:bg-white/[0.06] transition-all">
-                  <div className="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center">
-                    <Apple size={36} className="text-white/30" fill="currentColor" />
+                <div className="flex flex-col items-center gap-4 bg-white/[0.04] border border-white/10 p-6 md:p-8 rounded-[1.5rem] opacity-60 cursor-not-allowed group transition-all">
+                  <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center">
+                    <Apple size={28} className="text-white/30" fill="currentColor" />
                   </div>
                   <div className="text-center">
-                    <p className="text-[10px] font-black tracking-[0.4em] uppercase text-white/40 mb-2">iOS / Apple</p>
-                    <p className="text-xl font-bold text-white/50 tracking-tight">Próximamente</p>
+                    <p className="text-[9px] font-black tracking-[0.3em] uppercase text-white/40 mb-1">iOS / Apple</p>
+                    <p className="text-lg font-bold text-white/50 tracking-tight">Próximamente</p>
                   </div>
                 </div>
               </div>
 
-              {/* Instructions Section - cleaner layout */}
-              <div className="w-full bg-white/[0.03] border border-white/10 rounded-[2.5rem] p-12">
-                <h4 className="text-[11px] font-black tracking-[0.3em] uppercase text-gold mb-10 flex items-center gap-4">
+              {/* Instructions Section */}
+              <div className="w-full bg-white/[0.03] border border-white/10 rounded-[1.5rem] p-8 md:p-10">
+                <h4 className="text-[10px] font-black tracking-[0.2em] uppercase text-gold mb-8 flex items-center gap-4">
                   <div className="w-3 h-[1px] bg-gold" />
                   Protocolo de Instalación
                 </h4>
-                <div className="grid gap-8">
+                <div className="grid gap-6">
                   {[
                     { n: "01", text: "Descarga segura del paquete APK certificado." },
                     { n: "02", text: "Autorización de instalación de fuentes privadas." },
                     { n: "03", text: "Vinculación de credenciales M&M corporativas." },
                     { n: "04", text: "Activación de protocolos de seguridad biométricos." },
                   ].map((s) => (
-                    <div key={s.n} className="flex items-start gap-6">
-                      <span className="text-lg font-serif italic font-black text-gold/60 mt-0.5">{s.n}</span>
-                      <p className="text-base text-white/40 font-light leading-relaxed">{s.text}</p>
+                    <div key={s.n} className="flex items-start gap-4 md:gap-6">
+                      <span className="text-base font-serif italic font-black text-gold/60 mt-0.5">{s.n}</span>
+                      <p className="text-sm md:text-base text-white/50 font-light leading-relaxed">{s.text}</p>
                     </div>
                   ))}
                 </div>
               </div>
 
-              <div className="mt-16 flex items-center gap-6">
-                <div className="h-[1px] w-8 bg-white/10" />
-                <p className="text-[10px] font-black tracking-[0.3em] text-white/10 uppercase italic">Security Certified Protocol</p>
-                <div className="h-[1px] w-8 bg-white/10" />
+              <div className="mt-10 flex items-center gap-4">
+                <div className="h-[1px] w-6 bg-white/10" />
+                <p className="text-[9px] font-black tracking-[0.2em] text-white/20 uppercase italic">Security Certified</p>
+                <div className="h-[1px] w-6 bg-white/10" />
               </div>
             </div>
           </motion.div>
