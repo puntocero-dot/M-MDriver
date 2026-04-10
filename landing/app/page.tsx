@@ -711,17 +711,17 @@ function DownloadModal() {
 
             {/* Scrollable Content Container */}
             <div className="max-h-[85vh] overflow-y-auto custom-scrollbar">
-              <div className="p-6 md:p-12 flex flex-col gap-10">
+              <div className="p-6 md:p-12 block">
                 
                 {/* Icon Container */}
-                <div className="relative flex-none w-fit mx-auto">
+                <div className="relative w-fit mx-auto mb-8">
                   <div className="absolute inset-0 bg-gold/40 blur-[30px] rounded-3xl opacity-30" />
                   <div className="relative w-24 h-24 rounded-3xl bg-gradient-to-br from-[#CFA12E] to-[#A07D20] flex items-center justify-center shadow-xl">
                     <Smartphone size={48} className="text-[#05080F]" strokeWidth={1} />
                   </div>
                 </div>
                 
-                <div className="text-center flex-none mx-auto w-full max-w-sm">
+                <div className="text-center mx-auto w-full max-w-sm mb-10">
                   <h2 className="text-3xl md:text-4xl font-serif text-white mb-4 tracking-tight">Experiencia M&M Mobile</h2>
                   <p className="text-lg text-white/40 leading-relaxed font-light">
                     Lleve el estándar de protocolo VIP en su bolsillo. Acceso exclusivo para clientes.
@@ -729,9 +729,9 @@ function DownloadModal() {
                 </div>
 
                 {/* Platform buttons */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full flex-none h-fit">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full min-h-[160px] mb-10">
                   {/* Android */}
-                  <div className="flex flex-col items-center justify-center gap-4 bg-white/[0.04] border border-white/10 p-6 md:p-8 rounded-[1.5rem] opacity-60 cursor-not-allowed transition-all min-h-[160px]">
+                  <div className="flex flex-col items-center justify-center gap-4 bg-white/[0.04] border border-white/10 p-6 md:p-8 rounded-[1.5rem] opacity-60 cursor-not-allowed transition-all">
                     <div className="w-12 h-12 rounded-xl bg-gold/10 border border-gold/20 flex items-center justify-center shrink-0">
                       <PlayCircle size={28} className="text-gold" fill="currentColor" />
                     </div>
@@ -742,7 +742,7 @@ function DownloadModal() {
                   </div>
 
                   {/* iOS */}
-                  <div className="flex flex-col items-center justify-center gap-4 bg-white/[0.04] border border-white/10 p-6 md:p-8 rounded-[1.5rem] opacity-60 cursor-not-allowed transition-all min-h-[160px]">
+                  <div className="flex flex-col items-center justify-center gap-4 bg-white/[0.04] border border-white/10 p-6 md:p-8 rounded-[1.5rem] opacity-60 cursor-not-allowed transition-all">
                     <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center shrink-0">
                       <Apple size={28} className="text-white/30" fill="currentColor" />
                     </div>
@@ -754,7 +754,7 @@ function DownloadModal() {
                 </div>
 
                 {/* Instructions Section */}
-                <div className="w-full bg-white/[0.03] border border-white/10 rounded-[1.5rem] p-6 md:p-10 flex-none h-fit mt-2">
+                <div className="w-full bg-white/[0.03] border border-white/10 rounded-[1.5rem] p-6 md:p-10 mb-10">
                   <h4 className="text-[10px] font-black tracking-[0.2em] uppercase text-gold mb-6 flex items-center gap-3">
                     <div className="w-3 h-[1px] bg-gold" />
                     Protocolo de Instalación
@@ -766,7 +766,7 @@ function DownloadModal() {
                       { n: "03", text: "Vinculación de credenciales M&M corporativas." },
                       { n: "04", text: "Activación de protocolos de seguridad biométricos." },
                     ].map((s) => (
-                      <div key={s.n} className="flex items-start gap-4 h-fit">
+                      <div key={s.n} className="flex items-start gap-4">
                         <span className="text-base font-serif italic font-black text-gold/60 mt-0.5 shrink-0">{s.n}</span>
                         <p className="text-sm md:text-base text-white/60 font-light leading-relaxed">{s.text}</p>
                       </div>
@@ -774,7 +774,7 @@ function DownloadModal() {
                   </div>
                 </div>
 
-                <div className="flex items-center justify-center gap-4 flex-none pb-4">
+                <div className="flex items-center justify-center gap-4 pb-4">
                   <div className="h-[1px] w-6 bg-white/10 shrink-0" />
                   <p className="text-[9px] font-black tracking-[0.2em] text-white/20 uppercase italic shrink-0">Security Certified</p>
                   <div className="h-[1px] w-6 bg-white/10 shrink-0" />
