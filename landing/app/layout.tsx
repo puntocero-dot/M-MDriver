@@ -34,7 +34,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="es" className={`${manrope.variable} ${inter.variable}`}>
+    <html lang="es" suppressHydrationWarning className={`${manrope.variable} ${inter.variable}`}>
       <body>{children}</body>
     </html>
   );
