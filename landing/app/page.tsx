@@ -710,18 +710,19 @@ function DownloadModal() {
             </button>
 
             {/* Scrollable Content Container */}
-            <div className="max-h-[85vh] overflow-y-auto p-8 md:p-14 flex flex-col items-center">
+            <div className="max-h-[85vh] overflow-y-auto custom-scrollbar p-6 md:p-12">
+              
               {/* Icon Container */}
-              <div className="relative mb-8 shrink-0">
+              <div className="relative mb-8 w-fit mx-auto">
                 <div className="absolute inset-0 bg-gold/40 blur-[30px] rounded-3xl opacity-30" />
                 <div className="relative w-24 h-24 rounded-3xl bg-gradient-to-br from-[#CFA12E] to-[#A07D20] flex items-center justify-center shadow-xl">
                   <Smartphone size={48} className="text-[#05080F]" strokeWidth={1} />
                 </div>
               </div>
               
-              <div className="text-center mb-10">
+              <div className="text-center mb-8 mx-auto w-full max-w-sm">
                 <h2 className="text-3xl md:text-4xl font-serif text-white mb-4 tracking-tight">Experiencia M&M Mobile</h2>
-                <p className="text-lg text-white/40 max-w-sm mx-auto leading-relaxed font-light">
+                <p className="text-lg text-white/40 leading-relaxed font-light">
                   Lleve el estándar de protocolo VIP en su bolsillo. Acceso exclusivo para clientes.
                 </p>
               </div>
@@ -729,7 +730,7 @@ function DownloadModal() {
               {/* Platform buttons */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full mb-10">
                 {/* Android */}
-                <div className="flex flex-col items-center gap-4 bg-white/[0.04] border border-white/10 p-6 md:p-8 rounded-[1.5rem] opacity-60 cursor-not-allowed group transition-all">
+                <div className="flex flex-col items-center gap-4 bg-white/[0.04] border border-white/10 p-6 md:p-8 rounded-[1.5rem] opacity-60 cursor-not-allowed transition-all">
                   <div className="w-12 h-12 rounded-xl bg-gold/10 border border-gold/20 flex items-center justify-center">
                     <PlayCircle size={28} className="text-gold" fill="currentColor" />
                   </div>
@@ -740,7 +741,7 @@ function DownloadModal() {
                 </div>
 
                 {/* iOS */}
-                <div className="flex flex-col items-center gap-4 bg-white/[0.04] border border-white/10 p-6 md:p-8 rounded-[1.5rem] opacity-60 cursor-not-allowed group transition-all">
+                <div className="flex flex-col items-center gap-4 bg-white/[0.04] border border-white/10 p-6 md:p-8 rounded-[1.5rem] opacity-60 cursor-not-allowed transition-all">
                   <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center">
                     <Apple size={28} className="text-white/30" fill="currentColor" />
                   </div>
@@ -752,31 +753,32 @@ function DownloadModal() {
               </div>
 
               {/* Instructions Section */}
-              <div className="w-full bg-white/[0.03] border border-white/10 rounded-[1.5rem] p-8 md:p-10">
-                <h4 className="text-[10px] font-black tracking-[0.2em] uppercase text-gold mb-8 flex items-center gap-4">
+              <div className="w-full bg-white/[0.03] border border-white/10 rounded-[1.5rem] p-6 md:p-10 mb-8 block">
+                <h4 className="text-[10px] font-black tracking-[0.2em] uppercase text-gold mb-6 flex items-center gap-3">
                   <div className="w-3 h-[1px] bg-gold" />
                   Protocolo de Instalación
                 </h4>
-                <div className="grid gap-6">
+                <div className="flex flex-col gap-5">
                   {[
                     { n: "01", text: "Descarga segura del paquete APK certificado." },
                     { n: "02", text: "Autorización de instalación de fuentes privadas." },
                     { n: "03", text: "Vinculación de credenciales M&M corporativas." },
                     { n: "04", text: "Activación de protocolos de seguridad biométricos." },
                   ].map((s) => (
-                    <div key={s.n} className="flex items-start gap-4 md:gap-6">
-                      <span className="text-base font-serif italic font-black text-gold/60 mt-0.5">{s.n}</span>
-                      <p className="text-sm md:text-base text-white/50 font-light leading-relaxed">{s.text}</p>
+                    <div key={s.n} className="flex items-start gap-4">
+                      <span className="text-base font-serif italic font-black text-gold/60 mt-0.5 shrink-0">{s.n}</span>
+                      <p className="text-sm md:text-base text-white/60 font-light leading-relaxed">{s.text}</p>
                     </div>
                   ))}
                 </div>
               </div>
 
-              <div className="mt-10 flex items-center gap-4">
+              <div className="flex items-center justify-center gap-4">
                 <div className="h-[1px] w-6 bg-white/10" />
                 <p className="text-[9px] font-black tracking-[0.2em] text-white/20 uppercase italic">Security Certified</p>
                 <div className="h-[1px] w-6 bg-white/10" />
               </div>
+
             </div>
           </motion.div>
         </motion.div>
