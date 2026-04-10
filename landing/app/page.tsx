@@ -693,10 +693,7 @@ function DownloadModal() {
             exit={{ scale: 0.95, opacity: 0, y: 30 }}
             transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
             onClick={(e) => e.stopPropagation()}
-            className="w-full max-w-2xl border border-white/10 shadow-2xl relative overflow-hidden rounded-[2rem] md:rounded-[2.5rem]"
-            style={{ 
-              background: "linear-gradient(165deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%)",
-            }}
+            className="modal-container"
           >
             {/* Ambient luxury glow */}
             <div className="absolute top-[-20%] right-[-10%] w-64 h-64 bg-gold/15 blur-[100px] rounded-full pointer-events-none" />
@@ -704,34 +701,33 @@ function DownloadModal() {
 
             <button
               onClick={() => setIsOpen(false)}
-              className="absolute top-6 right-6 w-12 h-12 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-white/50 hover:text-white transition-all border border-white/5 shadow-xl z-10"
+              className="modal-close"
             >
               <X size={20} strokeWidth={1.5} />
             </button>
 
             {/* Scrollable Content Container */}
-            <div className="max-h-[85vh] overflow-y-auto custom-scrollbar">
-              <div className="p-6 md:p-12 block">
+            <div className="modal-scroll custom-scrollbar">
+              <div className="modal-content">
                 
-                {/* Icon Container */}
-                <div className="relative w-fit mx-auto mb-8">
-                  <div className="absolute inset-0 bg-gold/40 blur-[30px] rounded-3xl opacity-30" />
-                  <div className="relative w-24 h-24 rounded-3xl bg-gradient-to-br from-[#CFA12E] to-[#A07D20] flex items-center justify-center shadow-xl">
-                    <Smartphone size={48} className="text-[#05080F]" strokeWidth={1} />
+                {/* Header (Icon + Title) */}
+                <div className="flex flex-col items-center text-center">
+                  <div className="relative w-fit mx-auto mb-6">
+                    <div className="absolute inset-0 bg-gold/40 blur-[30px] rounded-3xl opacity-30" />
+                    <div className="relative w-24 h-24 rounded-3xl bg-gradient-to-br from-[#CFA12E] to-[#A07D20] flex items-center justify-center shadow-xl">
+                      <Smartphone size={48} className="text-[#05080F]" strokeWidth={1} />
+                    </div>
                   </div>
-                </div>
-                
-                <div className="text-center mx-auto w-full max-w-sm mb-10">
-                  <h2 className="text-3xl md:text-4xl font-serif text-white mb-4 tracking-tight">Experiencia M&M Mobile</h2>
-                  <p className="text-lg text-white/40 leading-relaxed font-light">
+                  <h2 className="text-3xl md:text-4xl font-serif text-white mb-2 tracking-tight">Experiencia M&M Mobile</h2>
+                  <p className="text-lg text-white/40 leading-relaxed font-light max-w-sm mx-auto">
                     Lleve el estándar de protocolo VIP en su bolsillo. Acceso exclusivo para clientes.
                   </p>
                 </div>
 
                 {/* Platform buttons */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full min-h-[160px] mb-10">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full">
                   {/* Android */}
-                  <div className="flex flex-col items-center justify-center gap-4 bg-white/[0.04] border border-white/10 p-6 md:p-8 rounded-[1.5rem] opacity-60 cursor-not-allowed transition-all">
+                  <div className="card-platform">
                     <div className="w-12 h-12 rounded-xl bg-gold/10 border border-gold/20 flex items-center justify-center shrink-0">
                       <PlayCircle size={28} className="text-gold" fill="currentColor" />
                     </div>
@@ -742,7 +738,7 @@ function DownloadModal() {
                   </div>
 
                   {/* iOS */}
-                  <div className="flex flex-col items-center justify-center gap-4 bg-white/[0.04] border border-white/10 p-6 md:p-8 rounded-[1.5rem] opacity-60 cursor-not-allowed transition-all">
+                  <div className="card-platform">
                     <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center shrink-0">
                       <Apple size={28} className="text-white/30" fill="currentColor" />
                     </div>
@@ -754,7 +750,7 @@ function DownloadModal() {
                 </div>
 
                 {/* Instructions Section */}
-                <div className="w-full bg-white/[0.03] border border-white/10 rounded-[1.5rem] p-6 md:p-10 mb-10">
+                <div className="card-instructions">
                   <h4 className="text-[10px] font-black tracking-[0.2em] uppercase text-gold mb-6 flex items-center gap-3">
                     <div className="w-3 h-[1px] bg-gold" />
                     Protocolo de Instalación
@@ -774,7 +770,8 @@ function DownloadModal() {
                   </div>
                 </div>
 
-                <div className="flex items-center justify-center gap-4 pb-4">
+                {/* Footer Badge */}
+                <div className="flex items-center justify-center gap-4">
                   <div className="h-[1px] w-6 bg-white/10 shrink-0" />
                   <p className="text-[9px] font-black tracking-[0.2em] text-white/20 uppercase italic shrink-0">Security Certified</p>
                   <div className="h-[1px] w-6 bg-white/10 shrink-0" />
