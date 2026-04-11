@@ -98,6 +98,8 @@ function Nav() {
     { label: "Contacto", href: "#contact" },
   ];
 
+  const ADMIN_URL = "https://m-m-driver-b8wq.vercel.app";
+
   return (
     <motion.nav
       initial={{ opacity: 0, y: -20 }}
@@ -132,6 +134,14 @@ function Nav() {
                 {l.label}
               </a>
             ))}
+            <a
+              href={ADMIN_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[10px] font-bold tracking-[0.2em] uppercase transition-all duration-300 text-white/20 hover:text-gold/60"
+            >
+              ADMIN
+            </a>
           </div>
 
           {/* Right actions */}
@@ -362,6 +372,9 @@ function Services() {
               variants={fadeUp}
               className="card-service group"
             >
+              {/* BorderBeam — animated gold sweep on hover */}
+              <div className="border-beam" />
+
               {/* Icon */}
               <div
                 className="card-service-icon"
@@ -685,7 +698,7 @@ function DownloadModal() {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={() => setIsOpen(false)}
-          className="fixed inset-0 z-[200] flex items-center justify-center p-4 sm:p-6 bg-[#05080F]/95 backdrop-blur-xl"
+          className="fixed inset-0 z-[200] flex items-center justify-center p-4 sm:p-6 bg-[#0A1628]/95 backdrop-blur-xl"
         >
           <motion.div
             initial={{ scale: 0.95, opacity: 0, y: 30 }}
@@ -715,7 +728,7 @@ function DownloadModal() {
                   <div className="relative w-fit mx-auto mb-6">
                     <div className="absolute inset-0 bg-gold/40 blur-[30px] rounded-3xl opacity-30" />
                     <div className="relative w-24 h-24 rounded-3xl bg-gradient-to-br from-[#CFA12E] to-[#A07D20] flex items-center justify-center shadow-xl">
-                      <Smartphone size={48} className="text-[#05080F]" strokeWidth={1} />
+                      <Smartphone size={48} className="text-[#0A1628]" strokeWidth={1} />
                     </div>
                   </div>
                   <h2 className="text-3xl md:text-4xl font-serif text-white mb-2 tracking-tight">Experiencia M&M Mobile</h2>

@@ -6,32 +6,32 @@
 @source "../app/**/*.{ts,tsx}";
 @source "../components/**/*.{ts,tsx}";
 
-/* ── Premium Luxury Design System: Midnight Gold ─────────────────────────── */
+/* ── Premium Luxury Design System: Navy Gold ──────────────────────────────── */
 :root {
-  /* Deep Neutral Palette (Midnight) - Enhanced Contrast */
-  --surface:            #0a0a0a;
-  --surface-low:        #141414;
-  --surface-container:  #1f1f1f;
-  --surface-high:       #2a2a2a;
-  --surface-highest:    #353535;
-  
-  /* Premium Accent (Brushed Gold) */
-  --gold:               #cfa12e;
-  --gold-vibrant:       #f5d169;
-  --gold-soft:          #dfbc5e;
-  --gold-dim:           #a68121;
-  
+  /* Navy Blue Palette — matches admin panel exactly */
+  --surface:            #0A1628;
+  --surface-low:        #0f1c35;
+  --surface-container:  #132040;
+  --surface-high:       #1C2D54;
+  --surface-highest:    #243660;
+
+  /* Premium Accent (Brushed Gold) — unified with admin */
+  --gold:               #C5A55A;
+  --gold-vibrant:       #D4BA7A;
+  --gold-soft:          #C8AE6E;
+  --gold-dim:           #92742A;
+
   /* On Surface Palette */
-  --on-surface:         #fefefe;
-  --on-surface-muted:   #b0b0b0;
-  --on-surface-var:     #808080;
-  --on-primary:         #000000;
+  --on-surface:         #f1f5f9;
+  --on-surface-muted:   #94a3b8;
+  --on-surface-var:     #64748b;
+  --on-primary:         #0A1628;
 
   /* Functional Colors */
   --success:            #10b981;
   --error:              #ef4444;
   --info:               #3b82f6;
-  
+
   /* Spacing & Layout Tokens (Strict Control) */
   --container-max:      85rem;
   --navbar-height:      5.5rem;
@@ -71,12 +71,12 @@ h1, h2, h3, h4, h5, h6 {
   font-family: "Bodoni Moda", serif;
   font-weight: 600;
   letter-spacing: -0.02em;
-  line-height: 1.05; /* Prevents overlap while maintaining luxury feel */
+  line-height: 1.05;
 }
 
-/* ── Sophisticated Glassmorphism (Visible & Clean) ───────────────────────── */
+/* ── Sophisticated Glassmorphism (Navy base) ──────────────────────────────── */
 .glass {
-  background: rgba(15, 15, 15, 0.7);
+  background: rgba(19, 32, 64, 0.75);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -84,10 +84,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .glass-gold {
-  background: rgba(207, 161, 46, 0.03);
+  background: rgba(197, 165, 90, 0.04);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(207, 161, 46, 0.2);
-  box-shadow: 0 10px 40px -10px rgba(207, 161, 46, 0.1);
+  border: 1px solid rgba(197, 165, 90, 0.2);
+  box-shadow: 0 10px 40px -10px rgba(197, 165, 90, 0.1);
 }
 
 /* ── Professional Utility Classes ───────────────────────────────────────── */
@@ -97,7 +97,7 @@ h1, h2, h3, h4, h5, h6 {
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  filter: drop-shadow(0 0 5px rgba(207, 161, 46, 0.2));
+  filter: drop-shadow(0 0 8px rgba(197, 165, 90, 0.3));
 }
 
 .btn-premium {
@@ -108,21 +108,21 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.2em;
-  box-shadow: 0 10px 30px -10px rgba(207, 161, 46, 0.4);
+  box-shadow: 0 10px 30px -10px rgba(197, 165, 90, 0.4);
   padding: 1.1rem 2.8rem;
   font-size: 0.85rem;
-  border-radius: 9999px; /* Standard pill shape */
+  border-radius: 9999px;
 }
 
 .btn-premium:hover {
   @apply -translate-y-1 shadow-2xl;
   filter: brightness(1.05);
-  box-shadow: 0 20px 40px -10px rgba(207, 161, 46, 0.5);
+  box-shadow: 0 20px 40px -10px rgba(197, 165, 90, 0.5);
 }
 
 .btn-outline-premium {
   @apply border-2 transition-all duration-500 cursor-pointer inline-flex items-center justify-center;
-  border-color: rgba(207, 161, 46, 0.4);
+  border-color: rgba(197, 165, 90, 0.4);
   background: rgba(255, 255, 255, 0.02);
   color: var(--on-surface);
   font-family: "Jost", sans-serif;
@@ -135,7 +135,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .btn-outline-premium:hover {
-  background: rgba(207, 161, 46, 0.05);
+  background: rgba(197, 165, 90, 0.07);
   border-color: var(--gold-vibrant);
   color: var(--gold-vibrant);
   @apply -translate-y-1;
@@ -165,15 +165,16 @@ section {
 }
 
 /* ── Card System ─────────────────────────────────────────────────────────── */
-/* Cards use direct CSS instead of Tailwind @apply to bypass * { padding: 0 } reset */
+/* Cards use direct CSS to bypass * { padding: 0 } reset */
 .card-service {
-  padding: 1.75rem;           /* 28px - breathing room on all sides */
-  border-radius: 1.25rem;     /* 20px - modern but not extreme */
+  padding: 1.75rem;
+  border-radius: 1.25rem;
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
-  background-color: var(--surface-container);
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: linear-gradient(135deg, #132040 0%, #0f1c35 100%);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 0 0 1px rgba(28, 45, 84, 0.8), 0 4px 24px rgba(0, 0, 0, 0.4);
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   cursor: pointer;
   position: relative;
@@ -181,16 +182,73 @@ section {
 }
 
 .card-service:hover {
-  border-color: rgba(207, 161, 46, 0.35);
-  background-color: var(--surface-high);
-  transform: translateY(-4px);
-  box-shadow: 0 20px 50px -20px rgba(207, 161, 46, 0.2);
+  border-color: rgba(197, 165, 90, 0.25);
+  background: linear-gradient(135deg, #1C2D54 0%, #132040 100%);
+  transform: translateY(-4px) scale(1.015);
+  box-shadow: 0 0 0 1px rgba(197, 165, 90, 0.2), 0 20px 50px -12px rgba(0, 0, 0, 0.6), inset 0 0 40px rgba(197, 165, 90, 0.05);
+}
+
+/* ── BorderBeam: animated gold sweep on card hover ──────────────────────── */
+@keyframes border-beam {
+  100% {
+    offset-distance: 100%;
+  }
+}
+
+.border-beam {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 1.5px solid transparent;
+  -webkit-mask-clip: padding-box, border-box;
+  mask-clip: padding-box, border-box;
+  -webkit-mask-composite: intersect;
+  mask-composite: intersect;
+  -webkit-mask: linear-gradient(transparent, transparent),
+                linear-gradient(white, white);
+  mask: linear-gradient(transparent, transparent),
+        linear-gradient(white, white);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.border-beam::after {
+  content: "";
+  position: absolute;
+  aspect-ratio: 1;
+  width: 120px;
+  animation: border-beam 4s infinite linear;
+  background: linear-gradient(to left, #D4BA7A, #C5A55A, transparent);
+  offset-anchor: 90% 50%;
+  offset-path: rect(0 auto auto 0 round 120px);
+}
+
+.card-service:hover .border-beam {
+  opacity: 1;
+}
+
+/* Bottom accent line */
+.card-service::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity: 0.2;
+  transition: opacity 0.3s ease;
+}
+
+.card-service:hover::after {
+  opacity: 0.5;
 }
 
 .card-service-icon {
-  width: 3.25rem;      /* 52px */
+  width: 3.25rem;
   height: 3.25rem;
-  border-radius: 0.875rem; /* 14px */
+  border-radius: 0.875rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -203,11 +261,11 @@ section {
 }
 
 .card-dashboard {
-  padding: 2.5rem;            /* 40px - explicit padding for the dashboard */
-  border-radius: 1.5rem;      /* 24px */
-  background: rgba(15, 15, 15, 0.7);
+  padding: 2.5rem;
+  border-radius: 1.5rem;
+  background: linear-gradient(135deg, rgba(19, 32, 64, 0.85) 0%, rgba(15, 28, 53, 0.85) 100%);
   backdrop-filter: blur(24px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
   position: relative;
   overflow: hidden;
@@ -221,7 +279,7 @@ section {
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 2rem;
   box-shadow: 0 25px 60px -12px rgba(0, 0, 0, 0.8);
-  background: linear-gradient(165deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%);
+  background: linear-gradient(165deg, rgba(19, 32, 64, 0.95) 0%, rgba(15, 28, 53, 0.98) 100%);
   position: relative;
   overflow: hidden;
 }
@@ -235,7 +293,7 @@ section {
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
-  gap: 2.5rem; /* Forces space between elements */
+  gap: 2.5rem;
 }
 
 @media (min-width: 768px) {
@@ -255,8 +313,8 @@ section {
   gap: 1rem;
   padding: 1.5rem;
   border-radius: 1.25rem;
-  background-color: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(135deg, #132040 0%, #0f1c35 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   opacity: 0.6;
   cursor: not-allowed;
   transition: all 0.3s ease;
@@ -273,14 +331,38 @@ section {
   width: 100%;
   padding: 1.5rem;
   border-radius: 1.25rem;
-  background-color: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(28, 45, 84, 0.3);
+  border: 1px solid rgba(197, 165, 90, 0.1);
 }
 
 @media (min-width: 768px) {
   .card-instructions {
     padding: 2.5rem;
   }
+}
+
+/* ── Modal close button ──────────────────────────────────────────────────── */
+.modal-close {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.modal-close:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
 }
 
 /* Push main page content below the fixed navbar */

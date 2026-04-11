@@ -167,9 +167,9 @@ function SelectInput({ id, label, value, onChange }: any) {
           onChange={(e) => onChange(e.target.value)}
           className="w-full rounded-2xl bg-white/[0.04] border border-white/10 px-16 py-6 text-base text-white appearance-none focus:outline-none focus:border-gold/40 focus:bg-white/[0.07] transition-all duration-500"
         >
-          <option value="" className="bg-[#05080F]">Seleccionar {label.toLowerCase()}...</option>
+          <option value="" className="bg-[#0A1628]">Seleccionar {label.toLowerCase()}...</option>
           {LOCATIONS.map((loc) => (
-            <option key={loc.label} value={loc.label} className="bg-[#05080F]">
+            <option key={loc.label} value={loc.label} className="bg-[#0A1628]">
               {loc.label}
             </option>
           ))}
@@ -274,7 +274,7 @@ export default function BookingPage() {
   }
 
   return (
-    <div className="bg-[#05080F] min-h-screen selection:bg-gold selection:text-on-primary">
+    <div className="bg-[#0A1628] min-h-screen selection:bg-gold selection:text-on-primary">
       <Nav />
       
       <main className="pt-40 pb-24">

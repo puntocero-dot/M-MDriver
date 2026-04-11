@@ -58,7 +58,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#05080F] flex flex-col items-center justify-center p-8 relative overflow-hidden">
+    <div className="min-h-screen bg-[#0A1628] flex flex-col items-center justify-center p-8 relative overflow-hidden">
       {/* Background visual elements */}
       <div className="absolute inset-0 z-0">
         <div className="absolute top-[-20%] right-[-10%] w-[1000px] h-[1000px] rounded-full opacity-[0.05] blur-[150px] bg-[#CFA12E]" />
@@ -94,7 +94,7 @@ export default function LoginPage() {
             <div className="relative mb-14">
               <div className="absolute inset-0 bg-gold/30 blur-[30px] rounded-[2rem] opacity-40 shrink-0" />
               <div className="relative w-28 h-28 rounded-[2.5rem] bg-gradient-to-br from-[#CFA12E] to-[#A07D20] flex items-center justify-center shadow-2xl">
-                <ShieldCheck size={56} className="text-[#05080F]" strokeWidth={1} />
+                <ShieldCheck size={56} className="text-[#0A1628]" strokeWidth={1} />
               </div>
             </div>
             
@@ -164,7 +164,7 @@ export default function LoginPage() {
               className="mt-4 w-full py-6 rounded-2xl font-black text-xs tracking-[0.4em] uppercase transition-all duration-700 disabled:opacity-40 flex items-center justify-center gap-4 group"
               style={{
                 background: "linear-gradient(135deg, #CFA12E 0%, #A07D20 100%)",
-                color: "#05080F",
+                color: "#0A1628",
                 boxShadow: "0 15px 45px rgba(207,161,46,0.25)",
               }}
             >

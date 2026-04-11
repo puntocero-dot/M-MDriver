@@ -2,6 +2,7 @@ import {
   Controller,
   Get,
   Patch,
+  Delete,
   Param,
   Body,
   Query,
@@ -65,5 +66,13 @@ export class UsersController {
   @ApiOperation({ summary: 'Desactivar usuario (SUPERADMIN)' })
   deactivate(@Param('id', ParseUUIDPipe) id: string): Promise<void> {
     return this.usersService.deactivate(id);
+  }
+
+  @Delete(':id')
+  @Roles(Role.SUPERADMIN)
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiOperation({ summary: 'Eliminar usuario permanentemente (SUPERADMIN)' })
+  remove(@Param('id', ParseUUIDPipe) id: string): Promise<void> {
+    return this.usersService.remove(id);
   }
 }

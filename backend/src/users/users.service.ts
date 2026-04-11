@@ -2,6 +2,7 @@ import {
   Injectable,
   NotFoundException,
   ConflictException,
+  BadRequestException,
   OnModuleInit,
   Logger,
 } from '@nestjs/common';
@@ -129,6 +130,15 @@ export class UsersService implements OnModuleInit {
     const user = await this.findById(id);
     user.isActive = false;
     await this.usersRepository.save(user);
+  }
+
+  async remove(id: string): Promise<void> {
+    const user = await this.findById(id);
+    // Protect seed accounts from deletion
+    if (user.email === 'superadmin@mmdrivers.com' || user.email === 'admin@mmdrivers.com') {
+      throw new BadRequestException('No es posible eliminar las cuentas de administración del sistema.');
+    }
+    await this.usersRepository.remove(user);
   }
 
   async validatePassword(user: User, password: string): Promise<boolean> {
