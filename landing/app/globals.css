@@ -65,6 +65,17 @@ body {
   overflow-x: hidden;
   line-height: 1.6;
 }
+}
+
+/* Fix WebKit Autofill in Dark Mode */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px #1C2D54 inset !important;
+  -webkit-text-fill-color: white !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
 
 /* ── Premium Typography ─────────────────────────────────────────────────── */
 h1, h2, h3, h4, h5, h6 {

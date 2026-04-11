@@ -158,7 +158,10 @@ export default function ClientDashboard() {
       </nav>
 
       {/* ── Main Content Area ── */}
-      <div className="w-full max-w-[1200px] pt-32 px-6 lg:px-8 pb-20 flex flex-col md:flex-row gap-8 lg:gap-12 mx-auto relative z-10 block">
+      <div 
+        className="w-full max-w-[1200px] px-6 lg:px-8 pb-20 flex flex-col md:flex-row gap-8 lg:gap-12 mx-auto relative z-10"
+        style={{ marginTop: "120px" }}
+      >
         
         {/* ── Sidebar Tabs ── */}
         <div className="w-full md:w-72 flex flex-col gap-3 shrink-0">
