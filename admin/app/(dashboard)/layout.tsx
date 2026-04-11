@@ -41,11 +41,13 @@ export default function DashboardLayout({
   const router = useRouter();
   const pathname = usePathname();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [hydrated, setHydrated] = useState(false);
+  const [authState, setAuthState] = useState<"loading" | "authed" | "denied">("loading");
 
   useEffect(() => {
-    setHydrated(true);
-    if (!isAuthenticated()) {
+    if (isAuthenticated()) {
+      setAuthState("authed");
+    } else {
+      setAuthState("denied");
       router.replace("/login");
     }
   }, [router]);
@@ -59,8 +61,10 @@ export default function DashboardLayout({
     return pathname === href || pathname.startsWith(href + "/");
   }
 
-  // Don't render anything until hydrated to avoid flash
-  if (!hydrated) {
+  // Only render the dashboard when authentication is confirmed.
+  // "loading" and "denied" both show the loading screen to prevent
+  // the dashboard from flashing before the login redirect completes.
+  if (authState !== "authed") {
     return (
       <div
         className="min-h-screen flex items-center justify-center"
