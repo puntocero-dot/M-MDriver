@@ -148,21 +148,17 @@ function Nav() {
           <div className="hidden md:flex items-center gap-4">
             <button 
               onClick={() => (window as any).toggleDownloadModal?.()}
-              className="btn-outline-premium flex items-center gap-3"
+              className="flex items-center gap-2 px-5 py-2.5 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 text-[10px] font-bold tracking-[0.2em] text-white transition-all hover:-translate-y-0.5"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-download" aria-hidden="true">
-                <path d="M12 15V3"></path>
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                <path d="m7 10 5 5 5-5"></path>
-              </svg>
-              DESCARGAR APP
+              <Download size={14} className="text-gold" />
+              APP
             </button>
             <a
-              href="/reserva"
-              className="btn-premium !py-2 !px-6 rounded-full text-[9px] shadow-gold/20 flex items-center gap-2"
+              href="/login"
+              className="flex items-center gap-2 px-6 py-2.5 rounded-full bg-gradient-to-r from-gold-vibrant to-gold text-surface font-bold text-[10px] tracking-[0.2em] uppercase transition-all shadow-[0_0_20px_rgba(197,165,90,0.3)] hover:shadow-[0_0_30px_rgba(197,165,90,0.5)] hover:-translate-y-0.5"
             >
-              Reserva Ahora
-              <ChevronRight size={12} strokeWidth={3} />
+              Acceso Cliente
+              <ChevronRight size={14} strokeWidth={3} />
             </a>
           </div>
 
@@ -199,11 +195,11 @@ function Nav() {
               Descargar App
             </button>
             <a
-              href="/reserva"
-              className="btn-premium px-6 py-5 rounded-xl text-sm text-center font-bold"
+              href="/login"
+              className="btn-premium px-6 py-5 rounded-xl text-sm text-center font-bold shadow-[0_0_20px_rgba(197,165,90,0.3)]"
               onClick={() => setOpen(false)}
             >
-              Reserva Ahora
+              Acceso Cliente
             </a>
           </motion.div>
         )}
@@ -278,7 +274,7 @@ function Hero() {
             transition={{ delay: 0.8, duration: 0.8 }}
             className="flex flex-col sm:flex-row gap-8"
           >
-            <a href="/reserva" className="btn-premium">
+            <a href="/login" className="btn-premium">
               Comenzar Reserva
             </a>
             <a href="#how" className="btn-outline-premium">
@@ -662,7 +658,9 @@ function Footer() {
               </a>
             ))}
             <a
-              href="/admin"
+              href="https://m-m-driver-b8wq.vercel.app"
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-[11px] font-bold tracking-[0.2em] text-gold/40 hover:text-gold uppercase transition-all duration-300 border-l border-white/10 pl-6 lg:pl-12"
             >
               Admin Access
@@ -738,65 +736,62 @@ function DownloadModal() {
                 </div>
 
                 {/* Platform buttons */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
                   {/* Android */}
-                  <div className="card-platform">
-                    <div className="w-12 h-12 rounded-xl bg-gold/10 border border-gold/20 flex items-center justify-center shrink-0">
-                      <PlayCircle size={28} className="text-gold" fill="currentColor" />
+                  <div className="flex flex-col items-center justify-center p-6 rounded-2xl bg-gradient-to-br from-surface-high to-surface-container border border-white/10 relative overflow-hidden group">
+                    <div className="absolute inset-0 bg-gold/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    <div className="w-14 h-14 rounded-xl bg-gold/10 border border-gold/20 flex items-center justify-center mb-4 transition-transform group-hover:scale-110 duration-500">
+                      <PlayCircle size={32} className="text-gold" fill="currentColor" />
                     </div>
-                    <div className="text-center shrink-0">
-                      <p className="text-[9px] font-black tracking-[0.3em] uppercase text-white/40 mb-1">Android Platform</p>
-                      <p className="text-lg font-bold text-white/50 tracking-tight">Próximamente</p>
-                    </div>
+                    <p className="text-[10px] font-black tracking-[0.3em] uppercase text-white/40 mb-1">Android</p>
+                    <p className="text-lg font-bold text-white tracking-tight">Próximamente</p>
                   </div>
 
                   {/* iOS */}
-                  <div className="card-platform">
-                    <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center shrink-0">
-                      <Apple size={28} className="text-white/30" fill="currentColor" />
+                  <div className="flex flex-col items-center justify-center p-6 rounded-2xl bg-gradient-to-br from-surface-high to-surface-container border border-white/10 relative overflow-hidden group">
+                    <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    <div className="w-14 h-14 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-4 transition-transform group-hover:scale-110 duration-500">
+                      <Apple size={32} className="text-white/60" fill="currentColor" />
                     </div>
-                    <div className="text-center shrink-0">
-                      <p className="text-[9px] font-black tracking-[0.3em] uppercase text-white/40 mb-1">iOS / Apple</p>
-                      <p className="text-lg font-bold text-white/50 tracking-tight">Próximamente</p>
-                    </div>
+                    <p className="text-[10px] font-black tracking-[0.3em] uppercase text-white/40 mb-1">iOS / Apple</p>
+                    <p className="text-lg font-bold text-white tracking-tight">Próximamente</p>
                   </div>
                 </div>
 
                 {/* Instructions Section */}
-                <div className="card-instructions">
-                  <h4 className="text-[10px] font-black tracking-[0.2em] uppercase text-gold mb-6 flex items-center gap-3">
-                    <div className="w-3 h-[1px] bg-gold" />
-                    Protocolo de Instalación
+                <div className="w-full p-6 md:p-8 rounded-2xl bg-surface-container border border-white/5 shadow-inner">
+                  <h4 className="text-[11px] font-black tracking-[0.2em] uppercase text-gold mb-6 flex items-center gap-3">
+                    <div className="w-4 h-[1px] bg-gold" />
+                    Instalación Certificada
                   </h4>
-                  <div className="flex flex-col gap-5">
+                  <div className="flex flex-col gap-4">
                     {[
-                      { n: "01", text: "Descarga segura del paquete APK certificado." },
-                      { n: "02", text: "Autorización de instalación de fuentes privadas." },
-                      { n: "03", text: "Vinculación de credenciales M&M corporativas." },
-                      { n: "04", text: "Activación de protocolos de seguridad biométricos." },
+                      { n: "01", text: "Descarga segura del paquete autorizado." },
+                      { n: "02", text: "Vinculación de credenciales corporativas." },
+                      { n: "03", text: "Activación de la bóveda de seguridad biométrica." },
                     ].map((s) => (
-                      <div key={s.n} className="flex items-start gap-4">
-                        <span className="text-base font-serif italic font-black text-gold/60 mt-0.5 shrink-0">{s.n}</span>
-                        <p className="text-sm md:text-base text-white/60 font-light leading-relaxed">{s.text}</p>
+                      <div key={s.n} className="flex items-center gap-4 bg-surface-low/50 p-3 rounded-lg border border-white/5">
+                        <span className="text-sm font-black text-gold/30 shrink-0 w-8">{s.n}</span>
+                        <p className="text-sm text-white/80 font-medium">{s.text}</p>
                       </div>
                     ))}
                   </div>
                 </div>
 
                 {/* Footer Badge & Explicit Close Button */}
-                <div className="flex flex-col items-center gap-6 mt-2">
+                <div className="flex flex-col items-center gap-6 mt-4">
                   <div className="flex items-center justify-center gap-4">
-                    <div className="h-[1px] w-6 bg-white/10 shrink-0" />
-                    <p className="text-[9px] font-black tracking-[0.2em] text-white/20 uppercase italic shrink-0">Security Certified</p>
-                    <div className="h-[1px] w-6 bg-white/10 shrink-0" />
+                    <div className="h-[1px] w-8 bg-white/10 shrink-0" />
+                    <p className="text-[9px] font-black tracking-[0.3em] text-white/30 uppercase italic shrink-0">Terminal Encriptada</p>
+                    <div className="h-[1px] w-8 bg-white/10 shrink-0" />
                   </div>
                   
                   <button 
                     onClick={() => setIsOpen(false)}
-                    className="w-full sm:w-auto px-8 py-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-white/60 hover:text-white transition-all font-semibold tracking-wide text-sm flex items-center justify-center gap-2"
+                    className="group flex items-center gap-3 px-8 py-4 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-[10px] font-black tracking-[0.2em] text-white/60 hover:text-white uppercase transition-all duration-300"
                   >
-                    <span>CERRAR</span>
-                    <X size={16} />
+                    Cerrar Protocolo
+                    <X size={14} className="group-hover:rotate-90 transition-transform duration-500" />
                   </button>
                 </div>
               </div>
