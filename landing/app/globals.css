@@ -65,7 +65,6 @@ body {
   overflow-x: hidden;
   line-height: 1.6;
 }
-}
 
 /* Fix WebKit Autofill in Dark Mode */
 input:-webkit-autofill,
