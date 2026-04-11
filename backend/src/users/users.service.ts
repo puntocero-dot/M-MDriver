@@ -28,29 +28,53 @@ export class UsersService implements OnModuleInit {
   }
 
   private async ensureSuperAdmin() {
-    const email = 'superadmin@mmdrivers.com';
-    const existing = await this.findByEmail(email);
+    // --- SuperAdmin ---
+    const superEmail = 'superadmin@mmdrivers.com';
+    const existingSuper = await this.findByEmail(superEmail);
 
-    if (existing) {
+    if (existingSuper) {
       this.logger.log('SuperAdmin ya existe');
-      return;
+    } else {
+      this.logger.log('Creando SuperAdmin inicial...');
+      const passwordHash = await bcrypt.hash('Diego1989r$', BCRYPT_ROUNDS);
+      
+      const superAdmin = this.usersRepository.create({
+        email: superEmail,
+        phone: '00000000',
+        passwordHash,
+        firstName: 'Super',
+        lastName: 'Admin',
+        role: Role.SUPERADMIN,
+        isVerified: true,
+      });
+
+      await this.usersRepository.save(superAdmin);
+      this.logger.log('SuperAdmin creado exitosamente');
     }
 
-    this.logger.log('Creando SuperAdmin inicial...');
-    const passwordHash = await bcrypt.hash('Diego1989r$', BCRYPT_ROUNDS);
-    
-    const superAdmin = this.usersRepository.create({
-      email,
-      phone: '00000000',
-      passwordHash,
-      firstName: 'Super',
-      lastName: 'Admin',
-      role: Role.SUPERADMIN,
-      isVerified: true,
-    });
+    // --- Admin operativo ---
+    const adminEmail = 'admin@mmdrivers.com';
+    const existingAdmin = await this.findByEmail(adminEmail);
 
-    await this.usersRepository.save(superAdmin);
-    this.logger.log('SuperAdmin creado exitosamente');
+    if (existingAdmin) {
+      this.logger.log('Admin operativo ya existe');
+    } else {
+      this.logger.log('Creando Admin operativo...');
+      const passwordHash = await bcrypt.hash('123456', BCRYPT_ROUNDS);
+      
+      const admin = this.usersRepository.create({
+        email: adminEmail,
+        phone: '00000001',
+        passwordHash,
+        firstName: 'Admin',
+        lastName: 'M&M',
+        role: Role.SUPERADMIN,
+        isVerified: true,
+      });
+
+      await this.usersRepository.save(admin);
+      this.logger.log('Admin operativo creado exitosamente');
+    }
   }
 
   async create(dto: RegisterDto): Promise<User> {
