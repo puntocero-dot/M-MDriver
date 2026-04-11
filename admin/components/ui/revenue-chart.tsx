@@ -105,7 +105,7 @@ export function RevenueChart() {
         {!mounted ? (
           <div className="h-full w-full flex items-center justify-center bg-white/5 rounded-lg animate-pulse" />
         ) : (
-          <ResponsiveContainer width="100%" height="100%" debounce={1}>
+          <ResponsiveContainer width="100%" height="100%" minWidth={200} minHeight={180} debounce={50}>
             <AreaChart data={MOCK_DATA} margin={{ top: 5, right: 5, left: -20, bottom: 0 }}>
               <defs>
                 <linearGradient id="goldGradient" x1="0" y1="0" x2="0" y2="1">
