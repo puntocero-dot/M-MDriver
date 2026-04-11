@@ -91,7 +91,7 @@ export default function LoginPage() {
         <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] rounded-full opacity-[0.02] blur-[100px] bg-gold-vibrant" />
         
         {/* Animated pattern overlay */}
-        <div className="absolute inset-0 noise-overlay opacity-30" />
+        <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, rgba(255,255,255,0.15) 1px, transparent 0)', backgroundSize: '24px 24px' }} />
 
         <motion.div 
           initial={{ opacity: 0, x: -30 }}
@@ -181,11 +181,11 @@ export default function LoginPage() {
               </button>
             </div>
 
-            <div className="mb-10 text-center">
-              <h2 className="text-3xl font-serif text-white mb-2">
+                <div className="mb-12 text-center">
+              <h2 className="text-3xl md:text-4xl font-serif text-white mb-3">
                 {mode === "login" ? "Acceso Seguro" : "Nuevo Protocolo"}
               </h2>
-              <p className="text-sm text-on-surface-muted font-light">
+              <p className="text-sm md:text-base text-on-surface-muted font-light">
                 {mode === "login" 
                   ? "Ingrese sus credenciales de bóveda corporativa."
                   : "Complete los datos para generar su perfil encriptado."}
@@ -252,8 +252,8 @@ export default function LoginPage() {
                     </>
                   )}
 
-                  <div className="space-y-2">
-                    <label className="text-[10px] font-bold tracking-[0.2em] uppercase text-white/40 pl-2">Credencial Corporativa (Email)</label>
+                  <div className="space-y-4">
+                    <label className="text-[11px] font-bold tracking-[0.2em] uppercase text-white/50 pl-2">Credencial Corporativa (Email)</label>
                     <div className="relative group">
                       <Mail size={18} className="absolute left-5 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-gold transition-colors" />
                       <input
@@ -262,16 +262,16 @@ export default function LoginPage() {
                         onChange={(e) => mode === "login" ? setEmail(e.target.value) : setRegForm({ ...regForm, email: e.target.value })}
                         placeholder="ejecutivo@empresa.com"
                         required
-                        className="w-full rounded-2xl bg-surface-high border border-white/10 pl-14 pr-5 py-4 text-sm text-white placeholder:text-white/20 focus:outline-none focus:border-gold/40 focus:bg-white/[0.04] transition-all"
+                        className="w-full h-16 rounded-2xl bg-surface-high border border-white/10 pl-14 pr-5 text-base text-white placeholder:text-white/20 focus:outline-none focus:border-gold/40 focus:bg-white/[0.04] transition-all"
                       />
                     </div>
                   </div>
 
-                  <div className="space-y-2">
+                  <div className="space-y-4">
                     <div className="flex justify-between items-center pr-2">
-                      <label className="text-[10px] font-bold tracking-[0.2em] uppercase text-white/40 pl-2">Código Privado (Pass)</label>
+                      <label className="text-[11px] font-bold tracking-[0.2em] uppercase text-white/50 pl-2">Código Privado (Pass)</label>
                       {mode === "login" && (
-                        <a href="#" className="text-[9px] uppercase tracking-widest text-gold/60 hover:text-gold transition-colors">¿Extraviado?</a>
+                        <a href="#" className="text-[10px] font-bold uppercase tracking-widest text-gold/60 hover:text-gold transition-colors">¿Extraviado?</a>
                       )}
                     </div>
                     <div className="relative group">
@@ -282,7 +282,7 @@ export default function LoginPage() {
                         onChange={(e) => mode === "login" ? setPassword(e.target.value) : setRegForm({ ...regForm, password: e.target.value })}
                         placeholder="••••••••"
                         required
-                        className="w-full rounded-2xl bg-surface-high border border-white/10 pl-14 pr-5 py-4 text-sm text-white placeholder:text-white/20 focus:outline-none focus:border-gold/40 focus:bg-white/[0.04] transition-all"
+                        className="w-full h-16 rounded-2xl bg-surface-high border border-white/10 pl-14 pr-5 text-base text-white placeholder:text-white/20 focus:outline-none focus:border-gold/40 focus:bg-white/[0.04] transition-all"
                       />
                     </div>
                   </div>

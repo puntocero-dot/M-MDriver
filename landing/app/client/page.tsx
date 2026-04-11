@@ -110,7 +110,6 @@ export default function ClientDashboard() {
         dropoffLat: dropoffObj.lat,
         dropoffLng: dropoffObj.lng,
         quotedPrice: quote.estimatedPrice,
-        notes: "Reserva desde portal de cliente",
       }, token);
       setSuccess(`Misión Confirmada. ID: ${t.id}`);
       setQuote(null);
@@ -158,10 +157,11 @@ export default function ClientDashboard() {
         </div>
       </nav>
 
-      <div className="w-full max-w-5xl mt-32 px-4 mb-20 flex flex-col md:flex-row gap-8">
+      {/* ── Main Content Area ── */}
+      <div className="w-full max-w-[1200px] mt-[100px] px-6 lg:px-8 mb-20 flex flex-col md:flex-row gap-8 lg:gap-12 mx-auto">
         
         {/* ── Sidebar Tabs ── */}
-        <div className="w-full md:w-64 flex flex-col gap-2 shrink-0">
+        <div className="w-full md:w-72 flex flex-col gap-3 shrink-0">
           <button
             onClick={() => setActiveTab("book")}
             className={`flex items-center gap-4 py-4 px-6 rounded-2xl transition-all duration-300 font-bold text-xs tracking-widest uppercase ${
@@ -186,10 +186,10 @@ export default function ClientDashboard() {
           </button>
         </div>
 
-        {/* ── Main Content Area ── */}
-        <div className="flex-1 bg-surface-high border border-white/5 rounded-3xl p-6 md:p-12 shadow-2xl relative overflow-hidden">
+        {/* ── Main Content Container ── */}
+        <div className="flex-1 bg-surface-high border border-white/5 rounded-3xl p-8 lg:p-12 shadow-2xl relative overflow-hidden min-h-[600px]">
           {/* Ambient Glow */}
-          <div className="absolute top-[-50px] right-[-50px] w-64 h-64 bg-gold/5 blur-[80px] pointer-events-none" />
+          <div className="absolute top-[-50px] right-[-50px] w-[300px] h-[300px] bg-gold/5 blur-[100px] pointer-events-none" />
 
           <AnimatePresence mode="wait">
             

@@ -736,43 +736,48 @@ function DownloadModal() {
                 </div>
 
                 {/* Platform buttons */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full">
                   {/* Android */}
-                  <div className="flex flex-col items-center justify-center p-6 rounded-2xl bg-gradient-to-br from-surface-high to-surface-container border border-white/10 relative overflow-hidden group">
-                    <div className="absolute inset-0 bg-gold/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                    <div className="w-14 h-14 rounded-xl bg-gold/10 border border-gold/20 flex items-center justify-center mb-4 transition-transform group-hover:scale-110 duration-500">
-                      <PlayCircle size={32} className="text-gold" fill="currentColor" />
+                  <div className="flex items-center gap-4 p-5 rounded-2xl bg-surface-high border border-white/10 relative overflow-hidden group hover:border-gold/30 hover:shadow-[0_10px_30px_rgba(197,165,90,0.1)] transition-all">
+                    <div className="absolute inset-0 bg-gold/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                    <div className="w-14 h-14 rounded-xl bg-gold/10 border border-gold/20 flex items-center justify-center shrink-0 transition-transform group-hover:scale-105 duration-500">
+                      <PlayCircle size={28} className="text-gold" fill="currentColor" />
                     </div>
-                    <p className="text-[10px] font-black tracking-[0.3em] uppercase text-white/40 mb-1">Android</p>
-                    <p className="text-lg font-bold text-white tracking-tight">Próximamente</p>
+                    <div className="flex flex-col text-left">
+                      <p className="text-[10px] font-black tracking-[0.3em] uppercase text-gold/60 mb-1">Android Plat.</p>
+                      <p className="text-sm font-bold text-white tracking-tight">Próximamente</p>
+                    </div>
                   </div>
 
                   {/* iOS */}
-                  <div className="flex flex-col items-center justify-center p-6 rounded-2xl bg-gradient-to-br from-surface-high to-surface-container border border-white/10 relative overflow-hidden group">
-                    <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                    <div className="w-14 h-14 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-4 transition-transform group-hover:scale-110 duration-500">
-                      <Apple size={32} className="text-white/60" fill="currentColor" />
+                  <div className="flex items-center gap-4 p-5 rounded-2xl bg-surface-high border border-white/10 relative overflow-hidden group hover:border-white/30 transition-all">
+                    <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                    <div className="w-14 h-14 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0 transition-transform group-hover:scale-105 duration-500">
+                      <Apple size={28} className="text-white/50" fill="currentColor" />
                     </div>
-                    <p className="text-[10px] font-black tracking-[0.3em] uppercase text-white/40 mb-1">iOS / Apple</p>
-                    <p className="text-lg font-bold text-white tracking-tight">Próximamente</p>
+                    <div className="flex flex-col text-left">
+                      <p className="text-[10px] font-black tracking-[0.3em] uppercase text-white/40 mb-1">iOS / Apple</p>
+                      <p className="text-sm font-bold text-white tracking-tight">Próximamente</p>
+                    </div>
                   </div>
                 </div>
 
                 {/* Instructions Section */}
-                <div className="w-full p-6 md:p-8 rounded-2xl bg-surface-container border border-white/5 shadow-inner">
-                  <h4 className="text-[11px] font-black tracking-[0.2em] uppercase text-gold mb-6 flex items-center gap-3">
-                    <div className="w-4 h-[1px] bg-gold" />
-                    Instalación Certificada
+                <div className="w-full p-8 rounded-2xl bg-surface-high border border-white/5 shadow-2xl relative overflow-hidden">
+                  <div className="absolute right-0 top-0 w-32 h-32 bg-gold/5 blur-[40px] pointer-events-none" />
+                  <h4 className="text-[11px] font-black tracking-[0.2em] uppercase text-gold mb-8 flex items-center gap-4">
+                    <div className="w-6 h-[1px] bg-gold/50" />
+                    Protocolo de Instalación Certificada
                   </h4>
-                  <div className="flex flex-col gap-4">
+                  <div className="flex flex-col gap-6 relative z-10">
                     {[
-                      { n: "01", text: "Descarga segura del paquete autorizado." },
-                      { n: "02", text: "Vinculación de credenciales corporativas." },
-                      { n: "03", text: "Activación de la bóveda de seguridad biométrica." },
+                      { n: "01", text: "Descarga asegurada del paquete APK corporativo autorizado." },
+                      { n: "02", text: "Vinculación de sus credenciales con el sistema cerrado." },
+                      { n: "03", text: "Activación del servicio y acceso a bóveda de misiones." },
                     ].map((s) => (
-                      <div key={s.n} className="flex items-center gap-4 bg-surface-low/50 p-3 rounded-lg border border-white/5">
-                        <span className="text-sm font-black text-gold/30 shrink-0 w-8">{s.n}</span>
-                        <p className="text-sm text-white/80 font-medium">{s.text}</p>
+                      <div key={s.n} className="flex items-start gap-5">
+                        <span className="text-xl md:text-2xl font-serif italic font-black text-gold/40 mt-[-2px] shrink-0">{s.n}.</span>
+                        <p className="text-sm md:text-base text-white/70 font-light leading-relaxed">{s.text}</p>
                       </div>
                     ))}
                   </div>
