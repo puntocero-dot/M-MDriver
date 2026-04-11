@@ -20,12 +20,12 @@ export default function LoginPage() {
     setIsLoading(true);
 
     try {
-      // Backend returns: { data: { accessToken, refreshToken, user }, statusCode }
+      // Interceptor already unwraps { data, statusCode } → clean payload
       const { data: res } = await api.post<{
-        data: { accessToken: string; refreshToken: string; user: { role: string } };
+        accessToken: string; refreshToken: string; user: { role: string };
       }>("/auth/login", { email, password });
 
-      saveToken(res.data.accessToken);
+      saveToken(res.accessToken);
       router.push("/dashboard");
     } catch (err: unknown) {
       const axiosError = err as {

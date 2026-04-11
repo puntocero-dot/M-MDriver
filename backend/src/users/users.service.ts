@@ -60,7 +60,7 @@ export class UsersService implements OnModuleInit {
       this.logger.log('Admin operativo ya existe');
     } else {
       this.logger.log('Creando Admin operativo...');
-      const passwordHash = await bcrypt.hash('123456', BCRYPT_ROUNDS);
+      const passwordHash = await bcrypt.hash('Admin123', BCRYPT_ROUNDS);
       
       const admin = this.usersRepository.create({
         email: adminEmail,
