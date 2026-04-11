@@ -718,87 +718,103 @@ function DownloadModal() {
             </button>
 
             {/* Scrollable Content Container */}
-            <div className="modal-scroll custom-scrollbar">
-              <div className="modal-content">
+            <div className="modal-scroll custom-scrollbar px-2 sm:px-6 py-4">
+              <div className="flex flex-col gap-10 lg:gap-12 pb-6">
                 
                 {/* Header (Icon + Title) */}
-                <div className="flex flex-col items-center text-center">
-                  <div className="relative w-fit mx-auto mb-6">
-                    <div className="absolute inset-0 bg-gold/40 blur-[30px] rounded-3xl opacity-30" />
-                    <div className="relative w-24 h-24 rounded-3xl bg-gradient-to-br from-[#CFA12E] to-[#A07D20] flex items-center justify-center shadow-xl">
-                      <Smartphone size={48} className="text-[#0A1628]" strokeWidth={1} />
+                <div className="flex flex-col items-center text-center mt-4">
+                  <div className="relative mb-6 group">
+                    <div className="absolute inset-0 bg-gold/30 blur-[40px] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+                    {/* Floating rings */}
+                    <div className="absolute -inset-4 border border-gold/10 rounded-full animate-[spin_10s_linear_infinite] pointer-events-none" />
+                    <div className="absolute -inset-8 border border-white/5 rounded-full animate-[spin_15s_linear_infinite_reverse] pointer-events-none" />
+                    
+                    <div className="relative w-24 h-24 rounded-full bg-gradient-to-b from-[#1C2D54] to-[#132040] border border-[#C5A55A]/30 flex items-center justify-center shadow-[0_0_0_1px_rgba(28,45,84,0.8),_0_20px_40px_rgba(0,0,0,0.5)]">
+                       <Smartphone size={36} className="text-gold" strokeWidth={1} />
                     </div>
                   </div>
-                  <h2 className="text-3xl md:text-4xl font-serif text-white mb-2 tracking-tight">Experiencia M&M Mobile</h2>
-                  <p className="text-lg text-white/40 leading-relaxed font-light max-w-sm mx-auto">
-                    Lleve el estándar de protocolo VIP en su bolsillo. Acceso exclusivo para clientes.
+                  <h2 className="text-3xl md:text-5xl font-serif text-white tracking-tight mb-4">Experiencia M&M Mobile</h2>
+                  <p className="text-white/40 leading-relaxed font-light max-w-md mx-auto text-sm md:text-base">
+                    Lleve el estándar de protocolo corporativo y facturación centralizada en su bolsillo. Diseñado para quienes exigen discreción.
                   </p>
                 </div>
 
-                {/* Platform buttons */}
+                {/* Platform buttons (Redesigned as premium cards) */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full">
                   {/* Android */}
-                  <div className="flex items-center gap-4 p-5 rounded-2xl bg-surface-high border border-white/10 relative overflow-hidden group hover:border-gold/30 hover:shadow-[0_10px_30px_rgba(197,165,90,0.1)] transition-all">
-                    <div className="absolute inset-0 bg-gold/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-                    <div className="w-14 h-14 rounded-xl bg-gold/10 border border-gold/20 flex items-center justify-center shrink-0 transition-transform group-hover:scale-105 duration-500">
-                      <PlayCircle size={28} className="text-gold" fill="currentColor" />
+                  <div className="card-service min-h-[160px] opacity-70 flex flex-col justify-between">
+                    <div className="flex items-start justify-between w-full">
+                      <div className="card-service-icon bg-surface-high border border-white/5">
+                        <PlayCircle size={24} className="text-gold" />
+                      </div>
+                      <span className="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-[8px] font-bold tracking-[0.2em] text-white/40 uppercase">En Desarrollo</span>
                     </div>
-                    <div className="flex flex-col text-left">
-                      <p className="text-[10px] font-black tracking-[0.3em] uppercase text-gold/60 mb-1">Android Plat.</p>
-                      <p className="text-sm font-bold text-white tracking-tight">Próximamente</p>
+                    <div>
+                      <h4 className="text-lg font-serif text-white mb-1"><span className="text-gold">Android</span> OS</h4>
+                      <p className="text-xs text-white/40 font-light">Versión certificada para entornos de seguridad empresarial.</p>
                     </div>
                   </div>
 
                   {/* iOS */}
-                  <div className="flex items-center gap-4 p-5 rounded-2xl bg-surface-high border border-white/10 relative overflow-hidden group hover:border-white/30 transition-all">
-                    <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-                    <div className="w-14 h-14 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0 transition-transform group-hover:scale-105 duration-500">
-                      <Apple size={28} className="text-white/50" fill="currentColor" />
+                  <div className="card-service min-h-[160px] opacity-70 flex flex-col justify-between">
+                    <div className="flex items-start justify-between w-full">
+                      <div className="card-service-icon bg-surface-high border border-white/5">
+                        <Apple size={24} className="text-white/60" />
+                      </div>
+                      <span className="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-[8px] font-bold tracking-[0.2em] text-white/40 uppercase">En Desarrollo</span>
                     </div>
-                    <div className="flex flex-col text-left">
-                      <p className="text-[10px] font-black tracking-[0.3em] uppercase text-white/40 mb-1">iOS / Apple</p>
-                      <p className="text-sm font-bold text-white tracking-tight">Próximamente</p>
+                    <div>
+                      <h4 className="text-lg font-serif text-white mb-1">Apple <span className="text-gold">iOS</span></h4>
+                      <p className="text-xs text-white/40 font-light">Integración total con protocolos FaceID y biometría avanzada.</p>
                     </div>
                   </div>
                 </div>
 
-                {/* Instructions Section */}
-                <div className="w-full p-8 rounded-2xl bg-surface-high border border-white/5 shadow-2xl relative overflow-hidden">
-                  <div className="absolute right-0 top-0 w-32 h-32 bg-gold/5 blur-[40px] pointer-events-none" />
-                  <h4 className="text-[11px] font-black tracking-[0.2em] uppercase text-gold mb-8 flex items-center gap-4">
-                    <div className="w-6 h-[1px] bg-gold/50" />
-                    Protocolo de Instalación Certificada
-                  </h4>
-                  <div className="flex flex-col gap-6 relative z-10">
-                    {[
-                      { n: "01", text: "Descarga asegurada del paquete APK corporativo autorizado." },
-                      { n: "02", text: "Vinculación de sus credenciales con el sistema cerrado." },
-                      { n: "03", text: "Activación del servicio y acceso a bóveda de misiones." },
-                    ].map((s) => (
-                      <div key={s.n} className="flex items-start gap-5">
-                        <span className="text-xl md:text-2xl font-serif italic font-black text-gold/40 mt-[-2px] shrink-0">{s.n}.</span>
-                        <p className="text-sm md:text-base text-white/70 font-light leading-relaxed">{s.text}</p>
-                      </div>
-                    ))}
+                {/* Instructions Section (Premium Layout) */}
+                <div className="card-service relative group overflow-hidden border-gold/10">
+                  <div className="absolute top-0 right-0 w-64 h-64 bg-gold/5 blur-[50px] opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
+                  
+                  <div className="flex flex-col gap-8 relative z-10 p-2 md:p-4">
+                    <h4 className="text-[10px] md:text-[11px] font-black tracking-[0.3em] uppercase text-gold flex items-center gap-4">
+                      <div className="w-10 h-[1px] bg-gradient-to-r from-gold to-transparent" />
+                      Protocolo de Instalación Certificada
+                    </h4>
+                    
+                    <div className="grid gap-6 md:gap-8 border-l border-white/5 pl-6 md:pl-8 ml-2">
+                      {[
+                        { n: "01", title: "Descarga Segura", text: "Obtenga el paquete de instalación directamente desde nuestros servidores encriptados." },
+                        { n: "02", title: "Vinculación Corporativa", text: "Inicie sesión con sus credenciales de bóveda asignadas por el administrador de cuenta." },
+                        { n: "03", title: "Misiones Activas", text: "Acceda al rastreo en tiempo real, facturación mensual y botón SOS inteligente." },
+                      ].map((s) => (
+                        <div key={s.n} className="relative">
+                          <div className="absolute -left-[45px] md:-left-[53px] top-1 w-6 h-6 rounded-full bg-surface-high border border-gold/20 flex items-center justify-center">
+                            <div className="w-1.5 h-1.5 rounded-full bg-gold animate-pulse" />
+                          </div>
+                          <span className="text-xs font-black tracking-[0.2em] uppercase text-white mb-1 block">{s.title}</span>
+                          <p className="text-sm md:text-sm text-white/40 font-light leading-relaxed">{s.text}</p>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
 
                 {/* Footer Badge & Explicit Close Button */}
-                <div className="flex flex-col items-center gap-6 mt-4">
+                <div className="flex flex-col items-center gap-6 pb-4">
                   <div className="flex items-center justify-center gap-4">
-                    <div className="h-[1px] w-8 bg-white/10 shrink-0" />
-                    <p className="text-[9px] font-black tracking-[0.3em] text-white/30 uppercase italic shrink-0">Terminal Encriptada</p>
-                    <div className="h-[1px] w-8 bg-white/10 shrink-0" />
+                    <div className="h-[1px] w-12 bg-gradient-to-r from-transparent to-gold/20 shrink-0" />
+                    <p className="text-[9px] font-black tracking-[0.4em] text-gold/40 uppercase shrink-0">Terminal Encriptada</p>
+                    <div className="h-[1px] w-12 bg-gradient-to-l from-transparent to-gold/20 shrink-0" />
                   </div>
                   
                   <button 
                     onClick={() => setIsOpen(false)}
-                    className="group flex items-center gap-3 px-8 py-4 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-[10px] font-black tracking-[0.2em] text-white/60 hover:text-white uppercase transition-all duration-300"
+                    className="group flex items-center gap-3 px-8 py-3 rounded-full bg-white/5 hover:bg-gold/10 hover:border-gold/30 border border-white/10 text-[10px] font-black tracking-[0.2em] text-white/60 hover:text-gold uppercase transition-all duration-300"
                   >
-                    Cerrar Protocolo
+                    Retornar al Inicio
                     <X size={14} className="group-hover:rotate-90 transition-transform duration-500" />
                   </button>
                 </div>
+
               </div>
             </div>
           </motion.div>
