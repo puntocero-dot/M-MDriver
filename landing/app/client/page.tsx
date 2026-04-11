@@ -129,11 +129,11 @@ export default function ClientDashboard() {
   if (!user) return null; // Avoid hydration mismatch while redirecting
 
   return (
-    <div className="min-h-screen bg-surface flex flex-col items-center">
+    <div className="flex flex-col lg:flex-row h-screen bg-surface overflow-hidden">
       
-      {/* ── Navbar ── */}
-      <nav className="w-full h-20 bg-surface-high border-b border-white/5 flex items-center justify-between px-6 md:px-12 fixed top-0 z-50">
-        <div className="flex items-center gap-3 group">
+      {/* ── Mobile Sidebar Header ── */}
+      <nav className="lg:hidden w-full h-20 bg-surface-high border-b border-white/5 flex items-center justify-between px-6 shrink-0 z-50">
+        <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#CFA12E] to-[#A07D20] flex items-center justify-center shadow-lg">
             <ShieldCheck size={20} className="text-[#0A1628]" />
           </div>
@@ -142,175 +142,258 @@ export default function ClientDashboard() {
             <span className="text-gold/60 text-[9px] font-black tracking-[0.3em] uppercase">Client Terminal</span>
           </div>
         </div>
-
-        <div className="flex items-center gap-6">
-          <div className="hidden md:flex flex-col items-end mr-4 border-r border-white/10 pr-6">
-            <span className="text-white/80 text-xs font-bold tracking-wide">{user.firstName} {user.lastName}</span>
-            <span className="text-white/40 text-[9px] font-black tracking-widest uppercase">{user.email}</span>
-          </div>
-          <button 
-            onClick={handleLogout}
-            className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/40 hover:text-red-400 hover:bg-red-500/10 transition-all group"
-          >
-            <LogOut size={16} className="group-hover:-translate-x-0.5 transition-transform" />
-          </button>
-        </div>
+        <button 
+          onClick={handleLogout}
+          className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-white/40 hover:text-red-400 hover:bg-red-500/10 transition-colors"
+        >
+          <LogOut size={16} />
+        </button>
       </nav>
 
-      {/* ── Main Content Area ── */}
-      <div 
-        className="w-full max-w-[1200px] px-6 lg:px-8 pb-20 flex flex-col md:flex-row gap-8 lg:gap-12 mx-auto relative z-10"
-        style={{ marginTop: "120px" }}
-      >
-        
-        {/* ── Sidebar Tabs ── */}
-        <div className="w-full md:w-72 flex flex-col gap-3 shrink-0">
+      {/* ── Desktop Sidebar ── */}
+      <aside className="hidden lg:flex w-[320px] bg-[#0A1628] border-r border-white/5 flex-col shrink-0 relative z-20">
+        {/* Subtle glow in sidebar */}
+        <div className="absolute top-0 left-0 w-full h-64 bg-gold/5 blur-[80px] pointer-events-none" />
+
+        {/* Brand */}
+        <div className="p-10 border-b border-white/5">
+          <div className="flex items-center gap-4 group">
+            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#1C2D54] to-[#132040] border border-gold/30 flex items-center justify-center shadow-[0_0_20px_rgba(197,165,90,0.15)] group-hover:shadow-[0_0_25px_rgba(197,165,90,0.3)] transition-all flex-shrink-0">
+              <ShieldCheck size={28} className="text-gold" />
+            </div>
+            <div className="flex flex-col overflow-hidden">
+              <span className="text-white text-lg font-serif font-black tracking-widest uppercase leading-tight truncate">M&M Driver</span>
+              <span className="text-gold/60 text-[9px] font-black tracking-[0.4em] uppercase truncate">Private Vault</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Navigation Tabs */}
+        <div className="flex-1 py-10 px-6 flex flex-col gap-4">
           <button
             onClick={() => setActiveTab("book")}
-            className={`flex items-center gap-4 py-4 px-6 rounded-2xl transition-all duration-300 font-bold text-xs tracking-widest uppercase ${
+            className={`flex items-center gap-4 py-4 px-6 rounded-2xl transition-all duration-300 font-bold text-[11px] tracking-widest uppercase relative overflow-hidden group ${
               activeTab === "book" 
-                ? "bg-gold/10 border-gold/30 text-gold shadow-[0_0_20px_rgba(197,165,90,0.1)] border" 
-                : "bg-surface-high border-white/5 text-white/40 border hover:bg-white/5 hover:text-white"
+                ? "text-gold border border-gold/30 bg-[#1C2D54]/40 shadow-[0_0_20px_rgba(197,165,90,0.05)]" 
+                : "text-white/40 border border-transparent hover:bg-white/5 hover:text-white"
             }`}
           >
-            <PlusCircle size={18} />
-            Nueva Misión
+            {activeTab === "book" && <div className="absolute inset-0 bg-gold/5 animate-pulse" />}
+            <PlusCircle size={20} className="relative z-10" />
+            <span className="relative z-10 mt-[2px]">Nueva Misión</span>
           </button>
+          
           <button
             onClick={() => setActiveTab("history")}
-            className={`flex items-center gap-4 py-4 px-6 rounded-2xl transition-all duration-300 font-bold text-xs tracking-widest uppercase ${
+            className={`flex items-center gap-4 py-4 px-6 rounded-2xl transition-all duration-300 font-bold text-[11px] tracking-widest uppercase relative overflow-hidden group ${
               activeTab === "history" 
-                ? "bg-gold/10 border-gold/30 text-gold shadow-[0_0_20px_rgba(197,165,90,0.1)] border" 
-                : "bg-surface-high border-white/5 text-white/40 border hover:bg-white/5 hover:text-white"
+                ? "text-gold border border-gold/30 bg-[#1C2D54]/40 shadow-[0_0_20px_rgba(197,165,90,0.05)]" 
+                : "text-white/40 border border-transparent hover:bg-white/5 hover:text-white"
             }`}
           >
-            <History size={18} />
-            Mis Viajes
+            {activeTab === "history" && <div className="absolute inset-0 bg-gold/5 animate-pulse" />}
+            <History size={20} className="relative z-10" />
+            <span className="relative z-10 mt-[2px]">Bitácora Global</span>
           </button>
         </div>
 
-        {/* ── Main Content Container ── */}
-        <div className="flex-1 bg-surface-high border border-white/5 rounded-3xl p-8 lg:p-12 shadow-2xl relative overflow-hidden min-h-[600px]">
-          {/* Ambient Glow */}
-          <div className="absolute top-[-50px] right-[-50px] w-[300px] h-[300px] bg-gold/5 blur-[100px] pointer-events-none" />
+        {/* User Card & Logout */}
+        <div className="p-6 border-t border-white/5">
+          <div className="bg-[#1C2D54]/20 border border-white/5 rounded-2xl p-5 flex items-center justify-between">
+            <div className="flex flex-col truncate pr-4">
+              <span className="text-white/90 text-[10px] font-black tracking-widest uppercase truncate">{user.firstName} {user.lastName}</span>
+              <span className="text-white/40 text-[9px] font-bold tracking-widest uppercase truncate">{user.email}</span>
+            </div>
+            <button 
+              onClick={handleLogout}
+              className="w-10 h-10 shrink-0 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/50 hover:text-red-400 hover:border-red-500/30 hover:bg-red-500/10 transition-all"
+            >
+              <LogOut size={16} className="-translate-x-0.5" />
+            </button>
+          </div>
+        </div>
+      </aside>
 
+      {/* ── Main Content Area (Scrollable Dashboard) ── */}
+      <main className="flex-1 h-full overflow-y-auto relative z-10 p-4 sm:p-8 lg:p-12 custom-scrollbar">
+        {/* Mobile Tabs Wrapper */}
+        <div className="lg:hidden flex gap-2 mb-8 bg-surface-high border border-white/5 p-1 rounded-2xl max-w-sm mx-auto">
+           <button
+            onClick={() => setActiveTab("book")}
+            className={`flex-1 py-3 font-bold text-[10px] tracking-widest uppercase rounded-xl transition-all ${
+              activeTab === "book" ? "bg-gold/10 text-gold border border-gold/20" : "text-white/40"
+            }`}
+          >
+            Nueva Misión
+          </button>
+           <button
+            onClick={() => setActiveTab("history")}
+            className={`flex-1 py-3 font-bold text-[10px] tracking-widest uppercase rounded-xl transition-all ${
+              activeTab === "history" ? "bg-gold/10 text-gold border border-gold/20" : "text-white/40"
+            }`}
+          >
+            Bitácora
+          </button>
+        </div>
+
+        {/* Main Content Wrapper */}
+        <div className="w-full max-w-5xl mx-auto min-h-[600px] flex flex-col">
           <AnimatePresence mode="wait">
             
             {/* BOOKING TAB */}
             {activeTab === "book" && (
               <motion.div
                 key="book"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                className="flex flex-col h-full"
+                initial={{ opacity: 0, scale: 0.98 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.98 }}
+                transition={{ duration: 0.4 }}
+                className="card-service lg:p-14"
               >
-                <div className="mb-10">
-                  <h2 className="text-3xl font-serif text-white mb-2">Solicitar Unidad</h2>
-                  <p className="text-white/40 text-sm font-light">Cotización inmediata de traslados certificados.</p>
+                <div className="mb-12 border-b border-white/5 pb-8">
+                  <h2 className="text-3xl lg:text-4xl font-serif text-white mb-3 tracking-tight">Solicitar Unidad</h2>
+                  <p className="text-white/40 text-sm font-light">Cotización inmediata de traslados certificados. Seleccione sus coordenadas seguras.</p>
                 </div>
 
-                <div className="space-y-6 max-w-xl">
-                  {/* Select Origin */}
-                  <div className="flex flex-col gap-3">
-                    <label className="text-[10px] font-black tracking-[0.3em] uppercase text-white/40 ml-2">Origen de Protocolo</label>
-                    <div className="relative group">
-                      <MapPin size={18} className="absolute left-6 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-gold transition-colors pointer-events-none" />
-                      <select
-                        value={pickup}
-                        onChange={(e) => setPickup(e.target.value)}
-                        className="w-full h-16 rounded-2xl bg-surface-high border border-white/10 pl-16 pr-5 text-base text-white appearance-none focus:outline-none focus:border-gold/40 focus:bg-white/[0.04] transition-all duration-300 relative z-10"
-                      >
-                        <option value="" className="bg-[#0A1628]">Seleccionar origen...</option>
-                        {LOCATIONS.map((loc) => (
-                          <option key={"p-"+loc.label} value={loc.label} className="bg-[#0A1628] text-sm py-2">
-                            {loc.label}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-
-                  {/* Select Destination */}
-                  <div className="flex flex-col gap-3">
-                    <label className="text-[10px] font-black tracking-[0.3em] uppercase text-white/40 ml-2">Destino de Protocolo</label>
-                    <div className="relative group">
-                      <MapPin size={18} className="absolute left-6 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-gold transition-colors pointer-events-none" />
-                      <select
-                        value={dropoff}
-                        onChange={(e) => setDropoff(e.target.value)}
-                        className="w-full h-16 rounded-2xl bg-surface-high border border-white/10 pl-16 pr-5 text-base text-white appearance-none focus:outline-none focus:border-gold/40 focus:bg-white/[0.04] transition-all duration-300 relative z-10"
-                      >
-                        <option value="" className="bg-[#0A1628]">Seleccionar destino...</option>
-                         {LOCATIONS.map((loc) => (
-                          <option key={"d-"+loc.label} value={loc.label} className="bg-[#0A1628] text-sm py-2">
-                            {loc.label}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-
-                  {/* Actions */}
-                  {error && <p className="text-red-400 text-xs font-bold bg-red-400/10 p-4 rounded-xl border border-red-400/20">{error}</p>}
-                  {success && <p className="text-green-400 text-xs font-bold bg-green-400/10 p-4 rounded-xl border border-green-400/20">{success}</p>}
-
-                  {!quote ? (
-                    <button
-                      onClick={handleQuote}
-                      disabled={loading || !pickup || !dropoff}
-                      className="w-full mt-4 py-5 rounded-2xl font-black text-[11px] tracking-[0.3em] uppercase transition-all duration-500 disabled:opacity-50 flex items-center justify-center gap-4 bg-white/5 border border-white/10 hover:bg-gold hover:text-surface text-gold hover:border-gold group"
-                    >
-                      {loading ? <Loader2 size={18} className="animate-spin" /> : (
-                        <>
-                          <Calculator size={16} />
-                          Calcular Tarifa
-                        </>
-                      )}
-                    </button>
-                  ) : (
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="mt-6 border border-gold/30 bg-gold/5 rounded-3xl p-8 relative overflow-hidden"
-                    >
-                      <div className="absolute top-0 right-0 p-8 opacity-10">
-                        <Calculator size={100} />
-                      </div>
-                      <p className="text-[10px] font-black tracking-[0.4em] uppercase text-gold/60 mb-2">Cuota Autorizada</p>
-                      <div className="flex items-end gap-2 mb-6">
-                        <span className="text-5xl font-black text-white">${quote.estimatedPrice.toFixed(2)}</span>
-                        <span className="text-sm font-bold text-white/40 mb-2 uppercase tracking-wide">{quote.currency}</span>
-                      </div>
-                      
-                      <div className="flex gap-6 mb-8">
-                        <div className="flex flex-col">
-                          <span className="text-[9px] font-black tracking-[0.2em] text-white/40 uppercase mb-1">Distancia</span>
-                          <span className="text-sm font-bold text-white/80">{(quote.estimatedDistanceMeters / 1000).toFixed(1)} km</span>
-                        </div>
-                        <div className="flex flex-col">
-                          <span className="text-[9px] font-black tracking-[0.2em] text-white/40 uppercase mb-1">Estimado</span>
-                          <span className="text-sm font-bold text-white/80">{Math.ceil(quote.estimatedDurationSeconds / 60)} min</span>
+                <div className="grid grid-cols-1 lg:grid-cols-[1fr_0.8fr] gap-12 lg:gap-16">
+                  <div className="flex flex-col gap-8">
+                    {/* Select Origin */}
+                    <div className="flex flex-col gap-3">
+                      <label className="text-[10px] font-black tracking-[0.3em] uppercase text-gold ml-1">Origen Asignado</label>
+                      <div className="relative group">
+                        <MapPin size={18} className="absolute left-6 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-gold transition-colors z-20 pointer-events-none" />
+                        <select
+                          value={pickup}
+                          onChange={(e) => setPickup(e.target.value)}
+                          className="w-full h-16 rounded-2xl bg-[#0f1c35]/80 border border-white/5 pl-16 pr-12 text-sm md:text-base text-white appearance-none focus:outline-none focus:border-gold/50 focus:bg-[#1C2D54]/50 focus:shadow-[0_0_20px_rgba(197,165,90,0.1)] transition-all cursor-pointer"
+                        >
+                          <option value="" className="bg-[#0A1628] text-white/40">Seleccionar origen de protocolo...</option>
+                          {LOCATIONS.map((loc) => (
+                            <option key={"p-"+loc.label} value={loc.label} className="bg-[#0A1628] text-sm py-3">
+                              {loc.label}
+                            </option>
+                          ))}
+                        </select>
+                        <div className="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none z-20">
+                          <ChevronRight size={16} className="text-white/20" />
                         </div>
                       </div>
+                    </div>
 
-                      <div className="flex gap-4">
-                        <button
-                          onClick={() => setQuote(null)}
-                          className="flex-1 py-4 rounded-xl font-bold text-[10px] tracking-[0.2em] uppercase bg-surface border border-white/10 hover:bg-white/5 transition-colors text-white mt-auto"
+                    {/* Select Destination */}
+                    <div className="flex flex-col gap-3">
+                      <label className="text-[10px] font-black tracking-[0.3em] uppercase text-gold ml-1">Destino Seguro</label>
+                      <div className="relative group">
+                        <MapPin size={18} className="absolute left-6 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-gold transition-colors z-20 pointer-events-none" />
+                        <select
+                          value={dropoff}
+                          onChange={(e) => setDropoff(e.target.value)}
+                          className="w-full h-16 rounded-2xl bg-[#0f1c35]/80 border border-white/5 pl-16 pr-12 text-sm md:text-base text-white appearance-none focus:outline-none focus:border-gold/50 focus:bg-[#1C2D54]/50 focus:shadow-[0_0_20px_rgba(197,165,90,0.1)] transition-all cursor-pointer"
                         >
-                          Cancelar
-                        </button>
-                        <button
-                          onClick={handleBook}
-                          disabled={loading}
-                          className="flex-[2] py-4 rounded-xl font-black text-[11px] tracking-[0.3em] uppercase bg-gradient-to-r from-gold-vibrant to-gold text-surface shadow-[0_0_20px_rgba(207,161,46,0.3)] transition-all flex justify-center items-center gap-2"
-                        >
-                          {loading ? <Loader2 size={18} className="animate-spin" /> : "Confirmar Viaje"}
-                        </button>
+                          <option value="" className="bg-[#0A1628] text-white/40">Seleccionar destino cerrado...</option>
+                           {LOCATIONS.map((loc) => (
+                            <option key={"d-"+loc.label} value={loc.label} className="bg-[#0A1628] text-sm py-3">
+                              {loc.label}
+                            </option>
+                          ))}
+                        </select>
+                        <div className="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none z-20">
+                          <ChevronRight size={16} className="text-white/20" />
+                        </div>
                       </div>
-                    </motion.div>
-                  )}
+                    </div>
+
+                    {/* Actions / Feedback */}
+                    {error && (
+                      <div className="flex items-start gap-3 bg-red-900/20 border border-red-500/20 rounded-xl p-4">
+                        <AlertTriangle size={18} className="text-red-400 shrink-0 mt-0.5" />
+                        <p className="text-red-300 text-xs leading-relaxed">{error}</p>
+                      </div>
+                    )}
+                    {success && (
+                      <div className="flex items-start gap-3 bg-green-900/20 border border-green-500/20 rounded-xl p-4">
+                        <ShieldCheck size={18} className="text-green-400 shrink-0 mt-0.5" />
+                        <p className="text-green-300 text-xs leading-relaxed tracking-wide font-black uppercase">{success}</p>
+                      </div>
+                    )}
+
+                    {!quote && (
+                      <button
+                        onClick={handleQuote}
+                        disabled={loading || !pickup || !dropoff}
+                        className="btn-outline-premium w-full mt-4 flex items-center justify-center gap-4 group disabled:opacity-50"
+                      >
+                        {loading ? <Loader2 size={18} className="animate-spin" /> : (
+                          <>
+                            <Calculator size={18} className="group-hover:text-gold-vibrant" />
+                            <span className="mt-[2px]">Evaluar Ruta Segura</span>
+                          </>
+                        )}
+                      </button>
+                    )}
+                  </div>
+
+                  {/* Right Column: Quote Display */}
+                  <div className="flex flex-col">
+                    {quote ? (
+                      <motion.div
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        className="h-full rounded-3xl p-8 relative overflow-hidden flex flex-col justify-between"
+                        style={{ background: "linear-gradient(135deg, rgba(197,165,90,0.1) 0%, rgba(19,32,64,0) 100%)", border: "1px solid rgba(197,165,90,0.2)" }}
+                      >
+                        <div className="absolute -top-10 -right-10 opacity-5 pointer-events-none">
+                          <Calculator size={180} />
+                        </div>
+                        
+                        <div>
+                          <div className="flex items-center gap-3 mb-6">
+                            <span className="w-2 h-2 rounded-full bg-gold animate-pulse" />
+                            <p className="text-[10px] font-black tracking-[0.4em] uppercase text-gold">Resumen de Misión</p>
+                          </div>
+                          
+                          <div className="flex items-end gap-3 mb-8">
+                            <span className="text-5xl lg:text-6xl font-black text-white tracking-tighter">${quote.estimatedPrice.toFixed(2)}</span>
+                            <span className="text-sm font-bold text-white/40 mb-2 uppercase tracking-widest">{quote.currency}</span>
+                          </div>
+                          
+                          <div className="grid grid-cols-2 gap-6 mb-10 border-t border-white/5 pt-8">
+                            <div className="flex flex-col gap-2">
+                              <span className="text-[9px] font-black tracking-[0.3em] text-white/30 uppercase">Distancia</span>
+                              <span className="text-lg font-bold text-white/90">{(quote.estimatedDistanceMeters / 1000).toFixed(1)} km</span>
+                            </div>
+                            <div className="flex flex-col gap-2">
+                              <span className="text-[9px] font-black tracking-[0.3em] text-white/30 uppercase">ETA</span>
+                              <span className="text-lg font-bold text-white/90">{Math.ceil(quote.estimatedDurationSeconds / 60)} min</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="flex flex-col gap-3">
+                          <button
+                            onClick={handleBook}
+                            disabled={loading}
+                            className="btn-premium w-full flex items-center justify-center gap-3"
+                          >
+                            {loading ? <Loader2 size={18} className="animate-spin" /> : (
+                              <>Autorizar y Desplegar</>
+                            )}
+                          </button>
+                          <button
+                            onClick={() => setQuote(null)}
+                            className="py-4 rounded-full font-black text-[10px] tracking-[0.2em] uppercase text-white/40 hover:text-white hover:bg-white/5 border border-transparent hover:border-white/10 transition-colors text-center"
+                          >
+                            Cancelar Protocolo
+                          </button>
+                        </div>
+                      </motion.div>
+                    ) : (
+                      <div className="h-full border border-dashed border-white/10 rounded-3xl flex flex-col items-center justify-center text-center p-8 opacity-50 bg-white/[0.01] min-h-[300px]">
+                        <ShieldCheck size={48} className="text-white/20 mb-6" />
+                        <p className="text-[11px] font-black tracking-[0.3em] uppercase text-white/40 max-w-[200px] leading-relaxed">Esperando Selección de Coordenadas</p>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </motion.div>
             )}
@@ -319,58 +402,68 @@ export default function ClientDashboard() {
             {activeTab === "history" && (
               <motion.div
                 key="history"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                className="flex flex-col h-full"
+                initial={{ opacity: 0, scale: 0.98 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.98 }}
+                transition={{ duration: 0.4 }}
+                className="flex flex-col h-full bg-[#132040]/30 rounded-3xl border border-white/5 p-6 lg:p-12 shadow-2xl relative"
               >
-                <div className="mb-10 flex justify-between items-end">
+                <div className="mb-10 flex justify-between items-end border-b border-white/5 pb-8 border-dashed">
                   <div>
-                    <h2 className="text-3xl font-serif text-white mb-2">Bitácora de Viajes</h2>
-                    <p className="text-white/40 text-sm font-light">Registro histórico de misiones corporativas.</p>
+                    <h2 className="text-3xl font-serif text-white mb-2 tracking-tight">Bitácora Global</h2>
+                    <p className="text-white/40 text-sm font-light">Registro histórico de misiones desplegadas en su bóveda.</p>
                   </div>
-                  <button onClick={fetchTrips} className="text-gold hover:text-gold-vibrant p-2 rounded-full hover:bg-gold/10 transition-colors">
+                  <button onClick={fetchTrips} className="text-gold hover:text-gold-vibrant p-4 rounded-full hover:bg-gold/10 border border-transparent hover:border-gold/20 transition-all shadow-md">
                     {loadingTrips ? <Loader2 size={18} className="animate-spin" /> : <Clock size={18} />}
                   </button>
                 </div>
 
                 {loadingTrips ? (
-                  <div className="flex-1 flex justify-center items-center min-h-[300px]">
+                  <div className="flex-1 flex justify-center items-center py-32">
                     <Loader2 size={32} className="animate-spin text-gold" />
                   </div>
                 ) : trips.length === 0 ? (
-                  <div className="flex-1 flex flex-col justify-center items-center min-h-[300px] text-center opacity-50">
-                    <Car size={48} className="text-white/20 mb-6" />
-                    <p className="text-white/60 font-medium">Bóveda vacía.</p>
-                    <p className="text-white/30 text-sm mt-2">Aún no hay misiones registradas.</p>
+                  <div className="flex-1 flex flex-col justify-center items-center py-32 text-center">
+                    <div className="w-24 h-24 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mb-6">
+                      <Car size={32} className="text-white/20" />
+                    </div>
+                    <p className="text-[12px] font-black tracking-[0.3em] uppercase text-white/50 mb-2">Bóveda Vacía</p>
+                    <p className="text-white/30 text-sm font-light">Aún no hay misiones registradas en el servidor.</p>
                   </div>
                 ) : (
-                  <div className="grid gap-4 custom-scrollbar max-h-[600px] overflow-y-auto pr-2">
+                  <div className="flex flex-col gap-5 pb-8">
                     {trips.map((t) => (
-                      <div key={t.id} className="bg-surface border border-white/5 rounded-2xl p-6 flex flex-col md:flex-row gap-6 items-start md:items-center justify-between group hover:border-gold/20 transition-colors">
-                        <div className="flex-1 flex flex-col gap-4">
-                          {/* Route */}
-                          <div className="flex items-center gap-4">
-                            <div className="flex flex-col items-center gap-1">
-                              <div className="w-2 h-2 rounded-full border border-gold" />
-                              <div className="w-[1px] h-4 bg-white/10" />
-                              <div className="w-2 h-2 rounded-full bg-gold" />
+                      <div key={t.id} className="bg-gradient-to-r from-[#1C2D54]/50 to-[#0A1628]/80 border border-white/5 rounded-2xl p-6 lg:p-8 flex flex-col md:flex-row gap-8 items-start md:items-center justify-between group hover:border-gold/30 hover:shadow-[0_10px_30px_rgba(197,165,90,0.05)] transition-all">
+                        <div className="flex-1 flex gap-6">
+                          {/* Timeline Nodes */}
+                          <div className="flex flex-col items-center justify-center gap-1.5 shrink-0 pt-1">
+                            <div className="w-2.5 h-2.5 rounded-full border border-gold shadow-[0_0_8px_rgba(197,165,90,0.4)]" />
+                            <div className="w-[1px] h-8 lg:h-10 border-l border-dashed border-white/10" />
+                            <div className="w-2.5 h-2.5 rounded-full bg-gold" />
+                          </div>
+                          {/* Addresses */}
+                          <div className="flex flex-col justify-between gap-5 text-sm font-bold text-white/80 py-0.5">
+                            <div className="flex flex-col">
+                              <span className="text-[9px] font-black tracking-[0.3em] uppercase text-gold/60 mb-1">Punto Alfa</span>
+                              <p className="truncate max-w-[200px] sm:max-w-xs xl:max-w-md">{t.pickupAddress}</p>
                             </div>
-                            <div className="flex flex-col text-sm font-medium text-white/80 gap-3">
-                              <p className="truncate max-w-[200px] md:max-w-xs">{t.pickupAddress}</p>
-                              <p className="truncate max-w-[200px] md:max-w-xs">{t.dropoffAddress}</p>
+                            <div className="flex flex-col">
+                              <span className="text-[9px] font-black tracking-[0.3em] uppercase text-gold/60 mb-1">Destino Bravo</span>
+                              <p className="truncate max-w-[200px] sm:max-w-xs xl:max-w-md">{t.dropoffAddress}</p>
                             </div>
                           </div>
                         </div>
 
                         {/* Status & Price */}
-                        <div className="flex flex-row md:flex-col items-center md:items-end justify-between w-full md:w-auto gap-4">
-                          <div className="flex items-center gap-2">
-                            <span className="w-2 h-2 rounded-full bg-green-500 shadow-[0_0_10px_#22c55e]" />
-                            <span className="text-[10px] font-black tracking-[0.2em] uppercase text-green-500/80">{t.status || "CONFIRMADO"}</span>
+                        <div className="flex flex-row md:flex-col items-center md:items-end justify-between w-full md:w-auto gap-4 md:border-l md:border-white/5 md:pl-8">
+                          <div className="flex items-center gap-2 bg-green-500/10 px-3 py-1.5 rounded-full border border-green-500/20">
+                            <span className="w-1.5 h-1.5 rounded-full bg-green-500 shadow-[0_0_8px_#22c55e]" />
+                            <span className="text-[9px] font-black tracking-[0.25em] uppercase text-green-400">{t.status || "CONFIRMADO"}</span>
                           </div>
-                          <span className="text-xl font-black text-white">${(t.fare ?? 0).toFixed(2)}</span>
-                          <span className="text-[9px] font-bold text-white/30 tracking-widest uppercase">
+                          <div className="flex items-end gap-1">
+                            <span className="text-3xl font-serif text-white">${(t.fare ?? 0).toFixed(2)}</span>
+                          </div>
+                          <span className="text-[9px] font-bold text-white/30 tracking-widest uppercase mt-1 md:mt-0">
                             {new Date(t.createdAt).toLocaleDateString()}
                           </span>
                         </div>
@@ -383,7 +476,7 @@ export default function ClientDashboard() {
 
           </AnimatePresence>
         </div>
-      </div>
+      </main>
     </div>
   );
 }

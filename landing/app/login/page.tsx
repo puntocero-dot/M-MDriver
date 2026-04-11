@@ -152,9 +152,9 @@ export default function LoginPage() {
             className="w-full max-w-md xl:max-w-lg"
           >
             {/* Mode Tabs */}
-            <div className="flex bg-surface-high border border-white/10 rounded-2xl p-1.5 mb-10 shadow-lg relative">
+            <div className="flex bg-surface-high border border-white/5 rounded-full p-1.5 mb-10 shadow-lg relative max-w-sm mx-auto xl:max-w-none">
               <motion.div
-                className="absolute top-1.5 bottom-1.5 rounded-xl bg-surface-light border border-white/10 shadow-md"
+                className="absolute top-1.5 bottom-1.5 rounded-full bg-surface-light border border-white/10 shadow-md"
                 initial={false}
                 animate={{
                   left: mode === "login" ? "6px" : "calc(50% + 3px)",
@@ -164,16 +164,18 @@ export default function LoginPage() {
                 style={{ backgroundColor: "rgba(255,255,255,0.05)" }}
               />
               <button
+                type="button"
                 onClick={() => { setMode("login"); setError(""); }}
-                className={`flex-1 py-3.5 text-[11px] font-black tracking-[0.2em] uppercase rounded-xl relative z-10 transition-colors ${
+                className={`flex-1 py-3.5 text-[10px] md:text-[11px] font-black tracking-[0.2em] uppercase rounded-full relative z-10 transition-colors ${
                   mode === "login" ? "text-gold" : "text-white/40 hover:text-white/80"
                 }`}
               >
                 Ingreso
               </button>
               <button
+                type="button"
                 onClick={() => { setMode("register"); setError(""); }}
-                className={`flex-1 py-3.5 text-[11px] font-black tracking-[0.2em] uppercase rounded-xl relative z-10 transition-colors ${
+                className={`flex-1 py-3.5 text-[10px] md:text-[11px] font-black tracking-[0.2em] uppercase rounded-full relative z-10 transition-colors ${
                   mode === "register" ? "text-gold" : "text-white/40 hover:text-white/80"
                 }`}
               >
@@ -181,11 +183,11 @@ export default function LoginPage() {
               </button>
             </div>
 
-                <div className="mb-12 text-center">
-              <h2 className="text-3xl md:text-4xl font-serif text-white mb-3">
+            <div className="mb-10 text-center">
+              <h2 className="text-3xl md:text-4xl font-serif text-white mb-3 tracking-tight">
                 {mode === "login" ? "Acceso Seguro" : "Nuevo Protocolo"}
               </h2>
-              <p className="text-sm md:text-base text-on-surface-muted font-light">
+              <p className="text-sm md:text-base text-white/40 font-light">
                 {mode === "login" 
                   ? "Ingrese sus credenciales de bóveda corporativa."
                   : "Complete los datos para generar su perfil encriptado."}
@@ -200,23 +202,24 @@ export default function LoginPage() {
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: mode === "login" ? 20 : -20 }}
                   transition={{ duration: 0.3 }}
-                  className="flex flex-col gap-6"
+                  className="flex flex-col gap-5 md:gap-6"
                 >
                   
                   {mode === "register" && (
-                    <>
-                      <div className="flex gap-4">
+                     <>
+                      {/* Flex-col en movil, Flex-row en escritorio para evitar OVERLAP */}
+                      <div className="flex flex-col sm:flex-row gap-5 md:gap-6">
                         <div className="flex-1 space-y-2">
                           <label className="text-[10px] font-bold tracking-[0.2em] uppercase text-white/40 pl-2">Nombre</label>
                           <div className="relative group">
-                            <User size={18} className="absolute left-5 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-gold transition-colors" />
+                            <User size={18} className="absolute left-5 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-gold transition-colors duration-500" />
                             <input
                               type="text"
                               value={regForm.firstName}
                               onChange={(e) => setRegForm({ ...regForm, firstName: e.target.value })}
                               placeholder="John"
                               required
-                              className="w-full rounded-2xl bg-surface-high border border-white/10 pl-14 pr-5 py-4 text-sm text-white placeholder:text-white/20 focus:outline-none focus:border-gold/40 focus:bg-white/[0.04] transition-all"
+                              className="w-full rounded-2xl bg-[#0A1628]/50 border border-white/5 pl-14 pr-5 py-4 text-sm text-white placeholder:text-white/20 focus:outline-none focus:border-gold/50 focus:bg-white/[0.02] focus:shadow-[0_0_20px_rgba(197,165,90,0.1)] transition-all duration-300"
                             />
                           </div>
                         </div>
@@ -229,7 +232,7 @@ export default function LoginPage() {
                               onChange={(e) => setRegForm({ ...regForm, lastName: e.target.value })}
                               placeholder="Doe"
                               required
-                              className="w-full rounded-2xl bg-surface-high border border-white/10 px-5 py-4 text-sm text-white placeholder:text-white/20 focus:outline-none focus:border-gold/40 focus:bg-white/[0.04] transition-all"
+                              className="w-full rounded-2xl bg-[#0A1628]/50 border border-white/5 px-5 py-4 text-sm text-white placeholder:text-white/20 focus:outline-none focus:border-gold/50 focus:bg-white/[0.02] focus:shadow-[0_0_20px_rgba(197,165,90,0.1)] transition-all duration-300"
                             />
                           </div>
                         </div>
@@ -238,51 +241,51 @@ export default function LoginPage() {
                       <div className="space-y-2">
                         <label className="text-[10px] font-bold tracking-[0.2em] uppercase text-white/40 pl-2">Teléfono Móvil</label>
                         <div className="relative group">
-                          <Phone size={18} className="absolute left-5 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-gold transition-colors" />
+                          <Phone size={18} className="absolute left-5 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-gold transition-colors duration-500" />
                           <input
                             type="text"
                             value={regForm.phone}
                             onChange={(e) => setRegForm({ ...regForm, phone: e.target.value })}
                             placeholder="+503 0000-0000"
                             required
-                            className="w-full rounded-2xl bg-surface-high border border-white/10 pl-14 pr-5 py-4 text-sm text-white placeholder:text-white/20 focus:outline-none focus:border-gold/40 focus:bg-white/[0.04] transition-all"
+                            className="w-full rounded-2xl bg-[#0A1628]/50 border border-white/5 pl-14 pr-5 py-4 text-sm text-white placeholder:text-white/20 focus:outline-none focus:border-gold/50 focus:bg-white/[0.02] focus:shadow-[0_0_20px_rgba(197,165,90,0.1)] transition-all duration-300"
                           />
                         </div>
                       </div>
                     </>
                   )}
 
-                  <div className="space-y-4">
-                    <label className="text-[11px] font-bold tracking-[0.2em] uppercase text-white/50 pl-2">Credencial Corporativa (Email)</label>
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-bold tracking-[0.2em] uppercase text-white/50 pl-2">Credencial Corporativa (Email)</label>
                     <div className="relative group">
-                      <Mail size={18} className="absolute left-5 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-gold transition-colors" />
+                      <Mail size={18} className="absolute left-5 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-gold transition-colors duration-500" />
                       <input
                         type="email"
                         value={mode === "login" ? email : regForm.email}
                         onChange={(e) => mode === "login" ? setEmail(e.target.value) : setRegForm({ ...regForm, email: e.target.value })}
                         placeholder="ejecutivo@empresa.com"
                         required
-                        className="w-full h-16 rounded-2xl bg-surface-high border border-white/10 pl-14 pr-5 text-base text-white placeholder:text-white/20 focus:outline-none focus:border-gold/40 focus:bg-white/[0.04] transition-all"
+                        className="w-full h-14 md:h-16 rounded-2xl bg-[#0A1628]/50 border border-white/5 pl-14 pr-5 text-base text-white placeholder:text-white/20 focus:outline-none focus:border-gold/50 focus:bg-white/[0.02] focus:shadow-[0_0_20px_rgba(197,165,90,0.1)] transition-all duration-300"
                       />
                     </div>
                   </div>
 
-                  <div className="space-y-4">
+                  <div className="space-y-2">
                     <div className="flex justify-between items-center pr-2">
-                      <label className="text-[11px] font-bold tracking-[0.2em] uppercase text-white/50 pl-2">Código Privado (Pass)</label>
+                      <label className="text-[10px] font-bold tracking-[0.2em] uppercase text-white/50 pl-2">Código Privado (Pass)</label>
                       {mode === "login" && (
-                        <a href="#" className="text-[10px] font-bold uppercase tracking-widest text-gold/60 hover:text-gold transition-colors">¿Extraviado?</a>
+                        <a href="#" className="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-gold/60 hover:text-gold transition-colors">¿Extraviado?</a>
                       )}
                     </div>
                     <div className="relative group">
-                      <Lock size={18} className="absolute left-5 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-gold transition-colors" />
+                      <Lock size={18} className="absolute left-5 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-gold transition-colors duration-500" />
                       <input
                         type="password"
                         value={mode === "login" ? password : regForm.password}
                         onChange={(e) => mode === "login" ? setPassword(e.target.value) : setRegForm({ ...regForm, password: e.target.value })}
                         placeholder="••••••••"
                         required
-                        className="w-full h-16 rounded-2xl bg-surface-high border border-white/10 pl-14 pr-5 text-base text-white placeholder:text-white/20 focus:outline-none focus:border-gold/40 focus:bg-white/[0.04] transition-all"
+                        className="w-full h-14 md:h-16 rounded-2xl bg-[#0A1628]/50 border border-white/5 pl-14 pr-5 text-base text-white placeholder:text-white/20 focus:outline-none focus:border-gold/50 focus:bg-white/[0.02] focus:shadow-[0_0_20px_rgba(197,165,90,0.1)] transition-all duration-300"
                       />
                     </div>
                   </div>
@@ -298,9 +301,9 @@ export default function LoginPage() {
                     exit={{ opacity: 0, height: 0 }}
                     className="overflow-hidden"
                   >
-                    <div className="flex items-start gap-3 bg-red-500/10 border border-red-500/20 rounded-xl p-4 mt-2">
+                    <div className="flex items-start gap-3 bg-red-900/20 border border-red-500/20 rounded-xl p-4 mt-2">
                       <AlertTriangle size={18} className="text-red-400 shrink-0 mt-0.5" />
-                      <p className="text-red-400 text-xs leading-relaxed font-medium">{error}</p>
+                      <p className="text-red-300 text-xs md:text-sm leading-relaxed font-light">{error}</p>
                     </div>
                   </motion.div>
                 )}
