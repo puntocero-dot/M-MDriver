@@ -129,7 +129,7 @@ export default function ClientDashboard() {
   if (!user) return null; // Avoid hydration mismatch while redirecting
 
   return (
-    <div className="flex flex-col lg:flex-row h-screen bg-surface overflow-hidden">
+    <div className="flex flex-col lg:flex-row h-screen bg-[#0f1c35] overflow-hidden">
       
       {/* ── Mobile Sidebar Header ── */}
       <nav className="lg:hidden w-full h-20 bg-surface-high border-b border-white/5 flex items-center justify-between px-6 shrink-0 z-50">
