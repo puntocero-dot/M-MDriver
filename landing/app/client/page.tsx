@@ -158,7 +158,7 @@ export default function ClientDashboard() {
       </nav>
 
       {/* ── Main Content Area ── */}
-      <div className="w-full max-w-[1200px] mt-[100px] px-6 lg:px-8 mb-20 flex flex-col md:flex-row gap-8 lg:gap-12 mx-auto">
+      <div className="w-full max-w-[1200px] pt-32 px-6 lg:px-8 pb-20 flex flex-col md:flex-row gap-8 lg:gap-12 mx-auto relative z-10 block">
         
         {/* ── Sidebar Tabs ── */}
         <div className="w-full md:w-72 flex flex-col gap-3 shrink-0">
@@ -212,11 +212,11 @@ export default function ClientDashboard() {
                   <div className="flex flex-col gap-3">
                     <label className="text-[10px] font-black tracking-[0.3em] uppercase text-white/40 ml-2">Origen de Protocolo</label>
                     <div className="relative group">
-                      <MapPin size={18} className="absolute left-6 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-gold transition-colors" />
+                      <MapPin size={18} className="absolute left-6 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-gold transition-colors pointer-events-none" />
                       <select
                         value={pickup}
                         onChange={(e) => setPickup(e.target.value)}
-                        className="w-full rounded-2xl bg-surface border border-white/10 px-16 py-5 text-sm text-white appearance-none focus:outline-none focus:border-gold/40 focus:bg-white/[0.02] transition-all duration-300"
+                        className="w-full h-16 rounded-2xl bg-surface-high border border-white/10 pl-16 pr-5 text-base text-white appearance-none focus:outline-none focus:border-gold/40 focus:bg-white/[0.04] transition-all duration-300 relative z-10"
                       >
                         <option value="" className="bg-[#0A1628]">Seleccionar origen...</option>
                         {LOCATIONS.map((loc) => (
@@ -232,11 +232,11 @@ export default function ClientDashboard() {
                   <div className="flex flex-col gap-3">
                     <label className="text-[10px] font-black tracking-[0.3em] uppercase text-white/40 ml-2">Destino de Protocolo</label>
                     <div className="relative group">
-                      <MapPin size={18} className="absolute left-6 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-gold transition-colors" />
+                      <MapPin size={18} className="absolute left-6 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-gold transition-colors pointer-events-none" />
                       <select
                         value={dropoff}
                         onChange={(e) => setDropoff(e.target.value)}
-                        className="w-full rounded-2xl bg-surface border border-white/10 px-16 py-5 text-sm text-white appearance-none focus:outline-none focus:border-gold/40 focus:bg-white/[0.02] transition-all duration-300"
+                        className="w-full h-16 rounded-2xl bg-surface-high border border-white/10 pl-16 pr-5 text-base text-white appearance-none focus:outline-none focus:border-gold/40 focus:bg-white/[0.04] transition-all duration-300 relative z-10"
                       >
                         <option value="" className="bg-[#0A1628]">Seleccionar destino...</option>
                          {LOCATIONS.map((loc) => (
