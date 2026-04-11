@@ -770,16 +770,22 @@ function DownloadModal() {
                   </div>
                 </div>
 
-                {/* Footer Badge */}
-                <div className="flex items-center justify-center gap-4">
-                  <div className="h-[1px] w-6 bg-white/10 shrink-0" />
-                  <p className="text-[9px] font-black tracking-[0.2em] text-white/20 uppercase italic shrink-0">Security Certified</p>
-                  <div className="h-[1px] w-6 bg-white/10 shrink-0" />
+                {/* Footer Badge & Explicit Close Button */}
+                <div className="flex flex-col items-center gap-6 mt-2">
+                  <div className="flex items-center justify-center gap-4">
+                    <div className="h-[1px] w-6 bg-white/10 shrink-0" />
+                    <p className="text-[9px] font-black tracking-[0.2em] text-white/20 uppercase italic shrink-0">Security Certified</p>
+                    <div className="h-[1px] w-6 bg-white/10 shrink-0" />
+                  </div>
+                  
+                  <button 
+                    onClick={() => setIsOpen(false)}
+                    className="w-full sm:w-auto px-8 py-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 text-white/60 hover:text-white transition-all font-semibold tracking-wide text-sm flex items-center justify-center gap-2"
+                  >
+                    <span>CERRAR</span>
+                    <X size={16} />
+                  </button>
                 </div>
-
-              </div>
-            </div>
-          </motion.div>
         </motion.div>
       )}
     </AnimatePresence>
