@@ -105,9 +105,19 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// Response interceptor — handle 401 globally and normalize errors
+// Response interceptor — unwrap backend {data, statusCode} envelope + handle 401
 api.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    // Backend wraps ALL responses in { data, statusCode, timestamp }
+    // Axios already puts the HTTP body into response.data,
+    // so response.data = { data: <actual payload>, statusCode: 200 }
+    // We extract the inner payload so callers get clean objects/arrays.
+    const body = response.data;
+    if (body && typeof body === "object" && "data" in body && "statusCode" in body) {
+      response.data = body.data;
+    }
+    return response;
+  },
   (error: AxiosError<ApiError>) => {
     if (error.response?.status === 401) {
       clearToken();
@@ -117,8 +127,10 @@ api.interceptors.response.use(
     }
 
     // Normalize error message for consumers
+    const raw = error.response?.data as any;
     const message =
-      error.response?.data?.message ??
+      raw?.data?.message ??
+      raw?.message ??
       error.message ??
       "Error de conexión con el servidor";
 
