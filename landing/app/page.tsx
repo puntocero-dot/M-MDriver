@@ -799,6 +799,9 @@ function DownloadModal() {
                     <X size={16} />
                   </button>
                 </div>
+              </div>
+            </div>
+          </motion.div>
         </motion.div>
       )}
     </AnimatePresence>
