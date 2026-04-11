@@ -20,11 +20,19 @@ async function request<T>(
   const body = await res.json().catch(() => ({}));
 
   if (!res.ok) {
+    const errorBody = body?.data ?? body; // errors may also be wrapped
     const message =
+      errorBody?.message ??
+      errorBody?.error ??
       body?.message ??
-      body?.error ??
       `Error ${res.status}: ${res.statusText}`;
     throw new Error(Array.isArray(message) ? message.join(", ") : message);
+  }
+
+  // Backend wraps all responses in { data, statusCode, timestamp }
+  // Extract the inner payload so callers get the clean object
+  if (body && typeof body === "object" && "data" in body && "statusCode" in body) {
+    return body.data as T;
   }
 
   return body as T;
